@@ -1,1 +1,70 @@
-<p>member works!</p>
+<p>LIFF is running in {{ os }}</p>
+
+<section class="section">
+  <div class="columns is-centered">
+    <div class="column">
+      <figure class="image is-48x48">
+        <img class="is-rounded" [src]="
+            pictureURL
+              ? pictureURL
+              : 'https://bulma.io/images/placeholders/128x128.png'
+          " />
+        <h2 class="">{{ displayName ? displayName : 'Null' }}</h2>
+      </figure>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button class="button is-primary" (click)="onClick()">Test</button>
+  </div>
+  <div class="buttons">
+    <button class="button is-primary" (click)="sendMessageLine()">
+      Send Message
+    </button>
+  </div>
+
+  <div class="box">
+    {{ member | json }}
+  </div>
+  <div class="box">
+    <div class="table-container">
+      <table class="table is-fullwidth is-hoverable">
+        <thead>
+          <tr>
+            <th class="has-text-left">รายการสินค้า</th>
+            <th class="has-text-centered">ปรับเปลี่ยน</th>
+            <th class="has-text-centered">ราคา</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th><abbr title="Position"></abbr></th>
+            <th>Team</th>
+            <th>Team</th>
+          </tr>
+        </tfoot>
+
+        <tbody>
+          <tr>
+            <th class="has-text-left">
+              <span> เหล็กหนา </span><br />
+              <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000 กก.</span>
+            </th>
+            <td class="has-text-centered">
+              <span class="has-text-danger">
+                <span>-0.50</span>
+              </span>
+            </td>
+            <td class="has-text-centered">
+              <span class="has-text-info">
+                <span class="">16.50</span>
+                <br />
+                <span class="is-size-7 has-text-info has-background-warning">16.70</span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
