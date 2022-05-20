@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/member', pathMatch: 'full' },
+  { path: '', redirectTo: '/product', pathMatch: 'full' },
   {
     path: 'member',
     loadChildren: () =>
       import('./modules/member/member.module').then((m) => m.MemberModule),
   },
   {
-    path: 'price',
+    path: 'product',
     loadChildren: () =>
-      import('./modules/price/price.module').then((m) => m.PriceModule),
+      import('./modules/product/product.module').then((m) => m.ProductModule),
   },
 ];
 

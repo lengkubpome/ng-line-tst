@@ -23,10 +23,10 @@
               <th colspan="3"><abbr title="Position">เวลา 1:25:32น. 7/5/2565</abbr></th>
             </tr>
           </tfoot> -->
-          <tbody>
+          <tbody *ngFor="let product of products">
             <tr>
               <th class="has-text-left">
-                <span> เหล็กหนา </span><br />
+                <span> {{ product.product_name }} </span><br />
                 <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000
                   กก.</span>
               </th>
@@ -37,13 +37,14 @@
               </td>
               <td class="has-text-centered">
                 <span class="has-text-info">
-                  <span class="">16.50</span>
+                  <span class="">{{ product.price}}</span>
                   <br />
                   <span class="is-size-7 has-text-info has-background-warning">16.70</span>
                 </span>
               </td>
             </tr>
-            <tr>
+
+            <!-- <tr>
               <th class="has-text-left">
                 <span> เหล็กรวม </span><br />
                 <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000
@@ -99,7 +100,7 @@
                   <span class="is-size-7 has-text-info has-background-warning">16.70</span>
                 </span>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
@@ -107,10 +108,9 @@
     <footer class="card-footer">
       <p class="card-footer-item">ปรับปรุงเมื่อ 2 วันที่แล้ว</p>
     </footer>
-    <!-- <footer class="card-footer">
-      <a class="card-footer-item">เงื่อนไขสินค้า</a>
-      <a class="card-footer-item">ราคาย้อนหลัง</a>
-    </footer> -->
+    <footer class="card-footer" *ngFor="let product of products">
+      <p class="card-footer-item">{{ product.price_option}}</p>
+    </footer>
   </div>
 
   <div class="notification is-warning is-light block has-text-info-dark">
