@@ -8,7 +8,14 @@ interface IProduct {
   price_prev: number;
   change_date: Date;
   status: string;
-  price_option: any;
+  price_option?: IProductOption[];
+}
+
+interface IProductOption {
+  member_type: string[];
+  addon_price: number;
+  description: string;
+  benefits: string;
 }
 
 @Component({
@@ -22,7 +29,19 @@ export class ProductComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe((data: IProduct[]) => {
+    this.productService.getProducts().subscribe((data: any[]) => {
+      data.map((p) => {
+        if (p.price_option !== '') {
+          let option = p.price_option.replace(/[\n\\.]/g, '');
+          let optionArray = option.split('[,]');
+          optionArray = optionArray.map((o: any) => {
+            return JSON.parse(o);
+          });
+
+          return (p.price_option = optionArray);
+        }
+      });
+      console.log(data);
       this.products = data;
     });
   }

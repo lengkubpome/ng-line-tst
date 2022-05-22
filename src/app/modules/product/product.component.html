@@ -23,68 +23,37 @@
               <th colspan="3"><abbr title="Position">เวลา 1:25:32น. 7/5/2565</abbr></th>
             </tr>
           </tfoot> -->
-          <tbody *ngFor="let product of products">
-            <tr>
+          <tbody>
+            <tr *ngFor="let product of products">
               <th class="has-text-left">
                 <span> {{ product.product_name }} </span><br />
-                <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000
-                  กก.</span>
+                <div *ngFor="let option of product.price_option">
+                  <span class="is-size-7 has-text-info has-background-warning">
+                    {{ option.description }}
+                  </span>
+                </div>
               </th>
               <td class="has-text-centered">
                 <span class="has-text-danger">
-                  <span>-0.50</span>
+                  <span>{{ product.price - product.price_prev }}</span>
                 </span>
               </td>
               <td class="has-text-centered">
                 <span class="has-text-info">
                   <span class="">{{ product.price}}</span>
                   <br />
-                  <span class="is-size-7 has-text-info has-background-warning">16.70</span>
+                  <div *ngFor="let option of product.price_option">
+                    <span
+                      class="is-size-7 has-text-info has-background-warning">{{option.addon_price}}</span>
+                  </div>
+
                 </span>
               </td>
             </tr>
 
             <!-- <tr>
               <th class="has-text-left">
-                <span> เหล็กรวม </span><br />
-                <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000
-                  กก.</span>
-              </th>
-              <td class="has-text-centered">
-                <span class="has-text-danger">
-                  <span>-0.50</span>
-                </span>
-              </td>
-              <td class="has-text-centered">
-                <span class="has-text-info">
-                  <span class="">16.50</span>
-                  <br />
-                  <span class="is-size-7 has-text-info has-background-warning">16.70</span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <th class="has-text-left">
-                <span> กระป๋อง </span><br />
-                <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000
-                  กก.</span>
-              </th>
-              <td class="has-text-centered">
-                <span class="has-text-danger">
-                  <span>-0.50</span>
-                </span>
-              </td>
-              <td class="has-text-centered">
-                <span class="has-text-info">
-                  <span class="">16.50</span>
-                  <br />
-                  <span class="is-size-7 has-text-info has-background-warning">16.70</span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <th class="has-text-left">
-                <span> สังกะสี </span><br />
+                <span> XXXX </span><br />
                 <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000
                   กก.</span>
               </th>
@@ -101,6 +70,7 @@
                 </span>
               </td>
             </tr> -->
+
           </tbody>
         </table>
       </div>
@@ -108,9 +78,9 @@
     <footer class="card-footer">
       <p class="card-footer-item">ปรับปรุงเมื่อ 2 วันที่แล้ว</p>
     </footer>
-    <footer class="card-footer" *ngFor="let product of products">
-      <p class="card-footer-item">{{ product.price_option}}</p>
-    </footer>
+    <!-- <footer class="card-footer" *ngFor="let product of products">
+      <p class="card-footer-item">{{ product.price_option }}</p>
+    </footer> -->
   </div>
 
   <div class="notification is-warning is-light block has-text-info-dark">
