@@ -31,11 +31,14 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.productService.getProducts().subscribe((data: any[]) => {
       data.map((p) => {
+        let productOption: IProductOption[];
         if (p.price_option !== '') {
           let option = p.price_option.replace(/[\n\\.]/g, '');
           let optionArray = option.split('[,]');
           optionArray = optionArray.map((o: any) => {
-            return JSON.parse(o);
+            let optionData = JSON.parse(o);
+            optionData.addon_price = parseFloat(optionData.addon_price);
+            return optionData;
           });
 
           return (p.price_option = optionArray);

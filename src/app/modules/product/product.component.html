@@ -44,7 +44,7 @@
                   <br />
                   <div *ngFor="let option of product.price_option">
                     <span
-                      class="is-size-7 has-text-info has-background-warning">{{option.addon_price}}</span>
+                      class="is-size-7 has-text-info has-background-warning">{{  option.addon_price |  number:'1.0-0'}}</span>
                   </div>
 
                 </span>
