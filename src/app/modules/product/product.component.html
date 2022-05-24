@@ -28,9 +28,13 @@
               <th class="has-text-left">
                 <span> {{ product.product_name }} </span><br />
                 <div *ngFor="let option of product.price_option">
-                  <span class="is-size-7 has-text-info has-background-warning">
-                    {{ option.description }}
-                  </span>
+                  <div *ngFor="let member of option.member_type">
+                    <div *ngIf="member === memberType">
+                      <span class="is-size-7 has-text-info has-background-warning">
+                        {{ option.description }}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </th>
               <td class="has-text-centered">
@@ -43,8 +47,15 @@
                   <span class="">{{ product.price}}</span>
                   <br />
                   <div *ngFor="let option of product.price_option">
-                    <span
-                      class="is-size-7 has-text-info has-background-warning">{{  option.addon_price |  number:'1.0-0'}}</span>
+                    <div *ngFor="let member of option.member_type">
+                      <div *ngIf="member === memberType">
+                        <span class="is-size-7 has-text-info has-background-warning">
+                          {{  option.addon_price + product.price }}
+                        </span>
+                      </div>
+
+                    </div>
+
                   </div>
 
                 </span>

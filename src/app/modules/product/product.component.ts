@@ -16,6 +16,10 @@ interface IProductOption {
   addon_price: number;
   description: string;
   benefits: string;
+  // color?: {
+  //   font: string;
+  //   background: string;
+  // };
 }
 
 @Component({
@@ -25,6 +29,7 @@ interface IProductOption {
 })
 export class ProductComponent implements OnInit {
   products?: IProduct[];
+  memberType = 'gold';
 
   constructor(private productService: ProductService) {}
 
@@ -33,8 +38,8 @@ export class ProductComponent implements OnInit {
       data.map((p) => {
         let productOption: IProductOption[];
         if (p.price_option !== '') {
-          let option = p.price_option.replace(/[\n\\.]/g, '');
-          let optionArray = option.split('[,]');
+          let option = p.price_option.replace(/[\n\\]/g, '');
+          let optionArray = option.split('&&');
           optionArray = optionArray.map((o: any) => {
             let optionData = JSON.parse(o);
             optionData.addon_price = parseFloat(optionData.addon_price);
