@@ -49,7 +49,6 @@ export class ProductComponent implements OnInit {
           return (p.price_option = optionArray);
         }
       });
-      console.log(data);
       this.products = data;
     });
   }
