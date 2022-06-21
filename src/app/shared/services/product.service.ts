@@ -19,4 +19,10 @@ export class ProductService {
       productId;
     return this.http.get<any>(apiUrl);
   }
+
+  getProductOptions() {
+    const apiUrl =
+      'https://script.google.com/macros/s/AKfycbxmAFfURqZHjLlCicjDvxQYX4L9Vvzmu_RnDkw6LhKO1yD7W166PQYHjksBODxXsby_/exec?action=selects&sheet_name=product_options';
+    return this.http.get<any>(apiUrl);
+  }
 }

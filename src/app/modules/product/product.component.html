@@ -8,7 +8,6 @@
 
   <!-- <progress class="progress is-small is-primary" max="100">15%</progress> -->
 
-
   <div class="card block">
 
     <div class="card-content">
@@ -27,25 +26,23 @@
             </tr>
           </tfoot> -->
           <tbody>
-            <tr *ngFor="let product of products">
+            <tr *ngFor="let product of products$ | async">
               <th class="has-text-left">
                 <span> {{ product.product_name }} </span><br />
                 <div *ngFor="let option of product.price_option">
-                  <div *ngFor="let member of option.member_type">
-                    <div *ngIf="member === memberType">
-                      <span class="is-size-7 has-text-info has-background-warning">
-                        {{ option.description }}
-                      </span>
-                    </div>
+                  <div *ngIf="option.member_type === memberType">
+                    <span class="is-size-7 has-text-info has-background-warning">
+                      {{ option.description }}
+                    </span>
                   </div>
                 </div>
               </th>
               <td class="has-text-centered">
-                <span *ngIf="(product.price - product.price_prev) > 0" class="has-text-success">
-                  <span>+ {{ product.price - product.price_prev | number:'1.2'}}</span>
+                <span *ngIf="product.price_change > 0" class="has-text-success">
+                  <span>+ {{ product.price_change | number:'1.2'}}</span>
                 </span>
-                <span *ngIf="(product.price - product.price_prev) < 0" class="has-text-danger">
-                  <span>- {{ product.price - product.price_prev | number:'1.2'}}</span>
+                <span *ngIf="product.price_change < 0" class="has-text-danger">
+                  <span>- {{ -(product.price_change) | number:'1.2'}}</span>
                 </span>
               </td>
               <td class="has-text-centered">
@@ -53,14 +50,12 @@
                   <span class="">{{ product.price | number:'1.2'}}</span>
                   <br />
                   <div *ngFor="let option of product.price_option">
-                    <div *ngFor="let member of option.member_type">
-                      <div *ngIf="member === memberType">
-                        <span class="is-size-7 has-text-info has-background-warning">
-                          {{  option.addon_price + product.price | number:'1.2'}}
-                        </span>
-                      </div>
-
+                    <div *ngIf="option.member_type === memberType">
+                      <span class="is-size-7 has-text-info has-background-warning">
+                        {{  option.addon_price + product.price | number:'1.2'}}
+                      </span>
                     </div>
+
 
                   </div>
 

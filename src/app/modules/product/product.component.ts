@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '@shared/services/product.service';
+import { map, mergeMap, Observable, switchMap } from 'rxjs';
 
 interface IProduct {
   product_id: string;
   product_name: string;
   price: number;
-  price_prev: number;
+  price_change: number;
   change_date: Date;
   status: string;
   price_option?: IProductOption[];
 }
 
 interface IProductOption {
-  member_type: string[];
+  // member_type: string[];
+  member_type: string;
   addon_price: number;
   description: string;
   benefits: string;
@@ -29,27 +31,37 @@ interface IProductOption {
 })
 export class ProductComponent implements OnInit {
   products?: IProduct[];
+  products$?: Observable<IProduct[]>;
   memberType = 'gold';
 
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe((data: any[]) => {
-      data.map((p) => {
-        let productOption: IProductOption[];
-        if (p.price_option !== '') {
-          let option = p.price_option.replace(/[\n\\]/g, '');
-          let optionArray = option.split('&&');
-          optionArray = optionArray.map((o: any) => {
-            let optionData = JSON.parse(o);
-            optionData.addon_price = parseFloat(optionData.addon_price);
-            return optionData;
-          });
+    this.products$ = this.productService.getProducts().pipe(
+      switchMap((products) => {
+        return this.productService.getProductOptions().pipe(
+          map((options: any[]) => {
+            products.forEach((product: IProduct) => {
+              product.price_option = [];
+              options.forEach((o) => {
+                if (o.product_id === product.product_id) {
+                  const option = {
+                    member_type: o.member_type,
+                    addon_price: o.addon_price,
+                    description: o.description,
+                    benefits: o.benefits,
+                  };
+                  product.price_option?.push(option);
+                }
+              });
+            });
 
-          return (p.price_option = optionArray);
-        }
-      });
-      this.products = data;
-    });
+            console.log(products);
+
+            return products;
+          })
+        );
+      })
+    );
   }
 }
