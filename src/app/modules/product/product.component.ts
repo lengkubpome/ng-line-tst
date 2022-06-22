@@ -43,16 +43,19 @@ export class ProductComponent implements OnInit {
           map((options: any[]) => {
             products.forEach((product: IProduct) => {
               product.price_option = [];
-              options.forEach((o) => {
-                if (o.product_id === product.product_id) {
-                  const option = {
-                    member_type: o.member_type,
-                    addon_price: o.addon_price,
-                    description: o.description,
-                    benefits: o.benefits,
-                  };
-                  product.price_option?.push(option);
-                }
+
+              let option = options.filter(
+                (o) => o.product_id === product.product_id
+              );
+
+              option.forEach((o) => {
+                const option = {
+                  member_type: o.member_type,
+                  addon_price: o.addon_price,
+                  description: o.description,
+                  benefits: o.benefits,
+                };
+                product.price_option?.push(option);
               });
             });
 

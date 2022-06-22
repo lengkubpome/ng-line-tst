@@ -16,8 +16,9 @@
           <thead>
             <tr>
               <th class="has-text-left">รายการสินค้า</th>
-              <th class="has-text-centered">ปรับเปลี่ยน</th>
               <th class="has-text-centered">ราคา</th>
+              <th class="has-text-centered">ปรับเปลี่ยน</th>
+
             </tr>
           </thead>
           <!-- <tfoot>
@@ -38,14 +39,6 @@
                 </div>
               </th>
               <td class="has-text-centered">
-                <span *ngIf="product.price_change > 0" class="has-text-success">
-                  <span>+ {{ product.price_change | number:'1.2'}}</span>
-                </span>
-                <span *ngIf="product.price_change < 0" class="has-text-danger">
-                  <span>- {{ -(product.price_change) | number:'1.2'}}</span>
-                </span>
-              </td>
-              <td class="has-text-centered">
                 <span class="has-text-info">
                   <span class="">{{ product.price | number:'1.2'}}</span>
                   <br />
@@ -61,6 +54,15 @@
 
                 </span>
               </td>
+              <td class="has-text-centered">
+                <span *ngIf="product.price_change > 0" class="has-text-success">
+                  <span>▲ {{ product.price_change | number:'1.2'}}</span>
+                </span>
+                <span *ngIf="product.price_change < 0" class="has-text-danger">
+                  <span>▼ {{ -(product.price_change) | number:'1.2'}}</span>
+                </span>
+              </td>
+
             </tr>
 
             <!-- <tr>
