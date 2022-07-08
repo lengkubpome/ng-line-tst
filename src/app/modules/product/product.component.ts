@@ -32,7 +32,7 @@ interface IProductOption {
 export class ProductComponent implements OnInit {
   products?: IProduct[];
   products$?: Observable<IProduct[]>;
-  memberType = 'gold';
+  memberType = 'non';
 
   constructor(private productService: ProductService) {}
 

@@ -1,71 +1,95 @@
 <section class="section">
-
+  <!--
   <div class="is-flex-direction-row">
 
     <h2 class="subtitle is-underlined has-text-weight-semibold">รายการรับซื้อสินค้า</h2>
     <h3>30/05/2565</h3>
-  </div>
+  </div> -->
 
   <!-- <progress class="progress is-small is-primary" max="100">15%</progress> -->
 
   <div class="card block">
 
-    <div class="card-content">
-      <div class="table-container">
-        <table class="table is-fullwidth is-hoverable">
-          <thead>
-            <tr>
-              <th class="has-text-left">รายการสินค้า</th>
-              <th class="has-text-centered">ราคา</th>
-              <th class="has-text-centered">ปรับเปลี่ยน</th>
+    <!-- <header class="card-header">
+      <p class="card-header-title">
+        รายการรับซื้อสินค้า
+      </p>
+      <button class="card-header-icon" aria-label="more options">
+        <span class="icon">
+          <i class="fas fa-angle-down" aria-hidden="true"></i>
+        </span>
+      </button>
+    </header> -->
 
-            </tr>
-          </thead>
-          <!-- <tfoot>
-            <tr class="has-text-right">
-              <th colspan="3"><abbr title="Position">เวลา 1:25:32น. 7/5/2565</abbr></th>
-            </tr>
-          </tfoot> -->
-          <tbody>
-            <tr *ngFor="let product of products$ | async">
-              <th class="has-text-left">
-                <span> {{ product.product_name }} </span><br />
-                <div *ngFor="let option of product.price_option">
-                  <div *ngIf="option.member_type === memberType">
-                    <span class="is-size-7 has-text-info has-background-warning">
-                      {{ option.description }}
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <td class="has-text-centered">
-                <span class="has-text-info">
-                  <span class="">{{ product.price | number:'1.2'}}</span>
+    <div class="card-content">
+      <div class="columns">
+        <div class="column title is-4">
+          รายการรับซื้อสินค้า
+        </div>
+      </div>
+
+
+      <!-- <p class="subtitle is-6">
+        6 กรกฎาคม 2565
+      </p> -->
+
+      <div class="content">
+
+
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th class="has-text-left">สินค้า</th>
+                <th class="has-text-centered">ราคา</th>
+                <th class="has-text-centered">ปรับเปลี่ยน</th>
+
+              </tr>
+            </thead>
+            <tfoot>
+              <tr class="has-text-right">
+                <td colspan="3"><abbr title="Position">เวลา 1:25:32น. 7/5/2565</abbr></td>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr *ngFor="let product of products$ | async">
+                <th class="has-text-left">
+                  <span> {{ product.product_name }} </span>
                   <br />
                   <div *ngFor="let option of product.price_option">
                     <div *ngIf="option.member_type === memberType">
                       <span class="is-size-7 has-text-info has-background-warning">
-                        {{  option.addon_price + product.price | number:'1.2'}}
+                        {{ option.description }}
                       </span>
                     </div>
-
-
                   </div>
+                </th>
+                <td class="has-text-centered">
+                  <span class="has-text-info">
+                    <span class="">{{ product.price | number:'1.2'}}</span>
+                    <br />
+                    <div *ngFor="let option of product.price_option">
+                      <div *ngIf="option.member_type === memberType">
+                        <span class="is-size-7 has-text-info has-background-warning">
+                          {{  option.addon_price + product.price | number:'1.2'}}
+                        </span>
+                      </div>
+                    </div>
 
-                </span>
-              </td>
-              <td class="has-text-centered">
-                <span *ngIf="product.price_change > 0" class="has-text-success">
-                  <span>▲ {{ product.price_change | number:'1.2'}}</span>
-                </span>
-                <span *ngIf="product.price_change < 0" class="has-text-danger">
-                  <span>▼ {{ -(product.price_change) | number:'1.2'}}</span>
-                </span>
-              </td>
+                  </span>
+                </td>
+                <td class="has-text-centered">
+                  <span *ngIf="product.price_change > 0" class="has-text-success">
+                    <span>▲ {{ product.price_change | number:'1.2'}}</span>
+                  </span>
+                  <span *ngIf="product.price_change < 0" class="has-text-danger">
+                    <span>▼ {{ -(product.price_change) | number:'1.2'}}</span>
+                  </span>
+                </td>
 
-            </tr>
+              </tr>
 
-            <!-- <tr>
+              <!-- <tr>
               <th class="has-text-left">
                 <span> XXXX </span><br />
                 <span class="is-size-7 has-text-info has-background-warning">น้ำหนัก +2000
@@ -85,8 +109,9 @@
               </td>
             </tr> -->
 
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <footer class="card-footer">
