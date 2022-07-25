@@ -1,0 +1,49 @@
+.tile-menu{
+  display: flex;
+  justify-content: space-between;
+
+  >div{
+    display: flex;
+    align-items: center;
+    mat-icon{
+      margin-right: 5px;
+    }
+  }
+}
+table {
+  width: 100%;
+}
+
+table td, table th {
+  vertical-align:middle;
+}
+
+
+.mat-row:hover .mat-cell {
+  background-color: whitesmoke;
+}
+
+.mat-column-product {
+
+  // text-align: center;
+  font-weight: bold;
+}
+
+
+.mat-column-price {
+  // width: 32px;
+  // border-right: 1px solid currentColor;
+  // padding-right: 24px;
+  text-align: center;
+  width: 64px;
+}
+
+.mat-column-price_change {
+  text-align: right;
+  width: 96px;
+}
+
+.mat-column-demo-weight {
+  // font-style: italic;
+}
+

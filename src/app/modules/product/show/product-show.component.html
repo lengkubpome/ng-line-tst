@@ -1,0 +1,100 @@
+<mat-card>
+  <mat-card-title>
+    <div class="tile-menu">
+      <div>
+        <mat-icon>price_change</mat-icon>
+        รายการรับซื้อสินค้า
+      </div>
+      <button mat-icon-button aria-label="menu" [matMenuTriggerFor]="menu" *ngIf="!isLoading">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>แก้ไข</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>history</mat-icon>
+          <span>ข้อมูลย้อนหลัง</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+
+  <mat-card-content *ngIf="!isLoading">
+    <table mat-table [dataSource]="dataSource" class="">
+      <!-- Position Column -->
+      <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef>สินค้า</th>
+        <td mat-cell *matCellDef="let element">
+          <span>{{element.product_name}}</span>
+          <br />
+          <ng-container *ngFor="let option of element.price_option">
+            <div *ngIf=" (option.member_type.indexOf(memberType) > -1 && option.status === 'active')
+                        || memberType === 'admin'">
+              <span class="is-size-7 has-text-info has-background-warning">
+                {{ option.description }}
+              </span>
+            </div>
+          </ng-container>
+
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>ราคา </th>
+        <td mat-cell *matCellDef="let element">
+          <span class="">{{ element.price | number:'1.2'}}</span>
+          <br />
+          <ng-container *ngFor="let option of element.price_option">
+            <div *ngIf=" (option.member_type.indexOf(memberType) > -1 && option.status === 'active')
+              || memberType === 'admin'">
+              <span class="is-size-7 has-text-info has-background-warning">
+                {{  option.addon_price + element.price | number:'1.2'}}
+              </span>
+            </div>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="price_change">
+        <th mat-header-cell *matHeaderCellDef>ปรับเปลี่ยน </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.price_change > 0" class="has-text-success">
+            <span>▲ {{ element.price_change | number:'1.2'}}</span>
+          </span>
+          <span *ngIf="element.price_change < 0" class="has-text-danger">
+            <span>▼ {{ -(element.price_change) | number:'1.2'}}</span>
+          </span>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+  <mat-card-subtitle align="end" *ngIf="!isLoading">เวลา {{time}}</mat-card-subtitle>
+  <mat-card-footer *ngIf="isLoading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
+
+
+<section class="section">
+
+  <div class="notification is-warning is-light block has-text-info-dark">
+    <div class="content is-normal">
+      <p class="is-underlined has-text-weight-semibold">เงื่อนไขได้ราคา</p>
+      <span>เกณฑ์น้ำหนักขั้นต่ำต่อวัน ตามระดับสมาชิกลูกค้า ดังนี้</span>
+      <ul>
+        <li>น้ำหนัก 500 กก.ขึ้นไป</li>
+        <li>น้ำหนัก 450 กก.ขึ้นไป (ลูกค้าประจำ)</li>
+      </ul>
+    </div>
+  </div>
+</section>

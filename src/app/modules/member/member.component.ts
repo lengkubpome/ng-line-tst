@@ -58,7 +58,7 @@ export class MemberComponent implements OnInit {
   }
 
   onClick(): void {
-    this.memberService.getMemberById('1').subscribe((data) => {
+    this.memberService.getMemberById('2').subscribe((data) => {
       let result = JSON.stringify(data);
       result = JSON.parse(result);
       this.member = result[0];
