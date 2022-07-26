@@ -6,12 +6,14 @@ const routes: Routes = [
   {
     path: 'member',
     loadChildren: () =>
-      import('./modules/member/member.module').then((m) => m.MemberModule),
+      import('./components/member/member.module').then((m) => m.MemberModule),
   },
   {
     path: 'product',
     loadChildren: () =>
-      import('./modules/product/product.module').then((m) => m.ProductModule),
+      import('./components/product/product.module').then(
+        (m) => m.ProductModule
+      ),
   },
 ];
 

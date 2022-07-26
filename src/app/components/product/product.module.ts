@@ -4,7 +4,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductComponent } from './product.component';
-import { MaterialsModule } from '@shared/modules/materials.module';
+import { MaterialsModule } from '@shared/ui/material';
 import { ProductEditComponent } from './edit/product-edit.component';
 import { ProductEditDiaglogComponent } from './edit/diaglog/product-edit-diaglog.component';
 
