@@ -5,12 +5,13 @@
         <mat-icon>price_change</mat-icon>
         รายการรับซื้อสินค้า
       </div>
-      <button mat-icon-button aria-label="menu" [matMenuTriggerFor]="menu" *ngIf="!isLoading">
+      <button mat-icon-button aria-label="menu" [matMenuTriggerFor]="menu"
+        *ngIf="!(isLoading$ | async)">
         <mat-icon>more_vert</mat-icon>
       </button>
 
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="edit">
           <mat-icon>edit</mat-icon>
           <span>แก้ไข</span>
         </button>
@@ -23,7 +24,7 @@
   </mat-card-title>
   <mat-divider></mat-divider>
 
-  <mat-card-content *ngIf="!isLoading">
+  <mat-card-content *ngIf="!(isLoading$ | async)">
     <table mat-table [dataSource]="dataSource" class="">
       <!-- Position Column -->
       <ng-container matColumnDef="product">
@@ -78,8 +79,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </mat-card-content>
-  <mat-card-subtitle align="end" *ngIf="!isLoading">เวลา {{time}}</mat-card-subtitle>
-  <mat-card-footer *ngIf="isLoading">
+  <mat-card-subtitle align="end" *ngIf="!(isLoading$ | async)">เวลา {{time}}</mat-card-subtitle>
+  <mat-card-footer *ngIf="(isLoading$ | async)">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </mat-card-footer>
 </mat-card>

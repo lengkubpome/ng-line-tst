@@ -10,7 +10,7 @@
   </mat-card-title>
   <mat-divider></mat-divider>
 
-  <mat-card-content *ngIf="!isLoading">
+  <mat-card-content *ngIf="!(isLoading$ | async)">
     <table mat-table [dataSource]="dataSource" class="">
       <!-- Position Column -->
       <ng-container matColumnDef="product">
@@ -56,8 +56,9 @@
               <mat-icon class="edit-icon">more_vert</mat-icon>
             </button>
             <mat-menu #productMenu="matMenu">
-              <button mat-menu-item (click)="openEditDialog()">แก้ไข</button>
+              <button mat-menu-item (click)="openEditProductDialog()">แก้ไข</button>
               <button mat-menu-item>เพิ่มรายการย่อย</button>
+              <button mat-menu-item (click)="openDeleteProductDialog()">ลบ</button>
             </mat-menu>
           </div>
           <ng-container *ngFor="let option of element.price_option">
@@ -90,23 +91,23 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </mat-card-content>
-  <mat-card-actions class="action-group-button" *ngIf="!isLoading">
+  <mat-card-actions class="action-group-button" *ngIf="!(isLoading$ | async)">
     <div>
       <div>
-        <button mat-button color="accent">
+        <button mat-button color="accent" (click)="openAddProductDialog()">
           <mat-icon class="edit-icon2">add</mat-icon>&nbsp;เพิ่มสินค้า
         </button>
       </div>
       <div>
         <button mat-button mat-flat-button color="primary">บันทึก</button>
-        <button mat-button>ยกเลิก</button>
+        <button mat-button routerLink="">ยกเลิก</button>
       </div>
     </div>
 
   </mat-card-actions>
 
 
-  <mat-card-footer *ngIf="isLoading">
+  <mat-card-footer *ngIf="(isLoading$ | async)">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </mat-card-footer>
 </mat-card>

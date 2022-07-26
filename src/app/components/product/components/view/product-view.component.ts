@@ -1,66 +1,50 @@
+import {
+  selectProducts,
+  selectProductsLoading,
+} from './../../state/product.selectors';
 import { DatePipe } from '@angular/common';
-import { ProductService } from '@shared/services/product.service';
-import { Observable, switchMap, map } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../services/product.service';
+import { Observable, switchMap, map, Subject, takeUntil } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IProduct, IProductOption } from '@shared/models/product.model';
+import { Store } from '@ngrx/store';
+import { ProductState } from '../../state/product.reducer';
+import { loadProducts } from '../../state/product.actions';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-product-show',
+  selector: 'app-product-view',
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.scss'],
 })
-export class ProductViewComponent implements OnInit {
-  isLoading = true;
-  time = this.datepipe.transform(new Date(), 'hh:mm น.  dd/MM/yyyy');
-  products?: IProduct[];
+export class ProductViewComponent implements OnInit, OnDestroy {
   products$?: Observable<IProduct[]>;
+  isLoading$?: Observable<boolean>;
+
+  time = this.datepipe.transform(new Date(), 'hh:mm น.  dd/MM/yyyy');
   memberType = 'admin';
 
-  // Mat
+  // Table
   displayedColumns: string[] = ['product', 'price', 'price_change'];
-  dataSource: any;
+  dataSource = new MatTableDataSource<any>();
 
-  constructor(
-    private productService: ProductService,
-    public datepipe: DatePipe
-  ) {}
+  private destroy$: Subject<any> = new Subject();
+
+  constructor(public datepipe: DatePipe, private store: Store<ProductState>) {}
 
   ngOnInit(): void {
-    // this.products$ = this.productService.getProducts().pipe(
-    this.productService
-      .getProducts()
-      .pipe(
-        switchMap((products: IProduct[]) => {
-          return this.productService.getProductOptions().pipe(
-            map((options: any[]) => {
-              products.forEach((product: IProduct) => {
-                product.price_option = [];
+    this.isLoading$ = this.store.select(selectProductsLoading);
 
-                let option = options.filter(
-                  (o) => o.product_id === product.product_id
-                );
+    this.store
+      .select(selectProducts)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => (this.dataSource.data = data));
+  }
 
-                option.forEach((o) => {
-                  const memberTypes = (o.member_type as string).split(',');
-
-                  const option = {
-                    // product_id: o.product_id,
-                    member_type: memberTypes,
-                    addon_price: o.addon_price,
-                    description: o.description,
-                    status: o.status,
-                  };
-                  product.price_option?.push(option);
-                });
-              });
-
-              console.log(products);
-              this.isLoading = false;
-              return products;
-            })
-          );
-        })
-      )
-      .subscribe((data) => (this.dataSource = data));
+  ngOnDestroy() {
+    // Unsubscribe from all subscriptions
+    this.destroy$.next;
+    this.destroy$.complete();
   }
 }

@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>
+  เพิ่มข้อมูลสินค้า
+</h2>
+<mat-dialog-content class="mat-typography">
+
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <label class="label">รหัส</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Normal sized input">
+        </div>
+        <!-- <p class="help">This is a help text</p> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <label class="label">ชื่อ</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Normal sized input">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <label class="label">ราคา</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input class="input" type="text" placeholder="Normal sized input">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-link" [mat-dialog-close]="true" cdkFocusInitial>เพิ่ม</button>
+    </div>
+    <div class="control">
+      <button class="button is-link is-light" mat-dialog-close>ยกเลิก</button>
+    </div>
+  </div>
+
+</mat-dialog-actions>
