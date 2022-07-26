@@ -6,10 +6,10 @@ import { IProduct, IProductOption } from '@shared/models/product.model';
 
 @Component({
   selector: 'app-product-show',
-  templateUrl: './product-show.component.html',
-  styleUrls: ['./product-show.component.scss'],
+  templateUrl: './product-view.component.html',
+  styleUrls: ['./product-view.component.scss'],
 })
-export class ProductShowComponent implements OnInit {
+export class ProductViewComponent implements OnInit {
   isLoading = true;
   time = this.datepipe.transform(new Date(), 'hh:mm น.  dd/MM/yyyy');
   products?: IProduct[];

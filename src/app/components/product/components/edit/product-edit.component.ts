@@ -3,8 +3,7 @@ import { Observable, switchMap, map } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '@shared/models/product.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductEditDiaglogComponent } from './diaglog/product-edit-diaglog.component';
-
+import { ProductEditDiaglogComponent } from '../edit-diaglog/product-edit-diaglog.component';
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',

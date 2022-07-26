@@ -1,15 +1,15 @@
-import { ProductShowComponent } from './show/product-show.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProductComponent as ProductComponent } from './product.component';
-import { ProductEditComponent } from './edit/product-edit.component';
+import { ProductEditComponent } from './components/edit/product-edit.component';
+import { ProductViewComponent } from './components/view/product-view.component';
+import { ProductComponent as ProductComponent } from './containers/product.component';
 
 const routes: Routes = [
   {
     path: '',
     component: ProductComponent,
     children: [
-      { path: '', component: ProductShowComponent },
+      { path: '', component: ProductViewComponent },
       { path: 'edit', component: ProductEditComponent },
     ],
   },

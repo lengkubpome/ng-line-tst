@@ -1,20 +1,22 @@
-import { ProductShowComponent } from './show/product-show.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { MaterialsModule } from '@shared/ui/material';
 
 import { ProductRoutingModule } from './product-routing.module';
-import { ProductComponent } from './product.component';
-import { MaterialsModule } from '@shared/ui/material';
-import { ProductEditComponent } from './edit/product-edit.component';
-import { ProductEditDiaglogComponent } from './edit/diaglog/product-edit-diaglog.component';
+import { ProductComponent } from './containers/product.component';
+import { ProductEditDiaglogComponent } from './components/edit-diaglog/product-edit-diaglog.component';
+import { ProductEditComponent } from './components/edit/product-edit.component';
+import { ProductViewComponent } from './components/view/product-view.component';
+
+const Components = [
+  ProductComponent,
+  ProductEditDiaglogComponent,
+  ProductEditComponent,
+  ProductViewComponent,
+];
 
 @NgModule({
-  declarations: [
-    ProductComponent,
-    ProductShowComponent,
-    ProductEditComponent,
-    ProductEditDiaglogComponent,
-  ],
+  declarations: [...Components],
   imports: [CommonModule, ProductRoutingModule, MaterialsModule],
   providers: [DatePipe],
 })
