@@ -1,26 +1,29 @@
-<h2 mat-dialog-title>ลบข้อมูลสินค้า</h2>
-<mat-dialog-content class="mat-typography">
-  <p>
-    คุณต้องการลบสินค้า <strong>{{ product }}</strong> หรือไม่?
-  </p>
-  <p>กรุณาใส่ข้อความชื่อสินค้าให้ถูกต้อง</p>
-
-  <div class="field">
-    <p class="control">
-      <input class="input is-danger" type="text" [placeholder]="product" />
+<form [formGroup]="form">
+  <h2 mat-dialog-title>ลบข้อมูลสินค้า</h2>
+  <mat-dialog-content class="mat-typography">
+    <p>
+      คุณต้องการลบสินค้า <strong>{{ data.name }}</strong> หรือไม่?
     </p>
-  </div>
-  <p class="help is-danger">ใส่ข้อมูลไม่ถูกต้อง</p>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <div class="field is-grouped">
-    <div class="control">
-      <button class="button  is-danger" [mat-dialog-close]="true" cdkFocusInitial>
-        ลบ
-      </button>
+    <p>กรุณาใส่ข้อความชื่อสินค้าให้ถูกต้อง</p>
+
+    <div class="field">
+      <p class="control">
+        <input formControlName="name" class="input is-danger" type="text"
+          [placeholder]=" data.name" />
+      </p>
     </div>
-    <div class="control">
-      <button class="button is-light" mat-dialog-close>ยกเลิก</button>
+    <p class="help is-danger" *ngIf="!confirmName && form.dirty">ใส่ข้อมูลไม่ถูกต้อง</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button  is-danger" [disabled]="!confirmName" [mat-dialog-close]="true">
+          ลบ
+        </button>
+      </div>
+      <div class="control">
+        <button class="button is-light" mat-dialog-close cdkFocusInitial>ยกเลิก</button>
+      </div>
     </div>
-  </div>
-</mat-dialog-actions>
+  </mat-dialog-actions>
+</form>

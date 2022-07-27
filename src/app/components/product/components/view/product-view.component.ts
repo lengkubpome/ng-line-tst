@@ -6,7 +6,10 @@ import { DatePipe } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { Observable, switchMap, map, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IProduct, IProductOption } from '@shared/models/product.model';
+import {
+  IProduct,
+  IProductOption,
+} from 'app/components/product/models/product.model';
 import { Store } from '@ngrx/store';
 import { ProductState } from '../../state/product.reducer';
 import { loadProducts } from '../../state/product.actions';
@@ -26,7 +29,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   memberType = 'admin';
 
   // Table
-  displayedColumns: string[] = ['product', 'price', 'price_change'];
+  displayedColumns: string[] = ['product', 'price', 'priceChange'];
   dataSource = new MatTableDataSource<any>();
 
   private destroy$: Subject<any> = new Subject();

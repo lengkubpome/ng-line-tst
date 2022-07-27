@@ -1,4 +1,4 @@
-import { IProduct } from '@shared/models/product.model';
+import { IProduct } from 'app/components/product/models/product.model';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
@@ -14,32 +14,41 @@ export class ProductEffects {
       ofType(ProductActions.loadProducts),
       mergeMap(() =>
         this.productService.getProducts().pipe(
-          switchMap((products: IProduct[]) =>
+          switchMap((products: any[]) =>
             this.productService.getProductOptions().pipe(
               map((options: any[]) => {
-                products.forEach((product: IProduct) => {
-                  product.price_option = [];
+                let result: IProduct[] = [];
+                products.forEach((p: any) => {
+                  let product: IProduct = {
+                    id: p.id,
+                    name: p.name,
+                    price: p.price,
+                    priceChange: p.price_change,
+                    changeDate: p.change_date,
+                    status: p.status,
+                    priceOption: [],
+                  };
 
                   let option = options.filter(
-                    (o) => o.product_id === product.product_id
+                    (o) => o.product_id === product.id
                   );
 
                   option.forEach((o) => {
                     const memberTypes = (o.member_type as string).split(',');
 
                     const option = {
-                      // product_id: o.product_id,
-                      member_type: memberTypes,
-                      addon_price: o.addon_price,
+                      memberType: memberTypes,
+                      addonPrice: o.addon_price,
                       description: o.description,
                       status: o.status,
                     };
-                    product.price_option?.push(option);
+                    product.priceOption?.push(option);
                   });
+                  result.push(product);
                 });
 
-                // console.log(products);
-                return products;
+                // console.log(result);
+                return result;
               })
             )
           ),

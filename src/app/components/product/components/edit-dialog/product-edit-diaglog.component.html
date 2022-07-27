@@ -1,76 +1,82 @@
-<h2 mat-dialog-title>
-  แก้ไขข้อมูลสินค้า
-</h2>
-<mat-dialog-content class="mat-typography">
+<form [formGroup]="form">
+  <h2 mat-dialog-title>
+    แก้ไขข้อมูลสินค้า
+  </h2>
+  <mat-dialog-content class="mat-typography">
 
-  <div class="field is-horizontal">
-    <div class="field-label">
-      <label class="label">รหัส</label>
-    </div>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <input class="input" type="text" placeholder="Normal sized input">
-        </div>
-        <!-- <p class="help">This is a help text</p> -->
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">รหัส</label>
       </div>
-    </div>
-  </div>
-
-  <div class="field is-horizontal">
-    <div class="field-label">
-      <label class="label">ชื่อ</label>
-    </div>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <input class="input" type="text" placeholder="Normal sized input">
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input formControlName="id" class="input" type="text" placeholder="รหัสสินค้า">
+          </div>
+          <p class="help is-danger" *ngIf="form.get('id')?.invalid">กรุณาใส่รหัสสินค้า</p>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="field is-horizontal">
-    <div class="field-label">
-      <label class="label">ราคา</label>
-    </div>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <input class="input" type="text" placeholder="Normal sized input">
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">ชื่อ</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input formControlName="name" class="input" type="text" placeholder="ชื่อสินค้า">
+          </div>
+          <p class="help is-danger" *ngIf="form.get('name')?.invalid">กรุณาใส่ชื่อสินค้า</p>
         </div>
       </div>
     </div>
-  </div>
 
-
-  <div class="field is-horizontal">
-    <div class="field-label">
-      <label class="label">สถานะ</label>
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">ราคา</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input formControlName="price" class="input" type="number" placeholder="ราคา">
+          </div>
+          <p class="help is-danger" *ngIf="form.get('price')?.invalid">กรุณาใส่ราคาให้ถูกต้อง</p>
+        </div>
+      </div>
     </div>
-    <div class="field-body">
-      <div class="field">
-        <div class="control">
-          <div class="select">
-            <select>
-              <option>ใช้งาน</option>
-              <option>ยกเลิกใช้งาน</option>
-            </select>
+
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">สถานะ</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <div class="select"
+              [ngClass]="form.get('status')?.value === 'active'? 'is-success': 'is-danger'">
+              <select formControlName="status">
+                <option [value]="'active'">ใช้งาน</option>
+                <option [value]="'inactive'">ยกเลิกใช้งาน</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <mat-divider></mat-divider>
-  <div class="field is-grouped">
-    <div class="control">
-      <button class="button is-link" [mat-dialog-close]="true" cdkFocusInitial>แก้ไข</button>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <mat-divider></mat-divider>
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-success" [disabled]="form.invalid || form.pristine"
+          [mat-dialog-close]="form.value">แก้ไข</button>
+      </div>
+      <div class="control">
+        <button class="button is-success is-light" mat-dialog-close cdkFocusInitial>ปิด</button>
+      </div>
     </div>
-    <div class="control">
-      <button class="button is-link is-light" mat-dialog-close>ปิด</button>
-    </div>
-  </div>
 
-</mat-dialog-actions>
+  </mat-dialog-actions>
+</form>

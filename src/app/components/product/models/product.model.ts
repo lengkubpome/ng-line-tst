@@ -1,17 +1,17 @@
 export interface IProduct {
-  product_id: string;
-  product_name: string;
+  id: string;
+  name: string;
   price: number;
-  price_change: number;
-  change_date: Date;
+  priceChange?: number;
+  changeDate?: Date;
   status: string;
-  price_option?: IProductOption[];
+  priceOption?: IProductOption[];
 }
 
 export interface IProductOption {
   // product_id: string;
-  member_type: string | string[];
-  addon_price: number;
+  memberType: string | string[];
+  addonPrice: number;
   description: string;
   status: string;
   // color?: {

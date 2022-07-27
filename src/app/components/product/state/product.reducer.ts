@@ -1,6 +1,6 @@
 import { state } from '@angular/animations';
 import { Action, createReducer, on } from '@ngrx/store';
-import { IProduct } from '@shared/models/product.model';
+import { IProduct } from 'app/components/product/models/product.model';
 import * as ProductActions from './product.actions';
 
 export const productFeatureKey = 'product';

@@ -13,6 +13,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ProductEffects } from './state/product.effects';
 import { ProductAddDialogComponent } from './components/add-dialog/product-add-dialog.component';
 import { ProductDeleteDialogComponent } from './components/delete-dialog/product-delete-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const Components = [
   ProductComponent,
@@ -27,6 +28,7 @@ const Components = [
   declarations: [...Components],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     ProductRoutingModule,
     MaterialsModule,
     StoreModule.forFeature(
