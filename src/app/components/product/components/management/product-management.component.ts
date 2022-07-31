@@ -13,6 +13,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ProductAddDialogComponent } from '../add-dialog/product-add-dialog.component';
 import { ProductDeleteDialogComponent } from '../delete-dialog/product-delete-dialog.component';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ProductOptionDeleteDialogComponent } from '../option-delete-dialog/product-option-delete-dialog.component';
+import { ProductOptionAddDialogComponent } from '../option-add-dialog/product-option-add-dialog.component';
 @Component({
   selector: 'app-product-management',
   templateUrl: './product-management.component.html',
@@ -38,6 +40,10 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     public dialog: MatDialog
   ) {}
 
+  get products(): FormArray {
+    return this.form.get('products') as FormArray;
+  }
+
   ngOnDestroy() {
     // Unsubscribe from all subscriptions
     this.destroy$.next;
@@ -60,10 +66,6 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
       });
   }
 
-  get products(): FormArray {
-    return this.form.get('products') as FormArray;
-  }
-
   setupForm() {
     this.form = this.fb.group({
       products: this.fb.array([]),
@@ -82,34 +84,22 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
       name: [product.name],
       price: [product.price],
       status: [product.status],
-      options: this.fb.array([]),
+      productOptions: this.fb.array([]),
     });
 
-    // Add options
-    const options = product.priceOption;
+    // Add Product Options
+    const options = product.productOptions;
     options?.forEach((o: IProductOption) => {
       const optionForm = this.fb.group({
         description: [o.description],
         memberType: [o.memberType],
-        addonPrice: [{ value: o.addonPrice, disabled: true }],
+        addonPrice: [o.addonPrice],
         status: [o.status],
       });
-      (productForm.get('options') as FormArray).push(optionForm);
+      (productForm.get('productOptions') as FormArray).push(optionForm);
     });
 
     return productForm;
-  }
-
-  addProduct() {
-    const product: IProduct = {
-      id: 'P003',
-      name: 'Product Test',
-      price: 78,
-      status: 'active',
-      priceOption: [],
-    };
-
-    this.addProductForm(product);
   }
 
   onCheck() {
@@ -133,7 +123,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const productForm = this.form.get('products') as FormArray;
-        productForm.controls[index].get('id')?.setValue(result.id);
+        productForm.controls[index].get('id')?.setValue(product.id);
         productForm.controls[index].get('name')?.setValue(result.name);
         productForm.controls[index].get('price')?.setValue(result.price);
         productForm.controls[index].get('status')?.setValue(result.status);
@@ -148,7 +138,17 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        const product: IProduct = {
+          id: result.id,
+          name: result.name,
+          price: result.price,
+          status: 'active',
+          productOptions: [],
+        };
+
+        this.addProductForm(product);
+      }
     });
   }
 
@@ -164,6 +164,37 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
         (this.form.get('products') as FormArray).removeAt(index);
         this.table.renderRows();
         console.log(`Delete product ${product.name} success`);
+      }
+    });
+  }
+
+  openAddProductOptionDialog(product: any) {
+    const dialogRef = this.dialog.open(ProductOptionAddDialogComponent, {
+      data: { ...product },
+      width: '450px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // (this.form.get('products') as FormArray).removeAt(index);
+        // this.table.renderRows();
+        // console.log(`Delete product ${product.name} success`);
+      }
+    });
+  }
+  openDeleteProductOptionDialog(product: any, index: number) {
+    const dialogRef = this.dialog.open(ProductOptionDeleteDialogComponent, {
+      data: { ...product, index },
+      width: '450px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // (this.form.get('products') as FormArray).removeAt(index);
+        // this.table.renderRows();
+        // console.log(`Delete product ${product.name} success`);
       }
     });
   }

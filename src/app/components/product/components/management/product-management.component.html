@@ -23,7 +23,7 @@
               <div class="price-list">
                 <span>{{ element.get('name').value}}</span>
 
-                <ng-container *ngFor="let option of element.get('options').value">
+                <ng-container *ngFor="let option of element.get('productOptions').value">
                   <div>
                     <span class="is-size-7 has-text-info has-background-warning">
                       {{ option.description }}
@@ -42,8 +42,8 @@
               <div class="price-list">
                 <input formControlName="price" class="input is-small" type="text"
                   placeholder="Price">
-                <ng-container formArrayName="options"
-                  *ngFor="let option of element.get('options')['controls']; let i =index">
+                <ng-container formArrayName="productOptions"
+                  *ngFor="let option of element.get('productOptions')['controls']; let i =index">
                   <div [formGroupName]="i">
                     <span>{{  calculatePrice(element.get('price').value, option.get('addonPrice').value) }}</span>
                     <!-- <input formControlName="addonPrice" class="input is-small" type="text"
@@ -69,7 +69,7 @@
                     <mat-icon>edit</mat-icon>
                     <span>แก้ไข</span>
                   </button>
-                  <button mat-menu-item>
+                  <button mat-menu-item (click)="openAddProductOptionDialog(element.value)">
                     <mat-icon>post_add</mat-icon>
                     <span>เพิ่มรายการย่อย</span>
                   </button>
@@ -81,11 +81,25 @@
                 </mat-menu>
               </div>
 
-              <ng-container *ngFor="let option of element.price_option">
-                <div class="products-menu">
-                  <button mat-icon-button>
+              <ng-container formArrayName="productOptions"
+                *ngFor="let option of element.get('productOptions')['controls']; let i =index">
+                <div class="products-menu" [formGroupName]="i">
+                  <button type="button" mat-icon-button [matMenuTriggerFor]="optionMenu">
                     <mat-icon class="edit-icon2">edit</mat-icon>
                   </button>
+
+                  <mat-menu #optionMenu="matMenu">
+                    <button mat-menu-item (click)="openEditProductDialog(option.value,i)">
+                      <mat-icon>edit</mat-icon>
+                      <span>แก้ไข</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item (click)="openDeleteProductOptionDialog(element.value,i)">
+                      <mat-icon>delete</mat-icon>
+                      <span>ลบ</span>
+                    </button>
+                  </mat-menu>
+
                 </div>
               </ng-container>
             </td>
@@ -101,7 +115,7 @@
       <div>
         <div>
           <!-- <button mat-button color="accent" (click)="openAddProductDialog()"> -->
-          <button mat-button color="accent" (click)="addProduct()">
+          <button mat-button color="accent" (click)="openAddProductDialog()">
             <mat-icon class="edit-icon2">add</mat-icon>&nbsp;เพิ่มสินค้า
           </button>
         </div>

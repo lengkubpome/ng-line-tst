@@ -19,7 +19,7 @@ export class ProductEditDiaglogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      id: [this.data.id, [Validators.required]],
+      id: [{ value: this.data.id, disabled: true }],
       name: [this.data.name, [Validators.required]],
       price: [this.data.price, [Validators.required]],
       status: [this.data.status],

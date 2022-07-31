@@ -26,7 +26,7 @@ export class ProductEffects {
                     priceChange: p.price_change,
                     changeDate: p.change_date,
                     status: p.status,
-                    priceOption: [],
+                    productOptions: [],
                   };
 
                   let option = options.filter(
@@ -42,7 +42,7 @@ export class ProductEffects {
                       description: o.description,
                       status: o.status,
                     };
-                    product.priceOption?.push(option);
+                    product.productOptions?.push(option);
                   });
                   result.push(product);
                 });

@@ -70,11 +70,14 @@
     <mat-divider></mat-divider>
     <div class="field is-grouped">
       <div class="control">
-        <button class="button is-success" [disabled]="form.invalid || form.pristine"
-          [mat-dialog-close]="form.value">แก้ไข</button>
+        <button class="button"
+          [ngClass]="form.get('status')?.value === 'active'? 'is-success': 'is-danger'"
+          [disabled]="form.invalid || form.pristine" [mat-dialog-close]="form.value">แก้ไข</button>
       </div>
       <div class="control">
-        <button class="button is-success is-light" mat-dialog-close cdkFocusInitial>ปิด</button>
+        <button class="button is-light"
+          [ngClass]="form.get('status')?.value === 'active'? 'is-success': 'is-danger'"
+          mat-dialog-close cdkFocusInitial>ปิด</button>
       </div>
     </div>
 

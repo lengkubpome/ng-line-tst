@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>ลบรายการของ <strong class="has-text-danger"> {{ data.name }}</strong>
+</h2>
+<mat-dialog-content class="mat-typography">
+
+  <aside class="menu mb-3">
+    <ul class="menu-list">
+      <li><a class="is-active ">รายละเอียด</a>
+        <ul>
+          <li><a>{{data.productOptions[data.index].description}}</a></li>
+        </ul>
+      </li>
+      <li><a></a></li>
+    </ul>
+
+    <ul class="menu-list">
+      <li><a class="is-active ">ราคาเพิ่มเติม</a>
+        <ul>
+          <li><a>{{data.productOptions[data.index].addonPrice}}</a></li>
+        </ul>
+      </li>
+      <li><a></a></li>
+    </ul>
+
+    <ul class="menu-list">
+      <li><a class="is-active">ประเภทสมาชิก</a>
+        <ul>
+          <!-- <li><a>GOLD <button class="delete"></button></a></li> -->
+          <li><a>GOLD</a></li>
+          <li><a>SILVER</a></li>
+          <li><a>BRONZE</a></li>
+          <li><a>NON-MEMBER</a></li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
+  <p class="subtitle is-6">คุณต้องการลบข้อมูลนี้หรือไม้?</p>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button  is-danger" [mat-dialog-close]="true">
+        ยืนยัน
+      </button>
+    </div>
+    <div class="control">
+      <button class="button is-light" mat-dialog-close>ยกเลิก</button>
+    </div>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,77 @@
+<form [formGroup]="form">
+  <h2 mat-dialog-title>เพิ่มรายการของ <strong class="has-text-info"> {{ data.name }}</strong>
+  </h2>
+  <mat-dialog-content class="mat-typography">
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">รายละเอียด</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input formControlName="description" class="input" type="text" placeholder="รายละเอียด">
+          </div>
+          <p class="help is-danger" *ngIf="form.get('description')?.invalid && form.touched">
+            กรุณาใส่รายการสินค้า</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">ราคาเพิ่มเติม</label>
+      </div>
+      <div class="field-body">
+        <div class="field has-addons">
+          <p class="control">
+            <input formControlName="addonPrice" class="input" type="number"
+              placeholder="ราคาเพิ่มเติม">
+          </p>
+          <p class="control">
+            <a class="button is-static">
+              {{calculatePrice(data.price.toString(), form.get('addonPrice')?.value )}}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">สมาชิก</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <section *ngFor="let type of memberTypes; let i=index">
+              <p>
+                <mat-checkbox [value]="type.value" (change)="onCheckboxChange($event)">
+                  {{type.name}}
+                </mat-checkbox>
+              </p>
+            </section>
+
+          </div>
+          <p class="help is-danger" *ngIf="form.get('id')?.invalid">กรุณาใส่รหัสสินค้า</p>
+        </div>
+      </div>
+    </div>
+
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <div class="field is-grouped">
+      <div class="control">
+        <!-- <button class="button is-info" [mat-dialog-close]="true"> -->
+        <button class="button is-info" (click)="onCheck()">
+          ยืนยัน
+        </button>
+      </div>
+      <div class="control">
+        <button class="button is-light" mat-dialog-close>ยกเลิก</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</form>

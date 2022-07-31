@@ -5,7 +5,7 @@ export interface IProduct {
   priceChange?: number;
   changeDate?: Date;
   status: string;
-  priceOption?: IProductOption[];
+  productOptions?: IProductOption[];
 }
 
 export interface IProductOption {

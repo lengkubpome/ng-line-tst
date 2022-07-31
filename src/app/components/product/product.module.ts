@@ -14,6 +14,9 @@ import { ProductEffects } from './state/product.effects';
 import { ProductAddDialogComponent } from './components/add-dialog/product-add-dialog.component';
 import { ProductDeleteDialogComponent } from './components/delete-dialog/product-delete-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductOptionAddDialogComponent } from './components/option-add-dialog/product-option-add-dialog.component';
+import { ProductOptionDeleteDialogComponent } from './components/option-delete-dialog/product-option-delete-dialog.component';
+import { ProductOptionEditDialogComponent } from './components/option-edit-dialog/product-option-edit-dialog.component';
 
 const Components = [
   ProductComponent,
@@ -22,6 +25,9 @@ const Components = [
   ProductDeleteDialogComponent,
   ProductManagementComponent,
   ProductViewComponent,
+  ProductOptionAddDialogComponent,
+  ProductOptionEditDialogComponent,
+  ProductOptionDeleteDialogComponent,
 ];
 
 @NgModule({
