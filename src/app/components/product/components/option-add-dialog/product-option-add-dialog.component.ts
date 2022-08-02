@@ -68,7 +68,7 @@ export class ProductOptionAddDialogComponent implements OnInit {
   }
 
   onCheck() {
-    console.log(this.form.value);
+    console.log(this.form.valid);
   }
 
   calculatePrice(n1: string, n2: string): number {

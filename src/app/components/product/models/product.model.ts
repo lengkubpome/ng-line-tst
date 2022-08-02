@@ -5,6 +5,7 @@ export interface IProduct {
   priceChange?: number;
   changeDate?: Date;
   status: string;
+  order?: number;
   productOptions?: IProductOption[];
 }
 
@@ -14,6 +15,7 @@ export interface IProductOption {
   addonPrice: number;
   description: string;
   status: string;
+  order?: number;
   // color?: {
   //   font: string;
   //   background: string;

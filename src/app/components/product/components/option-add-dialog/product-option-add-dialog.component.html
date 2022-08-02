@@ -23,17 +23,21 @@
         <label class="label">ราคาเพิ่มเติม</label>
       </div>
       <div class="field-body">
-        <div class="field has-addons">
-          <p class="control">
+        <div class="field has-addons mb-0">
+          <span class="control is-expanded">
             <input formControlName="addonPrice" class="input" type="number"
               placeholder="ราคาเพิ่มเติม">
-          </p>
-          <p class="control">
+          </span>
+          <span class="control">
             <a class="button is-static">
               {{calculatePrice(data.price.toString(), form.get('addonPrice')?.value )}}
             </a>
-          </p>
+          </span>
+
         </div>
+        <p class="help is-danger" *ngIf="form.get('addonPrice')?.invalid && form.touched">
+          กรุณาราคาเพิ่มเติม</p>
+
       </div>
     </div>
 
@@ -53,7 +57,8 @@
             </section>
 
           </div>
-          <p class="help is-danger" *ngIf="form.get('id')?.invalid">กรุณาใส่รหัสสินค้า</p>
+          <p class="help is-danger" *ngIf="form.get('memberTypes')?.invalid && form.touched">
+            กรุณาระบุประเภทสมาชิกอย่างน้อย 1 ประเภท</p>
         </div>
       </div>
     </div>
