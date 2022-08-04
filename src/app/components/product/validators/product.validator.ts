@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
-import { FormControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ProductValidator {
   constructor() {}
 
-  // priceNotZero(value: string): ValidatorFn {
-  //   return (control:)
-  // }
+  public priceNotZero(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value === 0 || control.value === 'e') {
+        console.log('Check X');
+
+        return { x: true };
+      }
+      console.log('Check Y');
+      return null;
+    };
+  }
 }

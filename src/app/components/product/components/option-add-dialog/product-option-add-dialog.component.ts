@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IProduct, IProductOption } from '../../models/product.model';
+import { ProductValidator } from '../../validators/product.validator';
 
 interface PRODUCT_OPTIONS {
   id: string;
@@ -36,7 +37,8 @@ export class ProductOptionAddDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ProductOptionAddDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: PRODUCT_OPTIONS,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private productValidator: ProductValidator
   ) {}
 
   ngOnInit() {
@@ -44,7 +46,7 @@ export class ProductOptionAddDialogComponent implements OnInit {
 
     this.form = this.fb.group({
       description: [, Validators.required],
-      addonPrice: [0, [Validators.required]],
+      addonPrice: [0, { validators: [this.productValidator.priceNotZero()] }],
       memberTypes: this.fb.array([], [Validators.required]),
       status: ['active'],
     });

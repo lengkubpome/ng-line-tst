@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProductOptionAddDialogComponent } from './components/option-add-dialog/product-option-add-dialog.component';
 import { ProductOptionDeleteDialogComponent } from './components/option-delete-dialog/product-option-delete-dialog.component';
 import { ProductOptionEditDialogComponent } from './components/option-edit-dialog/product-option-edit-dialog.component';
+import { ProductValidator } from './validators/product.validator';
 
 const Components = [
   ProductComponent,
@@ -43,6 +44,6 @@ const Components = [
     ),
     EffectsModule.forFeature([ProductEffects]),
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, ProductValidator],
 })
 export class ProductModule {}
