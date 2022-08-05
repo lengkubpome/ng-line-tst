@@ -33,14 +33,13 @@ export class ProductOptionDeleteDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ProductOptionDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: PRODUCT_OPTIONS,
-    private fb: FormBuilder
+    public data: PRODUCT_OPTIONS
   ) {}
 
   ngOnInit() {
     this.productOption = this.data.productOptions[this.data.optionIndex];
-    console.log(this.productOption.memberType);
-
+    console.log(this.productOption);
+    console.log(this.productOption.memberTypes);
   }
 
   onCheckboxChange(e: MatCheckboxChange) {

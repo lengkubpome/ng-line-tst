@@ -32,8 +32,8 @@
         <td mat-cell *matCellDef="let element">
           <span>{{element.name}}</span>
           <br />
-          <ng-container *ngFor="let option of element.priceOption">
-            <div *ngIf=" (option.memberType.indexOf(memberType) > -1 && option.status === 'active')
+          <ng-container *ngFor="let option of element.productOptions; let i = index">
+            <div *ngIf=" (option.memberTypes.indexOf(memberType) > -1 && option.status === 'active')
                         || memberType === 'admin'">
               <span class="is-size-7 has-text-info has-background-warning">
                 {{ option.description }}
@@ -50,8 +50,8 @@
         <td mat-cell *matCellDef="let element">
           <span class="">{{ element.price | number:'1.2'}}</span>
           <br />
-          <ng-container *ngFor="let option of element.priceOption">
-            <div *ngIf=" (option.memberType.indexOf(memberType) > -1 && option.status === 'active')
+          <ng-container *ngFor="let option of element.productOptions">
+            <div *ngIf=" (option.memberTypes.indexOf(memberType) > -1 && option.status === 'active')
               || memberType === 'admin'">
               <span class="is-size-7 has-text-info has-background-warning">
                 {{  option.addonPrice + element.price | number:'1.2'}}

@@ -9,8 +9,7 @@
     <div class="field-body">
       <div class="field">
         <div class="control">
-          <input class="input" type="text" [value]="productOption.description" [disabled]="true"
-            placeholder="รายละเอียด">
+          <input class="input" type="text" [value]="productOption.description" readonly>
         </div>
 
       </div>
@@ -24,8 +23,7 @@
     <div class="field-body">
       <div class="field has-addons mb-0">
         <span class="control is-expanded">
-          <input class="input" type="number" [value]="productOption.addonPrice" [disabled]="true"
-            placeholder="ราคาเพิ่มเติม">
+          <input class="input" type="number" [value]="productOption.addonPrice" readonly>
         </span>
         <span class="control">
           <a class="button is-static">
@@ -49,7 +47,7 @@
           <section *ngFor="let type of memberTypes; let i=index">
             <p>
               <mat-checkbox [value]="type.value" (change)="onCheckboxChange($event)"
-                [checked]="productOption.memberType.indexOf(type.value)>-1">
+                [checked]="productOption.memberTypes.indexOf(type.value) > -1">
                 {{type.name}}
               </mat-checkbox>
             </p>
@@ -75,56 +73,3 @@
     </div>
   </div>
 </mat-dialog-actions>
-
-
-
-<!-- <h2 mat-dialog-title>ลบรายการของ <strong class="has-text-danger"> {{ data.name }}</strong>
-</h2>
-<mat-dialog-content class="mat-typography">
-
-  <aside class="menu mb-3">
-    <ul class="menu-list">
-      <li><a class="is-active ">รายละเอียด</a>
-        <ul>
-          <li><a>{{data.productOptions[data.index].description}}</a></li>
-        </ul>
-      </li>
-      <li><a></a></li>
-    </ul>
-
-    <ul class="menu-list">
-      <li><a class="is-active ">ราคาเพิ่มเติม</a>
-        <ul>
-          <li><a>{{data.productOptions[data.index].addonPrice}}</a></li>
-        </ul>
-      </li>
-      <li><a></a></li>
-    </ul>
-
-    <ul class="menu-list">
-      <li><a class="is-active">ประเภทสมาชิก</a>
-        <ul>
-          <li><a>GOLD</a></li>
-          <li><a>SILVER</a></li>
-          <li><a>BRONZE</a></li>
-          <li><a>NON-MEMBER</a></li>
-        </ul>
-      </li>
-    </ul>
-  </aside>
-
-  <p class="subtitle is-6">คุณต้องการลบข้อมูลนี้หรือไม้?</p>
-
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <div class="field is-grouped">
-    <div class="control">
-      <button class="button  is-danger" [mat-dialog-close]="true">
-        ยืนยัน
-      </button>
-    </div>
-    <div class="control">
-      <button class="button is-light" mat-dialog-close>ยกเลิก</button>
-    </div>
-  </div>
-</mat-dialog-actions> -->

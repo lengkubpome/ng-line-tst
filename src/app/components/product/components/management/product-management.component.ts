@@ -92,7 +92,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     options?.forEach((o: IProductOption) => {
       const optionForm = this.fb.group({
         description: [o.description],
-        memberType: [o.memberType],
+        memberTypes: [o.memberTypes],
         addonPrice: [o.addonPrice],
         status: [o.status],
       });
@@ -101,32 +101,6 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
 
     return productForm;
   }
-  // createProductOptionForm(
-  //   productId: string,
-  //   productOption: IProductOption
-  // ): FormGroup {
-  //   let productForm = this.fb.group({
-  //     id: [product.id],
-  //     name: [product.name],
-  //     price: [product.price],
-  //     status: [product.status],
-  //     productOptions: this.fb.array([]),
-  //   });
-
-  //   // Add Product Options
-  //   const options = product.productOptions;
-  //   options?.forEach((o: IProductOption) => {
-  //     const optionForm = this.fb.group({
-  //       description: [o.description],
-  //       memberType: [o.memberType],
-  //       addonPrice: [o.addonPrice],
-  //       status: [o.status],
-  //     });
-  //     (productForm.get('productOptions') as FormArray).push(optionForm);
-  //   });
-
-  //   return productForm;
-  // }
 
   onCheck() {
     console.log(this.form.value);
@@ -211,11 +185,17 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
 
         const optionForm = this.fb.group({
           description: [result.description],
-          memberType: [result.memberType],
+          memberTypes: [result.memberTypes],
           addonPrice: [result.addonPrice],
           status: [result.status],
         });
         productOptionForm.push(optionForm);
+
+        console.log('YYYYY');
+        console.log(result.memberTypes);
+        console.log('xxxxxx');
+        console.log(productOptionForm);
+
         this.table.renderRows();
       }
     });
@@ -233,9 +213,12 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // (this.form.get('products') as FormArray).removeAt(index);
-        // this.table.renderRows();
-        // console.log(`Delete product ${product.name} success`);
+        const productSelect = this.form.get('products') as FormArray;
+        const optionSelect = productSelect.controls[productIndex].get(
+          'productOptions'
+        ) as FormArray;
+        optionSelect.removeAt(optionIndex);
+        this.table.renderRows();
       }
     });
   }

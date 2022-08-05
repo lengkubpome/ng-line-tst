@@ -26,7 +26,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   isLoading$?: Observable<boolean>;
 
   time = this.datepipe.transform(new Date(), 'hh:mm น.  dd/MM/yyyy');
-  memberType = 'admin';
+  memberType = 'platinum';
 
   // Table
   displayedColumns: string[] = ['product', 'price', 'priceChange'];
@@ -42,7 +42,11 @@ export class ProductViewComponent implements OnInit, OnDestroy {
     this.store
       .select(selectProducts)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => (this.dataSource.data = data));
+      .subscribe((data) => {
+        console.log(data);
+
+        this.dataSource.data = data;
+      });
   }
 
   ngOnDestroy() {

@@ -37,7 +37,7 @@ export class ProductEffects {
                     const memberTypes = (o.member_type as string).split(',');
 
                     const option = {
-                      memberType: memberTypes,
+                      memberTypes: memberTypes,
                       addonPrice: o.addon_price,
                       description: o.description,
                       status: o.status,
