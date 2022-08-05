@@ -12,7 +12,8 @@
           <div class="control">
             <input formControlName="description" class="input" type="text" placeholder="รายละเอียด">
           </div>
-          <p class="help is-danger" *ngIf="form.get('description')?.invalid && form.touched">
+          <p class="help is-danger"
+            *ngIf="form.get('description')?.invalid && form.get('addonPrice')?.touched">
             กรุณาใส่รายการสินค้า</p>
         </div>
       </div>
@@ -35,7 +36,8 @@
           </span>
 
         </div>
-        <p class="help is-danger" *ngIf="form.get('addonPrice')?.invalid && form.touched">
+        <p class="help is-danger"
+          *ngIf="form.get('addonPrice')?.invalid && form.get('addonPrice')?.touched">
           กรุณาราคาเพิ่มเติม</p>
 
       </div>
@@ -57,7 +59,8 @@
             </section>
 
           </div>
-          <p class="help is-danger" *ngIf="form.get('memberTypes')?.invalid && form.touched">
+          <p class="help is-danger"
+            *ngIf="form.get('memberTypes')?.invalid && form.get('addonPrice')?.touched">
             กรุณาระบุประเภทสมาชิกอย่างน้อย 1 ประเภท</p>
         </div>
       </div>
@@ -69,8 +72,7 @@
   <mat-dialog-actions align="end">
     <div class="field is-grouped">
       <div class="control">
-        <!-- <button class="button is-info" [mat-dialog-close]="true"> -->
-        <button class="button is-info" (click)="onCheck()">
+        <button class="button is-info" [disabled]="form.invalid" [mat-dialog-close]="form.value">
           ยืนยัน
         </button>
       </div>

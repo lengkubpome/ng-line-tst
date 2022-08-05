@@ -69,7 +69,7 @@
                     <mat-icon>edit</mat-icon>
                     <span>แก้ไข</span>
                   </button>
-                  <button mat-menu-item (click)="openAddProductOptionDialog(element.value)">
+                  <button mat-menu-item (click)="openAddProductOptionDialog(element.value,i)">
                     <mat-icon>post_add</mat-icon>
                     <span>เพิ่มรายการย่อย</span>
                   </button>
@@ -82,19 +82,20 @@
               </div>
 
               <ng-container formArrayName="productOptions"
-                *ngFor="let option of element.get('productOptions')['controls']; let i =index">
-                <div class="products-menu" [formGroupName]="i">
+                *ngFor="let option of element.get('productOptions')['controls']; let j =index">
+                <div class="products-menu" [formGroupName]="j">
                   <button type="button" mat-icon-button [matMenuTriggerFor]="optionMenu">
                     <mat-icon class="edit-icon2">edit</mat-icon>
                   </button>
 
                   <mat-menu #optionMenu="matMenu">
-                    <button mat-menu-item (click)="openEditProductDialog(option.value,i)">
+                    <button mat-menu-item (click)="openEditProductDialog(option.value,j)">
                       <mat-icon>edit</mat-icon>
                       <span>แก้ไข</span>
                     </button>
                     <mat-divider></mat-divider>
-                    <button mat-menu-item (click)="openDeleteProductOptionDialog(element.value,i)">
+                    <button mat-menu-item
+                      (click)="openDeleteProductOptionDialog(element.value,i,j)">
                       <mat-icon>delete</mat-icon>
                       <span>ลบ</span>
                     </button>

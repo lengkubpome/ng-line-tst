@@ -7,7 +7,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IProduct, IProductOption } from '../../models/product.model';
+import { IProductOption } from '../../models/product.model';
 import { ProductValidator } from '../../validators/product.validator';
 
 interface PRODUCT_OPTIONS {
@@ -29,7 +29,7 @@ export class ProductOptionAddDialogComponent implements OnInit {
   memberTypes = [
     { value: 'platinum', name: 'ระดับแพทตินัม' },
     { value: 'gold', name: 'ระดับโกลด์' },
-    { value: 'sliver', name: 'ระดับซิลเวอร์' },
+    { value: 'silver', name: 'ระดับซิลเวอร์' },
     { value: 'normal', name: 'ระดับปกติ' },
   ];
 
@@ -46,7 +46,15 @@ export class ProductOptionAddDialogComponent implements OnInit {
 
     this.form = this.fb.group({
       description: [, Validators.required],
-      addonPrice: [0, { validators: [this.productValidator.priceNotZero()] }],
+      addonPrice: [
+        0,
+        {
+          validators: [
+            this.productValidator.priceNotZero(),
+            Validators.required,
+          ],
+        },
+      ],
       memberTypes: this.fb.array([], [Validators.required]),
       status: ['active'],
     });
@@ -67,10 +75,6 @@ export class ProductOptionAddDialogComponent implements OnInit {
         i++;
       });
     }
-  }
-
-  onCheck() {
-    console.log(this.form.valid);
   }
 
   calculatePrice(n1: string, n2: string): number {

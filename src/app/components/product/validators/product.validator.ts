@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 @Injectable()
 export class ProductValidator {
@@ -7,12 +7,9 @@ export class ProductValidator {
 
   public priceNotZero(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value === 0 || control.value === 'e') {
-        console.log('Check X');
-
-        return { x: true };
+      if (control.value === 0 || control.value === null) {
+        return { eject: true };
       }
-      console.log('Check Y');
       return null;
     };
   }
