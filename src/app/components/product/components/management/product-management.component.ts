@@ -15,6 +15,7 @@ import { ProductDeleteDialogComponent } from '../delete-dialog/product-delete-di
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ProductOptionDeleteDialogComponent } from '../option-delete-dialog/product-option-delete-dialog.component';
 import { ProductOptionAddDialogComponent } from '../option-add-dialog/product-option-add-dialog.component';
+import { ProductOptionEditDialogComponent } from '../option-edit-dialog/product-option-edit-dialog.component';
 @Component({
   selector: 'app-product-management',
   templateUrl: './product-management.component.html',
@@ -79,6 +80,8 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   }
 
   createProductForm(product: IProduct): FormGroup {
+    console.log(product);
+
     let productForm = this.fb.group({
       id: [product.id],
       name: [product.name],
@@ -177,7 +180,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
+        // console.log(result);
         const productForm = this.form.get('products') as FormArray;
         const productOptionForm = productForm.controls[index].get(
           'productOptions'
@@ -190,16 +193,39 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
           status: [result.status],
         });
         productOptionForm.push(optionForm);
-
-        console.log('YYYYY');
-        console.log(result.memberTypes);
-        console.log('xxxxxx');
-        console.log(productOptionForm);
-
         this.table.renderRows();
       }
     });
   }
+
+  openEditProductOptionDialog(
+    product: any,
+    productIndex: number,
+    optionIndex: number
+  ) {
+    const dialogRef = this.dialog.open(ProductOptionEditDialogComponent, {
+      data: { ...product, index: productIndex, optionIndex },
+      width: '450px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const productForm = this.form.get('products') as FormArray;
+        const productOptionForm = productForm.controls[productIndex].get(
+          'productOptions'
+        ) as FormArray;
+
+        productOptionForm.controls[optionIndex].setValue({
+          description: result.description,
+          memberTypes: result.memberTypes,
+          addonPrice: result.addonPrice,
+          status: result.status,
+        });
+      }
+    });
+  }
+
   openDeleteProductOptionDialog(
     product: any,
     productIndex: number,

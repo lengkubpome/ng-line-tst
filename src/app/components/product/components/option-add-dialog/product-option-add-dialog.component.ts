@@ -19,6 +19,13 @@ interface PRODUCT_OPTIONS {
   index: number;
 }
 
+const memberTypes = [
+  { value: 'platinum', name: 'ระดับแพทตินัม' },
+  { value: 'gold', name: 'ระดับโกลด์' },
+  { value: 'silver', name: 'ระดับซิลเวอร์' },
+  { value: 'normal', name: 'ระดับปกติ' },
+];
+
 @Component({
   selector: 'app-product-option-add-dialog',
   templateUrl: './product-option-add-dialog.component.html',
@@ -26,13 +33,7 @@ interface PRODUCT_OPTIONS {
 })
 export class ProductOptionAddDialogComponent implements OnInit {
   form!: FormGroup;
-  memberTypes = [
-    { value: 'platinum', name: 'ระดับแพทตินัม' },
-    { value: 'gold', name: 'ระดับโกลด์' },
-    { value: 'silver', name: 'ระดับซิลเวอร์' },
-    { value: 'normal', name: 'ระดับปกติ' },
-  ];
-
+  memberTypes = memberTypes;
   constructor(
     public dialogRef: MatDialogRef<ProductOptionAddDialogComponent>,
     @Inject(MAT_DIALOG_DATA)

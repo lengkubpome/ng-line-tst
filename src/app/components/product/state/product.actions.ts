@@ -7,6 +7,12 @@ export const loadProductsSuccess = createAction(
   '[Product] Load Products Success',
   props<{ products: IProduct[] }>()
 );
+
+export const loadProductsFailure = createAction(
+  '[Product] Load Products Failure',
+  props<{ errorMessage: string }>()
+);
+
 export const addProducts = createAction(
   '[Product] Add Products',
   props<{ product: IProduct }>()

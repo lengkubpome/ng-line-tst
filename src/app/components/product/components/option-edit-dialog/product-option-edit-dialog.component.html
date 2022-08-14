@@ -1,3 +1,104 @@
-<p>
-  product-option-edit-dialog works!
-</p>
+<form [formGroup]="form">
+  <h2 mat-dialog-title>แก้ไขรายการของ <strong class="has-text-info"> {{ data.name }}</strong>
+  </h2>
+  <mat-dialog-content class="mat-typography">
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">รายละเอียด</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input formControlName="description" class="input" type="text" placeholder="รายละเอียด">
+          </div>
+          <p class="help is-danger"
+            *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
+            กรุณาใส่รายการสินค้า</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">ราคาเพิ่มเติม</label>
+      </div>
+      <div class="field-body">
+        <div class="field has-addons mb-0">
+          <span class="control is-expanded">
+            <input formControlName="addonPrice" class="input" type="number"
+              placeholder="ราคาเพิ่มเติม">
+          </span>
+          <span class="control">
+            <a class="button is-static">
+              {{calculatePrice(data.price.toString(), form.get('addonPrice')?.value )}}
+            </a>
+          </span>
+
+        </div>
+        <p class="help is-danger"
+          *ngIf="form.get('addonPrice')?.invalid && form.get('addonPrice')?.touched">
+          กรุณาราคาเพิ่มเติม</p>
+
+      </div>
+    </div>
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">สมาชิก</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <section *ngFor="let type of memberTypes; let i=index">
+              <p>
+                <mat-checkbox [value]="type.value"
+                  [checked]="productOption.memberTypes.indexOf(type.value) > -1"
+                  (change)="onCheckboxChange($event)">
+                  {{type.name}}
+                </mat-checkbox>
+              </p>
+            </section>
+
+          </div>
+          <p class="help is-danger" *ngIf="form.get('memberTypes')?.invalid && form?.touched">
+            กรุณาระบุประเภทสมาชิกอย่างน้อย 1 ประเภท</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label">สถานะ</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <div class="select"
+              [ngClass]="form.get('status')?.value === 'active'? 'is-success': 'is-danger'">
+              <select formControlName="status">
+                <option [value]="'active'">ใช้งาน</option>
+                <option [value]="'inactive'">ยกเลิกใช้งาน</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-info" [disabled]="form.invalid || form.pristine" [mat-dialog-close]="form.value">
+          ยืนยัน
+        </button>
+      </div>
+      <div class="control">
+        <button class="button is-light" mat-dialog-close>ยกเลิก</button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</form>

@@ -11,7 +11,7 @@ export interface IProduct {
 
 export interface IProductOption {
   // product_id: string;
-  memberTypes: string | string[];
+  memberTypes: string[];
   addonPrice: number;
   description: string;
   status: string;

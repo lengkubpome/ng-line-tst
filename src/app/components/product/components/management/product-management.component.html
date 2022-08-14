@@ -25,7 +25,8 @@
 
                 <ng-container *ngFor="let option of element.get('productOptions').value">
                   <div>
-                    <span class="is-size-7 has-text-info has-background-warning">
+                    <span class="is-size-7 has-text-info has-background-warning"
+                      [ngStyle]="{'text-decoration':option.status !== 'active'? 'line-through':null}">
                       {{ option.description }}
                     </span>
                   </div>
@@ -42,14 +43,26 @@
               <div class="price-list">
                 <input formControlName="price" class="input is-small" type="text"
                   placeholder="Price">
-                <ng-container formArrayName="productOptions"
-                  *ngFor="let option of element.get('productOptions')['controls']; let i =index">
-                  <div [formGroupName]="i">
-                    <span>{{  calculatePrice(element.get('price').value, option.get('addonPrice').value) }}</span>
-                    <!-- <input formControlName="addonPrice" class="input is-small" type="text"
-                      placeholder="Add On"> -->
+
+                <ng-container *ngFor="let option of element.get('productOptions').value">
+                  <div>
+                    <span class="is-size-7 has-text-info has-background-warning"
+                      [ngStyle]="{'text-decoration':option.status !== 'active'? 'line-through':null}">
+                      {{  calculatePrice(element.get('price').value, option.addonPrice) }}
+                    </span>
                   </div>
                 </ng-container>
+
+                <!-- เก็บไว้ดูเป็นตัวอย่าง -->
+                <!-- <ng-container formArrayName="productOptions"
+                  *ngFor="let option of element.get('productOptions')['controls']; let i =index">
+                  <div [formGroupName]="i">
+                    <span
+                      [ngStyle]="{'text-decoration':option.get('status').value !== 'active'? 'line-through':null}">
+                      {{  calculatePrice(element.get('price').value, option.get('addonPrice').value) }}
+                    </span>
+                  </div>
+                </ng-container> -->
 
               </div>
             </td>
@@ -89,7 +102,7 @@
                   </button>
 
                   <mat-menu #optionMenu="matMenu">
-                    <button mat-menu-item (click)="openEditProductDialog(option.value,j)">
+                    <button mat-menu-item (click)="openEditProductOptionDialog(element.value,i,j)">
                       <mat-icon>edit</mat-icon>
                       <span>แก้ไข</span>
                     </button>

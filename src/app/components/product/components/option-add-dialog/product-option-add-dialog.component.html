@@ -13,7 +13,7 @@
             <input formControlName="description" class="input" type="text" placeholder="รายละเอียด">
           </div>
           <p class="help is-danger"
-            *ngIf="form.get('description')?.invalid && form.get('addonPrice')?.touched">
+            *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
             กรุณาใส่รายการสินค้า</p>
         </div>
       </div>
@@ -59,8 +59,7 @@
             </section>
 
           </div>
-          <p class="help is-danger"
-            *ngIf="form.get('memberTypes')?.invalid && form.get('addonPrice')?.touched">
+          <p class="help is-danger" *ngIf="form.get('memberTypes')?.invalid && form?.touched">
             กรุณาระบุประเภทสมาชิกอย่างน้อย 1 ประเภท</p>
         </div>
       </div>
