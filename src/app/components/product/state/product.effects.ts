@@ -2,10 +2,11 @@ import { IProduct } from 'app/components/product/models/product.model';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import { EMPTY, switchMap } from 'rxjs';
+import { catchError, map, mergeMap, take, tap } from 'rxjs/operators';
+import { EMPTY, of, switchMap } from 'rxjs';
 import * as ProductActions from './product.actions';
 import { ProductService } from '../services/product.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ProductEffects {
@@ -52,7 +53,10 @@ export class ProductEffects {
               })
             )
           ),
-          map((products) => ProductActions.loadProductsSuccess({ products })),
+          map((products) => {
+            // this.snackBar.open('Test123', '1234');
+            return ProductActions.loadProductsSuccess({ products });
+          }),
           catchError(() => EMPTY)
         )
       )
@@ -61,6 +65,7 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
+    private snackBar: MatSnackBar,
     private productService: ProductService
   ) {}
 }

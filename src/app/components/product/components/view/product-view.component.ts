@@ -1,10 +1,9 @@
 import {
-  selectProducts,
-  selectProductsLoading,
+  getProductsLoaded,
+  getProductsLoading,
 } from './../../state/product.selectors';
 import { DatePipe } from '@angular/common';
-import { ProductService } from '../../services/product.service';
-import { Observable, switchMap, map, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   IProduct,
@@ -12,7 +11,6 @@ import {
 } from 'app/components/product/models/product.model';
 import { Store } from '@ngrx/store';
 import { ProductState } from '../../state/product.reducer';
-import { loadProducts } from '../../state/product.actions';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
@@ -37,15 +35,14 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   constructor(public datepipe: DatePipe, private store: Store<ProductState>) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.select(selectProductsLoading);
+    this.isLoading$ = this.store.select(getProductsLoading);
 
     this.store
-      .select(selectProducts)
+      .select(getProductsLoaded)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
-        console.log(data);
-
-        this.dataSource.data = data;
+        // console.log(data);
+        if (data !== null) this.dataSource.data = data;
       });
   }
 

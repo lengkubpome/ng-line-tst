@@ -6,8 +6,8 @@ import { ProductEditDiaglogComponent } from '../edit-dialog/product-edit-diaglog
 import { ProductState } from '../../state/product.reducer';
 import { Store } from '@ngrx/store';
 import {
-  selectProducts,
-  selectProductsLoading,
+  getProductsLoaded,
+  getProductsLoading,
 } from '../../state/product.selectors';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ProductAddDialogComponent } from '../add-dialog/product-add-dialog.component';
@@ -54,16 +54,18 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setupForm();
 
-    this.isLoading$ = this.store.select(selectProductsLoading);
+    this.isLoading$ = this.store.select(getProductsLoading);
 
     this.store
-      .select(selectProducts)
+      .select(getProductsLoaded)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
-        data.forEach((d: IProduct) => {
-          const productForm = this.form.get('products') as FormArray;
-          productForm.push(this.createProductForm(d));
-        });
+        if (data !== null) {
+          data.forEach((d: IProduct) => {
+            const productForm = this.form.get('products') as FormArray;
+            productForm.push(this.createProductForm(d));
+          });
+        }
       });
   }
 

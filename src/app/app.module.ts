@@ -11,12 +11,14 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { ROOT_REDUCERS, metaReducers } from './app.reducer';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { MaterialsModule } from '@shared/ui/material';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MaterialsModule,
     CoreModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(ROOT_REDUCERS, { metaReducers }),
