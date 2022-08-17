@@ -16,8 +16,8 @@ const COMPONENTS = [HeaderComponent];
     CommonModule,
     HttpClientModule,
     MaterialsModule,
-    StoreModule.forFeature(fromCore.coreFeatureKey, fromCore.coreReducer),
-    EffectsModule.forFeature([CoreEffects]),
+    // StoreModule.forFeature(fromCore.coreFeatureKey, fromCore.coreReducer),
+    // EffectsModule.forFeature([CoreEffects]),
   ],
   exports: [...COMPONENTS],
 })

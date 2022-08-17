@@ -1,9 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-export const loadCores = createAction(
-  '[Core] Load Cores'
+export const setLoading = createAction(
+  '[Core] set loading',
+  props<{ status: boolean }>()
 );
-
-
-
-

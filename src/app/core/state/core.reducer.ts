@@ -3,12 +3,18 @@ import * as CoreActions from './core.actions';
 
 export const coreFeatureKey = 'core';
 
-export interface State {}
+export interface CoreState {
+  showLoading: boolean;
+}
 
-export const initialState: State = {};
+export const initialState: CoreState = {
+  showLoading: false,
+};
 
 export const coreReducer = createReducer(
   initialState,
-
-  on(CoreActions.loadCores, (state) => state)
+  on(CoreActions.setLoading, (state, action) => ({
+    ...state,
+    showLoading: action.status,
+  }))
 );

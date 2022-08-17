@@ -7,15 +7,14 @@ import * as CoreActions from './core.actions';
 
 @Injectable()
 export class CoreEffects {
-
-
   loadCores$ = createEffect(() => {
-    return this.actions$.pipe( 
+    return this.actions$
+      .pipe
 
-      ofType(CoreActions.loadCores),
-      /** An EMPTY observable only emits completion. Replace with your own observable API request */
-      concatMap(() => EMPTY as Observable<{ type: string }>)
-    );
+      // ofType(CoreActions.loadCores),
+      // /** An EMPTY observable only emits completion. Replace with your own observable API request */
+      // concatMap(() => EMPTY as Observable<{ type: string }>)
+      ();
   });
 
   constructor(private actions$: Actions) {}
