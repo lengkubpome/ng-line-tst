@@ -18,10 +18,29 @@ export const addProducts = createAction(
   props<{ product: IProduct }>()
 );
 
-export const updateProducts = createAction(
-  '[Product] Update Products',
+export const addProductsSuccess = createAction(
+  '[Product] Add Products Success',
   props<{ product: IProduct }>()
 );
+
+export const addProductsFailure = createAction(
+  '[Product] Add Products Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const updateProduct = createAction(
+  '[Product] Update Products',
+  props<{ updateProduct: IProduct }>()
+);
+export const updateProductSuccess = createAction(
+  '[Product] Update Products Success',
+  props<{ updateProduct: IProduct }>()
+);
+export const updateProductFailure = createAction(
+  '[Product] Update Products Failure',
+  props<{ errorMessage: string }>()
+);
+
 export const deleteProducts = createAction(
   '[Product] Delete Products',
   props<{ id: string }>()

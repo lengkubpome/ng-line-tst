@@ -20,9 +20,8 @@ import { ProductOptionEditDialogComponent } from '../option-edit-dialog/product-
 import * as ProductActions from '../../state/product.actions';
 
 @Component({
-  selector: 'app-product-management',
-  templateUrl: './product-management.component.html',
-  styleUrls: ['./product-management.component.scss'],
+  selector: 'example',
+  templateUrl: './example.html',
 })
 export class ProductManagementComponent implements OnInit, OnDestroy {
   products$: Observable<IProduct[]> = of([]);
@@ -55,8 +54,59 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.setupForm();
+
     this.isLoading$ = this.store.select(getProductsLoading);
-    this.products$ = this.store.select(getProductsLoaded);
+
+    this.store
+      .select(getProductsLoaded)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        if (data !== null) {
+          data.forEach((d: IProduct) => {
+            const productForm = this.form.get('products') as FormArray;
+            productForm.push(this.createProductForm(d));
+          });
+        }
+      });
+  }
+
+  setupForm() {
+    this.form = this.fb.group({
+      products: this.fb.array([]),
+    });
+  }
+
+  addProductForm(product: IProduct | null) {
+    const productForm = this.form.get('products') as FormArray;
+    productForm.push(this.createProductForm(product!));
+    this.table.renderRows();
+  }
+
+  createProductForm(product: IProduct): FormGroup {
+    // console.log(product);
+
+    let productForm = this.fb.group({
+      id: [product.id],
+      name: [product.name],
+      price: [product.price],
+      status: [product.status],
+      productOptions: this.fb.array([]),
+    });
+
+    // Add Product Options
+    const options = product.productOptions;
+    options?.forEach((o: IProductOption) => {
+      const optionForm = this.fb.group({
+        description: [o.description],
+        memberTypes: [o.memberTypes],
+        addonPrice: [o.addonPrice],
+        status: [o.status],
+      });
+      (productForm.get('productOptions') as FormArray).push(optionForm);
+    });
+
+    return productForm;
   }
 
   onCheck() {
@@ -66,6 +116,26 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   calculatePrice(n1: string, n2: string): number {
     const sum = parseFloat(n1) + parseFloat(n2);
     return isNaN(sum) ? parseFloat(n2) : sum;
+  }
+
+  openEditProductDialog(product: IProduct, index: number) {
+    console.log(index);
+
+    const dialogRef = this.dialog.open(ProductEditDiaglogComponent, {
+      data: { ...product },
+      width: '450px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const productForm = this.form.get('products') as FormArray;
+        productForm.controls[index].get('id')?.setValue(product.id);
+        productForm.controls[index].get('name')?.setValue(result.name);
+        productForm.controls[index].get('price')?.setValue(result.price);
+        productForm.controls[index].get('status')?.setValue(result.status);
+      }
+    });
   }
 
   openAddProductDialog() {
@@ -84,27 +154,10 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
           productOptions: [],
         };
 
+        // this.addProductForm(product);
         this.store.dispatch(ProductActions.addProducts({ product }));
-      }
-    });
-  }
-
-  openEditProductDialog(product: IProduct, index: number) {
-    const dialogRef = this.dialog.open(ProductEditDiaglogComponent, {
-      data: { ...product },
-      width: '450px',
-      disableClose: true,
-    });
-
-    dialogRef.afterClosed().subscribe((result: IProduct) => {
-      if (result) {
-        const updateProduct = {
-          ...product,
-          name: result.name,
-          price: result.price,
-          status: result.status,
-        };
-        this.store.dispatch(ProductActions.updateProduct({ updateProduct }));
+        const productForm = this.form.get('products') as FormArray;
+        this.table.renderRows();
       }
     });
   }

@@ -1,3 +1,4 @@
+import { SharedState } from './../../../shared/state/shared.reducer';
 import { IProduct } from 'app/components/product/models/product.model';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -7,6 +8,9 @@ import { EMPTY, of, switchMap } from 'rxjs';
 import * as ProductActions from './product.actions';
 import { ProductService } from '../services/product.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { getLoading } from '@core/state';
+import * as SharedActions from '../../../shared/state/shared.actions';
 
 @Injectable()
 export class ProductEffects {
@@ -47,25 +51,49 @@ export class ProductEffects {
                   });
                   result.push(product);
                 });
-
-                // console.log(result);
                 return result;
               })
             )
           ),
           map((products) => {
-            // this.snackBar.open('Test123', '1234');
+            this.store.dispatch(SharedActions.setLoaded());
             return ProductActions.loadProductsSuccess({ products });
           }),
-          catchError(() => EMPTY)
+          catchError((errResp) => {
+            return EMPTY;
+          })
         )
       )
     )
   );
 
+  addProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.addProducts),
+      map((data) => {
+        // console.log(data.product);
+
+        return ProductActions.addProductsSuccess(data);
+      })
+    )
+  );
+
+  updateProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.updateProduct),
+      map((data) => {
+        console.log(data);
+
+        return ProductActions.updateProductSuccess({
+          updateProduct: data.updateProduct,
+        });
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
-    private snackBar: MatSnackBar,
-    private productService: ProductService
+    private productService: ProductService,
+    private store: Store<SharedState>
   ) {}
 }
