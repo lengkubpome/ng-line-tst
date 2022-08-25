@@ -1,5 +1,4 @@
-import { take } from 'rxjs/operators';
-import { BehaviorSubject, Observable, of, Subject, takeUntil } from 'rxjs';
+import { Observable, of, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IProduct, IProductOption } from '../../models/product.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,17 +8,11 @@ import { Store } from '@ngrx/store';
 import {
   getProductsLoaded,
   getProductsLoading,
-  getProductError,
 } from '../../state/product.selectors';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ProductAddDialogComponent } from '../add-dialog/product-add-dialog.component';
 import { ProductDeleteDialogComponent } from '../delete-dialog/product-delete-dialog.component';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  AbstractControl,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ProductOptionDeleteDialogComponent } from '../option-delete-dialog/product-option-delete-dialog.component';
 import { ProductOptionAddDialogComponent } from '../option-add-dialog/product-option-add-dialog.component';
 import { ProductOptionEditDialogComponent } from '../option-edit-dialog/product-option-edit-dialog.component';
@@ -32,14 +25,15 @@ import * as ProductActions from '../../state/product.actions';
   styleUrls: ['./product-management.component.scss'],
 })
 export class ProductManagementComponent implements OnInit, OnDestroy {
+  products$: Observable<IProduct[]> = of([]);
   isLoading$: Observable<boolean> = of(false);
   memberType = 'gold';
 
-  form: FormGroup = new FormGroup({});
+  form!: FormGroup;
 
   // Mat-Table
   @ViewChild(MatTable) table!: MatTable<any>;
-  dataSource = new BehaviorSubject<AbstractControl[]>([]);
+  dataSource = new MatTableDataSource<IProduct[]>();
   displayedColumns: string[] = ['product', 'price_change', 'action'];
 
   private destroy$: Subject<any> = new Subject();
@@ -61,60 +55,8 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.setupForm();
-
     this.isLoading$ = this.store.select(getProductsLoading);
-
-    this.store
-      .select(getProductsLoaded)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        console.log(data);
-
-        this.emptyTable();
-        if (data !== null) {
-          data.forEach((d: IProduct) => {
-            this.products.push(this.createProductForm(d));
-            this.dataSource.next(this.products.controls);
-          });
-        }
-      });
-  }
-
-  setupForm() {
-    this.form = this.fb.group({
-      products: this.fb.array([]),
-    });
-  }
-
-  emptyTable() {
-    while (this.products.length !== 0) {
-      this.products.removeAt(0);
-    }
-  }
-
-  createProductForm(product: IProduct): FormGroup {
-    let productForm = this.fb.group({
-      id: [product.id],
-      name: [product.name],
-      price: [product.price],
-      status: [product.status],
-      productOptions: this.fb.array([]),
-    });
-
-    // Add Product Options
-    const options = product.productOptions;
-    options?.forEach((o: IProductOption) => {
-      const optionForm = this.fb.group({
-        description: [o.description],
-        memberTypes: [o.memberTypes],
-        addonPrice: [o.addonPrice],
-        status: [o.status],
-      });
-      (productForm.get('productOptions') as FormArray).push(optionForm);
-    });
-
-    return productForm;
+    this.products$ = this.store.select(getProductsLoaded);
   }
 
   onCheck() {
@@ -154,20 +96,14 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: IProduct) => {
       if (result) {
-        this.products.controls[index].get('id')?.setValue(product.id);
-        this.products.controls[index].get('name')?.setValue(result.name);
-        this.products.controls[index].get('price')?.setValue(result.price);
-        this.products.controls[index].get('status')?.setValue(result.status);
-
-        const updateProduct: IProduct = {
+        const updateProduct = {
           ...product,
           name: result.name,
           price: result.price,
           status: result.status,
         };
-
         this.store.dispatch(ProductActions.updateProduct({ updateProduct }));
       }
     });
@@ -180,14 +116,15 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: IProduct) => {
       if (result) {
         this.store.dispatch(ProductActions.deleteProduct({ id: result.id }));
+        // console.log(`Delete product ${product.name} success`);
       }
     });
   }
 
-  openAddProductOptionDialog(product: any) {
+  openAddProductOptionDialog(product: any, index: number) {
     const dialogRef = this.dialog.open(ProductOptionAddDialogComponent, {
       data: { ...product },
       width: '450px',
@@ -196,16 +133,20 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const option: IProductOption = {
-          description: result.description,
-          memberTypes: result.memberTypes,
-          addonPrice: result.addonPrice,
-          status: result.status,
-        };
+        // console.log(result);
+        const productForm = this.form.get('products') as FormArray;
+        const productOptionForm = productForm.controls[index].get(
+          'productOptions'
+        ) as FormArray;
 
-        this.store.dispatch(
-          ProductActions.addProductOption({ product, option })
-        );
+        const optionForm = this.fb.group({
+          description: [result.description],
+          memberTypes: [result.memberTypes],
+          addonPrice: [result.addonPrice],
+          status: [result.status],
+        });
+        productOptionForm.push(optionForm);
+        this.table.renderRows();
       }
     });
   }

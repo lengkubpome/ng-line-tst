@@ -46,6 +46,7 @@ export class ProductEffects {
                       addonPrice: o.addon_price,
                       description: o.description,
                       status: o.status,
+                      order: o.order,
                     };
                     product.productOptions?.push(option);
                   });
@@ -69,11 +70,11 @@ export class ProductEffects {
 
   addProduct$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ProductActions.addProducts),
+      ofType(ProductActions.addProduct),
       map((data) => {
         // console.log(data.product);
 
-        return ProductActions.addProductsSuccess(data);
+        return ProductActions.addProductSuccess(data);
       })
     )
   );
@@ -82,11 +83,31 @@ export class ProductEffects {
     this.actions$.pipe(
       ofType(ProductActions.updateProduct),
       map((data) => {
-        console.log(data);
-
         return ProductActions.updateProductSuccess({
           updateProduct: data.updateProduct,
         });
+      })
+    )
+  );
+
+  deleteProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.deleteProduct),
+      map((data) => {
+        return ProductActions.deleteProductSuccess({
+          id: data.id,
+        });
+      })
+    )
+  );
+
+  addProductOption$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.addProductOption),
+      map((data) => {
+        console.log(data.product);
+
+        return ProductActions.addProductOptionSuccess(data);
       })
     )
   );
