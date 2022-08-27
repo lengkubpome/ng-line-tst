@@ -1,5 +1,6 @@
 <form [formGroup]="form">
-  <h2 mat-dialog-title>แก้ไขรายการของ <strong class="has-text-info"> {{ data.name }}</strong>
+  <h2 mat-dialog-title>แก้ไขรายการของ <strong class="has-text-info">
+      {{ data.product.name }}</strong>
   </h2>
   <mat-dialog-content class="mat-typography">
 
@@ -31,7 +32,7 @@
           </span>
           <span class="control">
             <a class="button is-static">
-              {{calculatePrice(data.price.toString(), form.get('addonPrice')?.value )}}
+              {{calculatePrice(data.product.price.toString(), form.get('addonPrice')?.value )}}
             </a>
           </span>
 
@@ -92,7 +93,8 @@
   <mat-dialog-actions align="end">
     <div class="field is-grouped">
       <div class="control">
-        <button class="button is-info" [disabled]="form.invalid || form.pristine" [mat-dialog-close]="form.value">
+        <button class="button is-info" [disabled]="form.invalid || form.pristine"
+          [mat-dialog-close]="form.value">
           ยืนยัน
         </button>
       </div>

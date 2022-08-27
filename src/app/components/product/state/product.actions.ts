@@ -72,3 +72,31 @@ export const addProductOptionFailure = createAction(
   '[Product] Add Product Option Failure',
   props<{ errorMessage: string }>()
 );
+
+export const updateProductOption = createAction(
+  '[Product] Update Product Option',
+  props<{ product: IProduct; updateOption: IProductOption }>()
+);
+export const updateProductOptionSuccess = createAction(
+  '[Product] Update Product Option Success',
+  props<{ product: IProduct; updateOption: IProductOption }>()
+);
+export const updateProductOptionFailure = createAction(
+  '[Product] Update Product Option Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const deleteProductOption = createAction(
+  '[Product] Delete Product Option',
+  props<{ product: IProduct; deleteOption: IProductOption }>()
+);
+
+export const deleteProductOptionSuccess = createAction(
+  '[Product] Delete Product Option Success',
+  props<{ product: IProduct; deleteOption: IProductOption }>()
+);
+
+export const deleteProductOptionFailure = createAction(
+  '[Product] Delete Product Option Failure',
+  props<{ errorMessage: string }>()
+);

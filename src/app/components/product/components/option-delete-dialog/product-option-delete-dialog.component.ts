@@ -5,13 +5,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IProduct, IProductOption } from '../../models/product.model';
 
 interface PRODUCT_OPTIONS {
-  id: string;
-  name: string;
-  productOptions: IProductOption[];
-  price: number;
-  status: string;
-  index: number;
-  optionIndex: number;
+  product: IProduct;
+  selectOption: IProductOption;
 }
 
 @Component({
@@ -37,9 +32,7 @@ export class ProductOptionDeleteDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.productOption = this.data.productOptions[this.data.optionIndex];
-    console.log(this.productOption);
-    console.log(this.productOption.memberTypes);
+    this.productOption = this.data.selectOption;
   }
 
   onCheckboxChange(e: MatCheckboxChange) {

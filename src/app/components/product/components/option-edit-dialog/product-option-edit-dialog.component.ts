@@ -1,3 +1,4 @@
+import { IProduct } from 'app/components/product/models/product.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormArray,
@@ -11,13 +12,8 @@ import { IProductOption } from '../../models/product.model';
 import { ProductValidator } from '../../validators/product.validator';
 
 interface PRODUCT_OPTIONS {
-  id: string;
-  name: string;
-  productOptions: IProductOption[];
-  price: number;
-  status: string;
-  index: number;
-  optionIndex: number;
+  product: IProduct;
+  selectOption: IProductOption;
 }
 
 const memberTypes = [
@@ -33,7 +29,7 @@ const memberTypes = [
   styleUrls: ['./product-option-edit-dialog.component.scss'],
 })
 export class ProductOptionEditDialogComponent implements OnInit {
-  form!: FormGroup;
+  form: FormGroup = new FormGroup({});
   memberTypes = memberTypes;
   productOption!: IProductOption;
 
@@ -46,7 +42,7 @@ export class ProductOptionEditDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.productOption = this.data.productOptions[this.data.optionIndex];
+    this.productOption = this.data.selectOption;
     console.log(this.productOption);
 
     this.form = this.fb.group({

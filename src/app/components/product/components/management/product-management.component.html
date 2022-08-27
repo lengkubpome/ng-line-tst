@@ -103,13 +103,14 @@
                   </button>
 
                   <mat-menu #optionMenu="matMenu">
-                    <button mat-menu-item (click)="openEditProductOptionDialog(element.value,i,j)">
+                    <button mat-menu-item
+                      (click)="openEditProductOptionDialog(element.value,option.value)">
                       <mat-icon>edit</mat-icon>
                       <span>แก้ไข</span>
                     </button>
                     <mat-divider></mat-divider>
                     <button mat-menu-item
-                      (click)="openDeleteProductOptionDialog(element.value,i,j)">
+                      (click)="openDeleteProductOptionDialog(element.value,option.value)">
                       <mat-icon>delete</mat-icon>
                       <span>ลบ</span>
                     </button>

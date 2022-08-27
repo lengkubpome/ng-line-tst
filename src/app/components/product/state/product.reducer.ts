@@ -84,7 +84,7 @@ export const productReducer = createReducer(
     ...state,
     callState: { errorMsg: action.errorMessage },
   })),
-  // Add Product Option
+  // TODO: Product Option
   on(ProductActions.addProductOption, (state) => ({
     ...state,
     callState: LoadingState.LOADING,
@@ -108,6 +108,65 @@ export const productReducer = createReducer(
     };
   }),
   on(ProductActions.addProductOptionFailure, (state, action) => ({
+    ...state,
+    callState: { errorMsg: action.errorMessage },
+  })),
+  on(ProductActions.updateProductOption, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+  on(ProductActions.updateProductOptionSuccess, (state, action) => {
+    const newProductState = state.products.map((p) => {
+      if (p.id === action.product.id) {
+        const updateProduct = p.productOptions!.map((o) => {
+          if (o.order === action.updateOption.order) {
+            return action.updateOption;
+          }
+          return o;
+        });
+        return {
+          ...p,
+          productOptions: updateProduct,
+        };
+      }
+      return p;
+    });
+    return {
+      ...state,
+      products: newProductState,
+      callState: LoadingState.LOADED,
+    };
+  }),
+  on(ProductActions.updateProductOptionFailure, (state, action) => ({
+    ...state,
+    callState: { errorMsg: action.errorMessage },
+  })),
+  on(ProductActions.deleteProductOption, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+
+  on(ProductActions.deleteProductOptionSuccess, (state, action) => {
+    const newProductState = state.products.map((p) => {
+      if (p.id === action.product.id) {
+        const updateProduct = p.productOptions!.filter(
+          (o) => o.order !== action.deleteOption.order
+        );
+        return {
+          ...p,
+          productOptions: updateProduct,
+        };
+      }
+      return p;
+    });
+    return {
+      ...state,
+      products: newProductState,
+      callState: LoadingState.LOADED,
+    };
+  }),
+
+  on(ProductActions.deleteProductOptionFailure, (state, action) => ({
     ...state,
     callState: { errorMsg: action.errorMessage },
   }))

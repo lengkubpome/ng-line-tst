@@ -1,4 +1,3 @@
-import { take } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IProduct, IProductOption } from '../../models/product.model';
@@ -110,6 +109,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
         memberTypes: [o.memberTypes],
         addonPrice: [o.addonPrice],
         status: [o.status],
+        order: [o.order],
       });
       (productForm.get('productOptions') as FormArray).push(optionForm);
     });
@@ -210,53 +210,42 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     });
   }
 
-  openEditProductOptionDialog(
-    product: any,
-    productIndex: number,
-    optionIndex: number
-  ) {
+  openEditProductOptionDialog(product: IProduct, option: IProductOption) {
     const dialogRef = this.dialog.open(ProductOptionEditDialogComponent, {
-      data: { ...product, index: productIndex, optionIndex },
+      data: { product, selectOption: option },
       width: '450px',
       disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const productForm = this.form.get('products') as FormArray;
-        const productOptionForm = productForm.controls[productIndex].get(
-          'productOptions'
-        ) as FormArray;
-
-        productOptionForm.controls[optionIndex].setValue({
+        const updateOption: IProductOption = {
+          ...option,
           description: result.description,
           memberTypes: result.memberTypes,
           addonPrice: result.addonPrice,
           status: result.status,
-        });
+        };
+
+        this.store.dispatch(
+          ProductActions.updateProductOption({ product, updateOption })
+        );
       }
     });
   }
 
-  openDeleteProductOptionDialog(
-    product: any,
-    productIndex: number,
-    optionIndex: number
-  ) {
+  openDeleteProductOptionDialog(product: IProduct, option: IProductOption) {
     const dialogRef = this.dialog.open(ProductOptionDeleteDialogComponent, {
-      data: { ...product, index: productIndex, optionIndex },
+      data: { product, selectOption: option },
       width: '450px',
       disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const productSelect = this.form.get('products') as FormArray;
-        const optionSelect = productSelect.controls[productIndex].get(
-          'productOptions'
-        ) as FormArray;
-        optionSelect.removeAt(optionIndex);
-        this.table.renderRows();
+        this.store.dispatch(
+          ProductActions.deleteProductOption({ product, deleteOption: option })
+        );
       }
     });
   }

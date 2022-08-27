@@ -111,6 +111,26 @@ export class ProductEffects {
       })
     )
   );
+  updateProductOption$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.updateProductOption),
+      map((data) => {
+        // console.log(data.product);
+
+        return ProductActions.updateProductOptionSuccess(data);
+      })
+    )
+  );
+  deleteProductOption$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.deleteProductOption),
+      map((data) => {
+        // console.log(data.product);
+
+        return ProductActions.deleteProductOptionSuccess(data);
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

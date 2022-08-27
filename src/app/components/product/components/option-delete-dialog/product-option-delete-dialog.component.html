@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>ลบรายการของ <strong class="has-text-info"> {{ data.name }}</strong>
+<h2 mat-dialog-title>ลบรายการของ <strong class="has-text-info"> {{ data.product.name }}</strong>
 </h2>
 <mat-dialog-content class="mat-typography">
 
@@ -27,7 +27,7 @@
         </span>
         <span class="control">
           <a class="button is-static">
-            {{calculatePrice(productOption.addonPrice, data.price )}}
+            {{calculatePrice(productOption.addonPrice, data.product.price )}}
           </a>
         </span>
 
