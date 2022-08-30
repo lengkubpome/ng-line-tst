@@ -12,6 +12,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { ROOT_REDUCERS, metaReducers } from './app.reducer';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { MaterialsModule } from '@shared/ui/material';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +30,11 @@ import { MaterialsModule } from '@shared/ui/material';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot(),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

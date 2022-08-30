@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tst-db-663a8": {
+      "hosting": {
+        "ng-line-tst": [
+          "tst-db-663a8"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tst-db-663a8"
+  }
+}

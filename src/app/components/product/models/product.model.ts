@@ -10,7 +10,7 @@ export interface IProduct {
 }
 
 export interface IProductOption {
-  // product_id: string;
+  productId: string;
   memberTypes: string[];
   addonPrice: number;
   description: string;

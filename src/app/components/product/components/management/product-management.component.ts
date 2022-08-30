@@ -197,6 +197,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const option: IProductOption = {
+          productId: result.productId,
           description: result.description,
           memberTypes: result.memberTypes,
           addonPrice: result.addonPrice,
