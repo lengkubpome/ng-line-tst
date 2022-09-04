@@ -1,5 +1,5 @@
 import {
-  getProductsLoaded,
+  getProducts,
   getProductsLoading,
 } from './../../state/product.selectors';
 import { DatePipe } from '@angular/common';
@@ -38,7 +38,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.select(getProductsLoading);
 
     this.store
-      .select(getProductsLoaded)
+      .select(getProducts)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         // console.log(data);

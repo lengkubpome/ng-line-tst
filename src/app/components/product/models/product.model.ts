@@ -1,4 +1,5 @@
 export interface IProduct {
+  docId?: string;
   id: string;
   name: string;
   price: number;
@@ -10,12 +11,13 @@ export interface IProduct {
 }
 
 export interface IProductOption {
+  docId?: string;
   productId: string;
   memberTypes: string[];
   addonPrice: number;
   description: string;
   status: string;
-  order?: number;
+  order: number;
   // color?: {
   //   font: string;
   //   background: string;

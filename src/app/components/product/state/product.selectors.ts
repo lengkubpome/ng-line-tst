@@ -11,11 +11,16 @@ export const getProductsLoading = createSelector(
   (state) => state.callState === LoadingState.LOADING
 );
 
-export const getProductsLoaded = createSelector(
+export const getProductError = createSelector(getProductState, (state) =>
+  getError(state.callState)
+);
+
+export const getProducts = createSelector(
   getProductState,
   (state: fromProduct.ProductState) => state.products
 );
 
-export const getProductError = createSelector(getProductState, (state) =>
-  getError(state.callState)
+export const getProductOptions = createSelector(
+  getProductState,
+  (state: fromProduct.ProductState) => state.productOptions
 );

@@ -8,11 +8,13 @@ export const productFeatureKey = 'product';
 
 export interface ProductState {
   products: IProduct[];
+  productOptions: IProductOption[];
   callState: CallState;
 }
 
 const initialState: ProductState = {
   products: [],
+  productOptions: [],
   callState: LoadingState.INIT,
 };
 
@@ -27,7 +29,7 @@ export const productReducer = createReducer(
   on(ProductActions.loadProductsSuccess, (state, action) => ({
     ...state,
     products: action.products,
-    callState: LoadingState.LOADED,
+    // callState: LoadingState.LOADED,
   })),
   on(ProductActions.loadProductsFailure, (state, action) => ({
     ...state,
@@ -85,25 +87,27 @@ export const productReducer = createReducer(
     callState: { errorMsg: action.errorMessage },
   })),
   // TODO: Product Option
+  on(ProductActions.loadProductOptions, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+  on(ProductActions.loadProductOptionsSuccess, (state, action) => ({
+    ...state,
+    productOptions: action.productOptions,
+    callState: LoadingState.LOADED,
+  })),
+  on(ProductActions.loadProductOptionsFailure, (state, action) => ({
+    ...state,
+    callState: { errorMsg: action.errorMessage },
+  })),
+
   on(ProductActions.addProductOption, (state) => ({
     ...state,
     callState: LoadingState.LOADING,
   })),
   on(ProductActions.addProductOptionSuccess, (state, action) => {
-    const newProductState = state.products.map((p) => {
-      if (p.id === action.product.id) {
-        const order = p.productOptions ? p.productOptions.length + 1 : 1;
-        const newProductOption: IProductOption = { order, ...action.option };
-        return {
-          ...p,
-          productOptions: p.productOptions!.concat(newProductOption),
-        };
-      }
-      return p;
-    });
     return {
       ...state,
-      products: newProductState,
       callState: LoadingState.LOADED,
     };
   }),
@@ -116,24 +120,11 @@ export const productReducer = createReducer(
     callState: LoadingState.LOADING,
   })),
   on(ProductActions.updateProductOptionSuccess, (state, action) => {
-    const newProductState = state.products.map((p) => {
-      if (p.id === action.product.id) {
-        const updateProduct = p.productOptions!.map((o) => {
-          if (o.order === action.updateOption.order) {
-            return action.updateOption;
-          }
-          return o;
-        });
-        return {
-          ...p,
-          productOptions: updateProduct,
-        };
-      }
-      return p;
-    });
+    // const newProductOptionState = state.productOptions.map((p) =>
+    //   p.docId === action.updateOption.docId ? action.updateOption : p
+    // );
     return {
       ...state,
-      products: newProductState,
       callState: LoadingState.LOADED,
     };
   }),
@@ -147,26 +138,55 @@ export const productReducer = createReducer(
   })),
 
   on(ProductActions.deleteProductOptionSuccess, (state, action) => {
-    const newProductState = state.products.map((p) => {
-      if (p.id === action.product.id) {
-        const updateProduct = p.productOptions!.filter(
-          (o) => o.order !== action.deleteOption.order
-        );
-        return {
-          ...p,
-          productOptions: updateProduct,
-        };
-      }
-      return p;
-    });
+    // const options = state.productOptions.filter(
+    //   (o) => (o.productId = action.deleteOption.productId)
+    // );
+    // // options.sort((a, b) => a.order - b.order);
+
+    // let newOptions = [];
+    // for (let i = 0; i < options.length; i++) {
+    //   if (options[i].order !== i + 1) {
+    //     options[i].order = i++;
+    //   }
+    //   newOptions.push(options[i]);
+    // }
+
+    // console.log(newOptions);
+
+    // const newProductOptionsState = state.productOptions.forEach((p) => {
+    //   if (p.productId === action.deleteOption.productId) {
+    //     const updateProduct = p.productOptions!.filter(
+    //       (o) => o.order !== action.deleteOption.order
+    //     );
+    //     return {
+    //       ...p,
+    //       productOptions: updateProduct,
+    //     };
+    //   }
+    //   return p;
+    // });
     return {
       ...state,
-      products: newProductState,
       callState: LoadingState.LOADED,
     };
   }),
 
   on(ProductActions.deleteProductOptionFailure, (state, action) => ({
+    ...state,
+    callState: { errorMsg: action.errorMessage },
+  })),
+
+  on(ProductActions.swapProductOption, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+  on(ProductActions.swapProductOptionSuccess, (state, action) => {
+    return {
+      ...state,
+      callState: LoadingState.LOADED,
+    };
+  }),
+  on(ProductActions.swapProductOptionFailure, (state, action) => ({
     ...state,
     callState: { errorMsg: action.errorMessage },
   }))

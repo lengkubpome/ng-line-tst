@@ -8,7 +8,7 @@ import {
   AngularFirestoreCollection,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
-import { from, Observable, of } from 'rxjs';
+import { from, Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +18,14 @@ export class ProductService {
   productOptionRef: AngularFirestoreCollection<IProductOption>;
 
   constructor(private http: HttpClient, private afs: AngularFirestore) {
-    this.productRef = afs.collection('/products');
-    this.productOptionRef = afs.collection('/productOptions');
+    this.productRef = afs.collection('/products', (ref) =>
+      ref.orderBy('id', 'asc')
+    );
+    this.productOptionRef = afs.collection('/productOptions', (ref) =>
+      ref.orderBy('order', 'asc')
+    );
   }
-
-  // getProducts(): Observable<IProduct[]> {
-  // 	return this.http.get<IProduct[]>('assets/data/product-dummy.json');
-  // }
-
-  getProducts2(): Observable<IProduct[]> {
+  getProducts(): Observable<IProduct[]> {
     return this.productRef.valueChanges().pipe(
       catchError((error) => {
         console.error(
@@ -38,8 +37,8 @@ export class ProductService {
     );
   }
 
-  getProductOptions2(): Observable<IProductOption[]> {
-    return this.productOptionRef.valueChanges().pipe(
+  getProductOptions(): Observable<IProductOption[]> {
+    return this.productOptionRef.valueChanges({ idField: 'docId' }).pipe(
       catchError((error) => {
         console.error(
           `%cProductService => getProductOptions ${error}`,
@@ -52,11 +51,7 @@ export class ProductService {
 
   addProductOption(option: IProductOption): Observable<IProductOption> {
     console.log('Add Product Option');
-    // this.productOptionRef.add(option);
     return from(this.productOptionRef.add(option)).pipe(
-      switchMap((docRef) => {
-        return this.productOptionRef.valueChanges();
-      }),
       catchError((error) => {
         console.error(
           `%cProductService => addProductOptions ${error}`,
@@ -67,20 +62,55 @@ export class ProductService {
     );
   }
 
-  getProducts() {
+  updateProductOption(option: IProductOption): Observable<IProductOption> {
+    console.log('Update Product Option');
+    const docId = option.docId;
+    let updateOption = { ...option };
+    delete updateOption.docId;
+
+    return from(this.productOptionRef.doc(docId).update(updateOption)).pipe(
+      // map(() => {
+      //   return this.productOptionRef.valueChanges();
+      // }),
+      catchError((error) => {
+        console.error(
+          `%cProductService => update ${error}`,
+          'color:white; background:red; font-size:20px'
+        );
+        return of(error);
+      })
+    );
+  }
+
+  deleteProductOption(delOption: IProductOption): Observable<any> {
+    console.log('Delete Product Option');
+
+    const docId = delOption.docId;
+    return from(this.productOptionRef.doc(docId).delete()).pipe(
+      catchError((error) => {
+        console.error(
+          `%cProductService => addProductOptions ${error}`,
+          'color:white; background:red; font-size:20px'
+        );
+        return of(error);
+      })
+    );
+  }
+
+  getProductsX() {
     const apiUrl =
       'https://script.google.com/macros/s/AKfycbxmAFfURqZHjLlCicjDvxQYX4L9Vvzmu_RnDkw6LhKO1yD7W166PQYHjksBODxXsby_/exec?action=selects&sheet_name=products';
     return this.http.get<any[]>(apiUrl);
   }
 
-  getProductById(productId: string) {
+  getProductByIdX(productId: string) {
     const apiUrl =
       'https://script.google.com/macros/s/AKfycbxmAFfURqZHjLlCicjDvxQYX4L9Vvzmu_RnDkw6LhKO1yD7W166PQYHjksBODxXsby_/exec?action=select&sheet_name=member&line_id=' +
       productId;
     return this.http.get<any>(apiUrl);
   }
 
-  getProductOptions() {
+  getProductOptionsX() {
     const apiUrl =
       'https://script.google.com/macros/s/AKfycbxmAFfURqZHjLlCicjDvxQYX4L9Vvzmu_RnDkw6LhKO1yD7W166PQYHjksBODxXsby_/exec?action=selects&sheet_name=product_options';
     return this.http.get<any>(apiUrl);

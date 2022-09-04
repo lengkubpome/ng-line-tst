@@ -58,14 +58,28 @@ export const deleteProductFailure = createAction(
 );
 
 // Product Option
+
+export const loadProductOptions = createAction(
+  '[Product] Load Product Options'
+);
+
+export const loadProductOptionsSuccess = createAction(
+  '[Product] Load Product Options Success',
+  props<{ productOptions: IProductOption[] }>()
+);
+
+export const loadProductOptionsFailure = createAction(
+  '[Product] Load Product Options Failure',
+  props<{ errorMessage: string }>()
+);
+
 export const addProductOption = createAction(
   '[Product] Add Product Option',
-  props<{ product: IProduct; option: IProductOption }>()
+  props<{ option: IProductOption }>()
 );
 
 export const addProductOptionSuccess = createAction(
-  '[Product] Add Product Option Success',
-  props<{ product: IProduct; option: IProductOption }>()
+  '[Product] Add Product Option Success'
 );
 
 export const addProductOptionFailure = createAction(
@@ -75,11 +89,10 @@ export const addProductOptionFailure = createAction(
 
 export const updateProductOption = createAction(
   '[Product] Update Product Option',
-  props<{ product: IProduct; updateOption: IProductOption }>()
+  props<{ updateOption: IProductOption }>()
 );
 export const updateProductOptionSuccess = createAction(
-  '[Product] Update Product Option Success',
-  props<{ product: IProduct; updateOption: IProductOption }>()
+  '[Product] Update Product Option Success'
 );
 export const updateProductOptionFailure = createAction(
   '[Product] Update Product Option Failure',
@@ -88,15 +101,33 @@ export const updateProductOptionFailure = createAction(
 
 export const deleteProductOption = createAction(
   '[Product] Delete Product Option',
-  props<{ product: IProduct; deleteOption: IProductOption }>()
+  props<{
+    deleteOption: IProductOption;
+  }>()
 );
 
 export const deleteProductOptionSuccess = createAction(
   '[Product] Delete Product Option Success',
-  props<{ product: IProduct; deleteOption: IProductOption }>()
+  props<{ deleteOption: IProductOption }>()
 );
 
 export const deleteProductOptionFailure = createAction(
   '[Product] Delete Product Option Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const swapProductOption = createAction(
+  '[Product] Swap Product Option',
+  props<{
+    option1: IProductOption;
+    option2: IProductOption;
+  }>()
+);
+
+export const swapProductOptionSuccess = createAction(
+  '[Product] Swap Product Option Success'
+);
+export const swapProductOptionFailure = createAction(
+  '[Product] Swap Product Option Failure',
   props<{ errorMessage: string }>()
 );

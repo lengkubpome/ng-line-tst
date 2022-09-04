@@ -24,8 +24,9 @@
               <div class="price-list">
                 <span>{{ element.get('name').value}}</span>
 
-                <ng-container *ngFor="let option of element.get('productOptions').value">
-                  <div>
+                <!-- <ng-container *ngFor="let option of element.get('productOptions').value"> -->
+                <ng-container *ngFor="let option of productOptions">
+                  <div *ngIf="option.productId === element.get('id').value">
                     <span class="is-size-7 has-text-info has-background-warning"
                       [ngStyle]="{'text-decoration':option.status !== 'active'? 'line-through':null}">
                       {{ option.description }}
@@ -45,8 +46,10 @@
                 <input formControlName="price" class="input is-small" type="text"
                   placeholder="Price">
 
-                <ng-container *ngFor="let option of element.get('productOptions').value">
-                  <div>
+                <!-- <ng-container *ngFor="let option of element.get('productOptions').value">
+                  <div> -->
+                <ng-container *ngFor="let option of productOptions">
+                  <div *ngIf="option.productId === element.get('id').value">
                     <span class="is-size-7 has-text-info has-background-warning"
                       [ngStyle]="{'text-decoration':option.status !== 'active'? 'line-through':null}">
                       {{  calculatePrice(element.get('price').value, option.addonPrice) }}
@@ -95,22 +98,35 @@
                 </mat-menu>
               </div>
 
-              <ng-container formArrayName="productOptions"
+              <!-- <ng-container formArrayName="productOptions"
                 *ngFor="let option of element.get('productOptions')['controls']; let j =index">
-                <div class="products-menu" [formGroupName]="j">
+                <div class="products-menu" [formGroupName]="j"> -->
+              <ng-container *ngFor="let option of productOptions; let j =index">
+                <div class="products-menu" *ngIf="option.productId === element.get('id').value">
                   <button type="button" mat-icon-button [matMenuTriggerFor]="optionMenu">
                     <mat-icon class="edit-icon2">edit</mat-icon>
                   </button>
 
                   <mat-menu #optionMenu="matMenu">
                     <button mat-menu-item
-                      (click)="openEditProductOptionDialog(element.value,option.value)">
+                      (click)="openEditProductOptionDialog(element.value,option)">
                       <mat-icon>edit</mat-icon>
                       <span>แก้ไข</span>
                     </button>
                     <mat-divider></mat-divider>
+                    <button mat-menu-item [disabled]="checkProductOptionOrder(option)=='first'"
+                      (click)="upOrderProductOption(option)">
+                      <mat-icon>vertical_align_top</mat-icon>
+                      <span>เลื่อนขึ้น</span>
+                    </button>
+                    <button mat-menu-item [disabled]="checkProductOptionOrder(option)=='last'"
+                      (click)="downOrderProductOption(option)">
+                      <mat-icon>vertical_align_bottom</mat-icon>
+                      <span>เลื่อนลง</span>
+                    </button>
+                    <mat-divider></mat-divider>
                     <button mat-menu-item
-                      (click)="openDeleteProductOptionDialog(element.value,option.value)">
+                      (click)="openDeleteProductOptionDialog(element.value,option)">
                       <mat-icon>delete</mat-icon>
                       <span>ลบ</span>
                     </button>

@@ -1,3 +1,4 @@
+import { getProductOptions } from './../../state/product.selectors';
 import { BehaviorSubject, Observable, of, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IProduct, IProductOption } from '../../models/product.model';
@@ -6,7 +7,7 @@ import { ProductEditDiaglogComponent } from '../edit-dialog/product-edit-diaglog
 import { ProductState } from '../../state/product.reducer';
 import { Store } from '@ngrx/store';
 import {
-  getProductsLoaded,
+  getProducts,
   getProductsLoading,
   getProductError,
 } from '../../state/product.selectors';
@@ -53,7 +54,9 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     return this.form.get('products') as FormArray;
   }
 
-  ngOnDestroy() {
+  productOptions: IProductOption[] = [];
+
+  ngOnDestroy(): void {
     // Unsubscribe from all subscriptions
     this.destroy$.next;
     this.destroy$.complete();
@@ -63,16 +66,20 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     this.setupForm();
 
     this.isLoading$ = this.store.select(getProductsLoading);
+    this.store
+      .select(getProductOptions)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => (this.productOptions = res));
 
     this.store
-      .select(getProductsLoaded)
+      .select(getProducts)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe((res) => {
+        // console.log(data);
 
         this.emptyTable();
-        if (data !== null) {
-          data.forEach((d: IProduct) => {
+        if (res !== null) {
+          res.forEach((d: IProduct) => {
             this.products.push(this.createProductForm(d));
             this.dataSource.next(this.products.controls);
           });
@@ -98,20 +105,6 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
       name: [product.name],
       price: [product.price],
       status: [product.status],
-      productOptions: this.fb.array([]),
-    });
-
-    // Add Product Options
-    const options = product.productOptions;
-    options?.forEach((o: IProductOption) => {
-      const optionForm = this.fb.group({
-        description: [o.description],
-        memberTypes: [o.memberTypes],
-        addonPrice: [o.addonPrice],
-        status: [o.status],
-        order: [o.order],
-      });
-      (productForm.get('productOptions') as FormArray).push(optionForm);
     });
 
     return productForm;
@@ -121,9 +114,62 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     console.log(this.form.value);
   }
 
-  calculatePrice(n1: string, n2: string): number {
+  calculatePrice(n1: string, n2: any): number {
     const sum = parseFloat(n1) + parseFloat(n2);
     return isNaN(sum) ? parseFloat(n2) : sum;
+  }
+
+  checkProductOptionOrder(option: IProductOption): string {
+    let options = this.productOptions.filter(
+      (o) => o.productId === option.productId
+    );
+    if (option.order === Math.max(...options.map((o) => o.order))) {
+      return 'last';
+    } else if (option.order === Math.min(...options.map((o) => o.order))) {
+      return 'first';
+    }
+    return '';
+  }
+
+  upOrderProductOption(option: IProductOption) {
+    let options = this.productOptions.filter(
+      (o) => o.productId === option.productId
+    );
+    let index = options.findIndex((o) => o.order === option.order);
+    const option1: IProductOption = {
+      ...options[index],
+      order: options[index - 1].order,
+    };
+    const option2: IProductOption = {
+      ...options[index - 1],
+      order: options[index].order,
+    };
+    this.store.dispatch(
+      ProductActions.swapProductOption({
+        option1,
+        option2,
+      })
+    );
+  }
+  downOrderProductOption(option: IProductOption) {
+    let options = this.productOptions.filter(
+      (o) => o.productId === option.productId
+    );
+    let index = options.findIndex((o) => o.order === option.order);
+    const option1: IProductOption = {
+      ...options[index],
+      order: options[index + 1].order,
+    };
+    const option2: IProductOption = {
+      ...options[index + 1],
+      order: options[index].order,
+    };
+    this.store.dispatch(
+      ProductActions.swapProductOption({
+        option1,
+        option2,
+      })
+    );
   }
 
   openAddProductDialog() {
@@ -139,7 +185,6 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
           name: result.name,
           price: result.price,
           status: 'active',
-          productOptions: [],
         };
 
         this.store.dispatch(ProductActions.addProduct({ product }));
@@ -187,26 +232,30 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     });
   }
 
-  openAddProductOptionDialog(product: any) {
+  openAddProductOptionDialog(product: IProduct) {
     const dialogRef = this.dialog.open(ProductOptionAddDialogComponent, {
       data: { ...product },
       width: '450px',
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        let options = this.productOptions.filter(
+          (o) => o.productId === product.id
+        );
+        const newOrder = Math.max(...options.map((o) => o.order));
+
         const option: IProductOption = {
-          productId: result.productId,
-          description: result.description,
-          memberTypes: result.memberTypes,
-          addonPrice: result.addonPrice,
-          status: result.status,
+          order: newOrder + 1,
+          productId: product.id,
+          description: res.description,
+          memberTypes: res.memberTypes,
+          addonPrice: res.addonPrice,
+          status: res.status,
         };
 
-        this.store.dispatch(
-          ProductActions.addProductOption({ product, option })
-        );
+        this.store.dispatch(ProductActions.addProductOption({ option }));
       }
     });
   }
@@ -229,7 +278,9 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
         };
 
         this.store.dispatch(
-          ProductActions.updateProductOption({ product, updateOption })
+          ProductActions.updateProductOption({
+            updateOption,
+          })
         );
       }
     });
@@ -242,10 +293,12 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
         this.store.dispatch(
-          ProductActions.deleteProductOption({ product, deleteOption: option })
+          ProductActions.deleteProductOption({
+            deleteOption: option,
+          })
         );
       }
     });
