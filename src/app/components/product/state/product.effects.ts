@@ -106,21 +106,31 @@ export class ProductEffects {
   addProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.addProduct),
-      map((data) => {
-        // console.log(data.product);
-
-        return ProductActions.addProductSuccess(data);
-      })
+      switchMap((data) =>
+        this.productService.addProduct(data.product).pipe(
+          map((option) => {
+            return ProductActions.addProductSuccess();
+          }),
+          catchError((errorMessage) => {
+            return of(ProductActions.addProductFailure({ errorMessage }));
+          })
+        )
+      )
     )
   );
 
   updateProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.updateProduct),
-      map((data) => {
-        return ProductActions.updateProductSuccess({
-          updateProduct: data.updateProduct,
-        });
+      switchMap((data) => {
+        return this.productService.updateProduct(data.updateProduct).pipe(
+          map(() => {
+            return ProductActions.updateProductSuccess();
+          }),
+          catchError((errorMessage) => {
+            return of(ProductActions.updateProductFailure({ errorMessage }));
+          })
+        );
       })
     )
   );
@@ -128,31 +138,18 @@ export class ProductEffects {
   deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.deleteProduct),
-      map((data) => {
-        return ProductActions.deleteProductSuccess({
-          id: data.id,
-        });
+      switchMap((data) => {
+        return this.productService.deleteProduct(data.product).pipe(
+          map(() => {
+            return ProductActions.deleteProductSuccess();
+          }),
+          catchError((errorMessage) => {
+            return of(ProductActions.deleteProductFailure({ errorMessage }));
+          })
+        );
       })
     )
   );
-
-  // loadProductOptions$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(ProductActions.loadProductOptions),
-  //     switchMap(() =>
-  //       this.productService.getProductOptions2().pipe(
-  //         map((options) => {
-  //           return ProductActions.loadProductOptionsSuccess({
-  //             productOptions: options,
-  //           });
-  //         }),
-  //         catchError((errResp) => {
-  //           return EMPTY;
-  //         })
-  //       )
-  //     )
-  //   )
-  // );
 
   addProductOption$ = createEffect(() =>
     this.actions$.pipe(
@@ -192,49 +189,34 @@ export class ProductEffects {
   deleteProductOption$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.deleteProductOption),
-      switchMap((data) =>
-        this.productService.deleteProductOption(data.deleteOption).pipe(
-          map((option) => {
-            return ProductActions.deleteProductOptionSuccess({
+      switchMap((data) => {
+        return this.productService.deleteProductOption(data.deleteOption).pipe(
+          map((option) =>
+            ProductActions.deleteProductOptionSuccess({
               deleteOption: option,
-            });
-          }),
-          catchError((errorMessage) => {
-            return of(
-              ProductActions.deleteProductOptionFailure({ errorMessage })
-            );
-          })
-        )
-      )
+            })
+          ),
+          catchError((errorMessage) =>
+            of(ProductActions.deleteProductOptionFailure({ errorMessage }))
+          )
+        );
+      })
     )
   );
 
   swapProductOption$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.swapProductOption),
-      map((data) => {
-        ProductActions.updateProductOption({
-          updateOption: data.option1,
-        });
-        return data;
-      }),
-      map((data) => {
-        return ProductActions.updateProductOption({
-          updateOption: data.option2,
-        });
-      })
-      // switchMap((data) =>
-      //   this.productService.deleteProductOption(data.deleteOption).pipe(
-      //     map((option) => {
-      //       return ProductActions.swapProductOptionSuccess();
-      //     }),
-      //     catchError((errorMessage) => {
-      //       return of(
-      //         ProductActions.swapProductOptionFailure({ errorMessage })
-      //       );
-      //     })
-      //   )
-      // )
+      switchMap((data) =>
+        this.productService
+          .swapOrderProductOption(data.option1, data.option2)
+          .pipe(
+            map(() => ProductActions.swapProductOptionSuccess()),
+            catchError((errorMessage) =>
+              of(ProductActions.swapProductOptionFailure({ errorMessage }))
+            )
+          )
+      )
     )
   );
 

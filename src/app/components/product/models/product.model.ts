@@ -6,8 +6,8 @@ export interface IProduct {
   priceChange?: number;
   changeDate?: Date;
   status: string;
-  order?: number;
-  productOptions?: IProductOption[];
+  // order?: number;
+  // productOptions?: IProductOption[];
 }
 
 export interface IProductOption {

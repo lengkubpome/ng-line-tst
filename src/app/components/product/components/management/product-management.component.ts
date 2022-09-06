@@ -50,10 +50,11 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     public dialog: MatDialog
   ) {}
 
-  get products(): FormArray {
+  get formProduct(): FormArray {
     return this.form.get('products') as FormArray;
   }
 
+  products: IProduct[] = [];
   productOptions: IProductOption[] = [];
 
   ngOnDestroy(): void {
@@ -75,13 +76,12 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
       .select(getProducts)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
-        // console.log(data);
-
         this.emptyTable();
         if (res !== null) {
+          this.products = res;
           res.forEach((d: IProduct) => {
-            this.products.push(this.createProductForm(d));
-            this.dataSource.next(this.products.controls);
+            this.formProduct.push(this.createProductForm(d));
+            this.dataSource.next(this.formProduct.controls);
           });
         }
       });
@@ -94,8 +94,8 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   }
 
   emptyTable() {
-    while (this.products.length !== 0) {
-      this.products.removeAt(0);
+    while (this.formProduct.length !== 0) {
+      this.formProduct.removeAt(0);
     }
   }
 
@@ -192,22 +192,17 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     });
   }
 
-  openEditProductDialog(product: IProduct, index: number) {
+  openEditProductDialog(product: IProduct) {
     const dialogRef = this.dialog.open(ProductEditDiaglogComponent, {
       data: { ...product },
       width: '450px',
       disableClose: true,
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.products.controls[index].get('id')?.setValue(product.id);
-        this.products.controls[index].get('name')?.setValue(result.name);
-        this.products.controls[index].get('price')?.setValue(result.price);
-        this.products.controls[index].get('status')?.setValue(result.status);
-
+        const _product = this.products.find((p) => p.id === product.id);
         const updateProduct: IProduct = {
-          ...product,
+          ..._product!,
           name: result.name,
           price: result.price,
           status: result.status,
@@ -218,7 +213,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     });
   }
 
-  openDeleteProductDialog(product: IProduct, index: number) {
+  openDeleteProductDialog(product: IProduct) {
     const dialogRef = this.dialog.open(ProductDeleteDialogComponent, {
       data: { ...product },
       width: '450px',
@@ -227,7 +222,10 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.store.dispatch(ProductActions.deleteProduct({ id: result.id }));
+        const _product = this.products.find((p) => p.id === product.id);
+        this.store.dispatch(
+          ProductActions.deleteProduct({ product: _product! })
+        );
       }
     });
   }

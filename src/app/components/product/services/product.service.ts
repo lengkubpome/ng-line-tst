@@ -26,7 +26,7 @@ export class ProductService {
     );
   }
   getProducts(): Observable<IProduct[]> {
-    return this.productRef.valueChanges().pipe(
+    return this.productRef.valueChanges({ idField: 'docId' }).pipe(
       catchError((error) => {
         console.error(
           `%cProductService => getProducts ${error}`,
@@ -42,6 +42,51 @@ export class ProductService {
       catchError((error) => {
         console.error(
           `%cProductService => getProductOptions ${error}`,
+          'color:white; background:red; font-size:20px'
+        );
+        return of(error);
+      })
+    );
+  }
+
+  addProduct(product: IProduct): Observable<IProduct> {
+    console.log('Add Product');
+    return from(this.productRef.add(product)).pipe(
+      catchError((error) => {
+        console.error(
+          `%cProductService => addProductOptions ${error}`,
+          'color:white; background:red; font-size:20px'
+        );
+        return of(error);
+      })
+    );
+  }
+
+  updateProduct(product: IProduct): Observable<IProduct> {
+    console.log('Update Product');
+    const docId = product.docId;
+    let updateProduct = { ...product };
+    delete updateProduct.docId;
+
+    return from(this.productRef.doc(docId).update(updateProduct)).pipe(
+      catchError((error) => {
+        console.error(
+          `%cProductService => updateProduct ${error}`,
+          'color:white; background:red; font-size:20px'
+        );
+        return of(error);
+      })
+    );
+  }
+
+  deleteProduct(delProduct: IProduct): Observable<any> {
+    console.log('Delete Product');
+
+    const docId = delProduct.docId;
+    return from(this.productRef.doc(docId).delete()).pipe(
+      catchError((error) => {
+        console.error(
+          `%cProductService => deleteProduct ${error}`,
           'color:white; background:red; font-size:20px'
         );
         return of(error);
@@ -75,6 +120,30 @@ export class ProductService {
       catchError((error) => {
         console.error(
           `%cProductService => update ${error}`,
+          'color:white; background:red; font-size:20px'
+        );
+        return of(error);
+      })
+    );
+  }
+  swapOrderProductOption(
+    option1: IProductOption,
+    option2: IProductOption
+  ): Observable<any> {
+    console.log('Swap Product Option');
+    const docId1 = option1.docId;
+    let updateOption1 = { ...option1 };
+    delete updateOption1.docId;
+
+    const docId2 = option2.docId;
+    let updateOption2 = { ...option2 };
+    delete updateOption2.docId;
+
+    return from(this.productOptionRef.doc(docId1).update(updateOption1)).pipe(
+      switchMap(() => this.productOptionRef.doc(docId2).update(updateOption2)),
+      catchError((error) => {
+        console.error(
+          `%cProductService => swap ${error}`,
           'color:white; background:red; font-size:20px'
         );
         return of(error);

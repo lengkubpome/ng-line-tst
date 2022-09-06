@@ -20,8 +20,8 @@ export const addProduct = createAction(
 );
 
 export const addProductSuccess = createAction(
-  '[Product] Add Product Success',
-  props<{ product: IProduct }>()
+  '[Product] Add Product Success'
+  // props<{ product: IProduct }>()
 );
 
 export const addProductFailure = createAction(
@@ -34,8 +34,8 @@ export const updateProduct = createAction(
   props<{ updateProduct: IProduct }>()
 );
 export const updateProductSuccess = createAction(
-  '[Product] Update Product Success',
-  props<{ updateProduct: IProduct }>()
+  '[Product] Update Product Success'
+  // props<{ updateProduct: IProduct }>()
 );
 export const updateProductFailure = createAction(
   '[Product] Update Product Failure',
@@ -44,12 +44,11 @@ export const updateProductFailure = createAction(
 
 export const deleteProduct = createAction(
   '[Product] Delete Product',
-  props<{ id: string }>()
+  props<{ product: IProduct }>()
 );
 
 export const deleteProductSuccess = createAction(
-  '[Product] Delete Product Success',
-  props<{ id: string }>()
+  '[Product] Delete Product Success'
 );
 
 export const deleteProductFailure = createAction(

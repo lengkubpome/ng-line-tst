@@ -82,7 +82,7 @@
                 </button>
 
                 <mat-menu #productMenu="matMenu">
-                  <button mat-menu-item (click)="openEditProductDialog(element.value,i)">
+                  <button mat-menu-item (click)="openEditProductDialog(element.value)">
                     <mat-icon>edit</mat-icon>
                     <span>แก้ไข</span>
                   </button>
@@ -91,7 +91,7 @@
                     <span>เพิ่มรายการย่อย</span>
                   </button>
                   <mat-divider></mat-divider>
-                  <button mat-menu-item (click)="openDeleteProductDialog(element.value,i)">
+                  <button mat-menu-item (click)="openDeleteProductDialog(element.value)">
                     <mat-icon>delete</mat-icon>
                     <span>ลบ</span>
                   </button>

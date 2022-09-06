@@ -43,7 +43,7 @@ export const productReducer = createReducer(
   })),
   on(ProductActions.addProductSuccess, (state, action) => ({
     ...state,
-    products: [...state.products, action.product],
+    // products: [...state.products, action.product],
     callState: LoadingState.LOADED,
   })),
   on(ProductActions.addProductFailure, (state, action) => ({
@@ -56,12 +56,8 @@ export const productReducer = createReducer(
     callState: LoadingState.LOADING,
   })),
   on(ProductActions.updateProductSuccess, (state, action) => {
-    const newProductState = state.products.map((p) =>
-      p.id === action.updateProduct.id ? action.updateProduct : p
-    );
     return {
       ...state,
-      products: newProductState,
       callState: LoadingState.LOADED,
     };
   }),
@@ -75,10 +71,8 @@ export const productReducer = createReducer(
     callState: LoadingState.LOADING,
   })),
   on(ProductActions.deleteProductSuccess, (state, action) => {
-    let newProductState = state.products.filter((p) => p.id !== action.id);
     return {
       ...state,
-      products: newProductState,
       callState: LoadingState.LOADED,
     };
   }),
@@ -120,9 +114,6 @@ export const productReducer = createReducer(
     callState: LoadingState.LOADING,
   })),
   on(ProductActions.updateProductOptionSuccess, (state, action) => {
-    // const newProductOptionState = state.productOptions.map((p) =>
-    //   p.docId === action.updateOption.docId ? action.updateOption : p
-    // );
     return {
       ...state,
       callState: LoadingState.LOADED,
@@ -137,34 +128,7 @@ export const productReducer = createReducer(
     callState: LoadingState.LOADING,
   })),
 
-  on(ProductActions.deleteProductOptionSuccess, (state, action) => {
-    // const options = state.productOptions.filter(
-    //   (o) => (o.productId = action.deleteOption.productId)
-    // );
-    // // options.sort((a, b) => a.order - b.order);
-
-    // let newOptions = [];
-    // for (let i = 0; i < options.length; i++) {
-    //   if (options[i].order !== i + 1) {
-    //     options[i].order = i++;
-    //   }
-    //   newOptions.push(options[i]);
-    // }
-
-    // console.log(newOptions);
-
-    // const newProductOptionsState = state.productOptions.forEach((p) => {
-    //   if (p.productId === action.deleteOption.productId) {
-    //     const updateProduct = p.productOptions!.filter(
-    //       (o) => o.order !== action.deleteOption.order
-    //     );
-    //     return {
-    //       ...p,
-    //       productOptions: updateProduct,
-    //     };
-    //   }
-    //   return p;
-    // });
+  on(ProductActions.deleteProductOptionSuccess, (state) => {
     return {
       ...state,
       callState: LoadingState.LOADED,
