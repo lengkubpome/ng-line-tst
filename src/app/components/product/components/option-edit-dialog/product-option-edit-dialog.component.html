@@ -32,7 +32,7 @@
           </span>
           <span class="control">
             <a class="button is-static">
-              {{calculatePrice(data.product.price.toString(), form.get('addonPrice')?.value )}}
+              {{calculatePrice(data.product.price.toString(), form.get('addonPrice')?.value ) | number:'1.2'}}
             </a>
           </span>
 

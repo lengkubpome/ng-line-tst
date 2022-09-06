@@ -32,17 +32,19 @@ import * as ProductActions from '../../state/product.actions';
   styleUrls: ['./product-management.component.scss'],
 })
 export class ProductManagementComponent implements OnInit, OnDestroy {
-  isLoading$: Observable<boolean> = of(false);
-  memberType = 'gold';
-
-  form: FormGroup = new FormGroup({});
-
+  private destroy$: Subject<any> = new Subject();
   // Mat-Table
   @ViewChild(MatTable) table!: MatTable<any>;
   dataSource = new BehaviorSubject<AbstractControl[]>([]);
   displayedColumns: string[] = ['product', 'price_change', 'action'];
 
-  private destroy$: Subject<any> = new Subject();
+  isLoading$: Observable<boolean> = of(false);
+  memberType = 'gold';
+
+  form: FormGroup = new FormGroup({});
+
+  products: IProduct[] = [];
+  productOptions: IProductOption[] = [];
 
   constructor(
     private store: Store<ProductState>,
@@ -53,9 +55,6 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   get formProduct(): FormArray {
     return this.form.get('products') as FormArray;
   }
-
-  products: IProduct[] = [];
-  productOptions: IProductOption[] = [];
 
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions

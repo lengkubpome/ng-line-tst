@@ -1,9 +1,10 @@
 import {
   getProducts,
+  getProductOptions,
   getProductsLoading,
 } from './../../state/product.selectors';
 import { DatePipe } from '@angular/common';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, of, BehaviorSubject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   IProduct,
@@ -20,7 +21,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-view.component.scss'],
 })
 export class ProductViewComponent implements OnInit, OnDestroy {
-  products$?: Observable<IProduct[]>;
+  products$: Observable<IProduct[]> = of([]);
+  productOptions$: Observable<IProductOption[]> = of([]);
   isLoading$?: Observable<boolean>;
 
   time = this.datepipe.transform(new Date(), 'hh:mm น.  dd/MM/yyyy');
@@ -36,6 +38,8 @@ export class ProductViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(getProductsLoading);
+    this.products$ = this.store.select(getProducts);
+    this.productOptions$ = this.store.select(getProductOptions);
 
     this.store
       .select(getProducts)

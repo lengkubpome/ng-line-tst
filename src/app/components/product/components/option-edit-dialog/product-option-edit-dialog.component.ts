@@ -82,6 +82,7 @@ export class ProductOptionEditDialogComponent implements OnInit {
         i++;
       });
     }
+    this.form.markAsDirty();
   }
 
   calculatePrice(n1: string, n2: string): number {
