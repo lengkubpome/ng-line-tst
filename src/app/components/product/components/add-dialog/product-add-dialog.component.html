@@ -11,9 +11,13 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <input formControlName="id" class="input" type="text" placeholder="รหัสสินค้า">
+            <input formControlName="id" class="input uppercase" type="text"
+              placeholder="รหัสสินค้า">
           </div>
-          <p class="help is-danger" *ngIf="form.get('id')?.invalid">กรุณาใส่รหัสสินค้า</p>
+          <p class="help is-danger"
+            *ngIf="form.get('id')?.invalid && form.get('id')?.touched && !form.get('id')?.getError('duplicate')">
+            กรุณาใส่รหัสสินค้า</p>
+          <p class="help is-danger" *ngIf="form.get('id')?.getError('duplicate')">รหัสสินค้าซ้ำ</p>
         </div>
       </div>
     </div>
@@ -27,7 +31,8 @@
           <div class="control">
             <input formControlName="name" class="input" type="text" placeholder="ชื่อสินค้า">
           </div>
-          <p class="help is-danger" *ngIf="form.get('name')?.invalid">กรุณาใส่ชื่อสินค้า</p>
+          <p class="help is-danger" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+            กรุณาใส่ชื่อสินค้า</p>
         </div>
       </div>
     </div>
@@ -41,7 +46,9 @@
           <div class="control">
             <input formControlName="price" class="input" type="number" placeholder="ราคา">
           </div>
-          <p class="help is-danger" *ngIf="form.get('price')?.invalid">กรุณาใส่ราคาให้ถูกต้อง</p>
+          <p class="help is-danger"
+            *ngIf="form.get('price')?.invalid && form.get('price')?.touched">
+            กรุณาใส่ราคาให้ถูกต้อง</p>
         </div>
       </div>
     </div>

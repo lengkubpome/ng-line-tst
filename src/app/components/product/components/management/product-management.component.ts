@@ -110,7 +110,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   }
 
   onCheck() {
-    console.log(this.form.value);
+    let changeProducts = this.form.get('products')?.value;
   }
 
   calculatePrice(n1: string, n2: any): number {
@@ -180,7 +180,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const product: IProduct = {
-          id: result.id,
+          id: (result.id as string).toLowerCase(),
           name: result.name,
           price: result.price,
           status: 'active',
@@ -205,6 +205,8 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
           name: result.name,
           price: result.price,
           status: result.status,
+          prevChangeDate: new Date(),
+          prevPrice: product.price,
         };
 
         this.store.dispatch(ProductActions.updateProduct({ updateProduct }));

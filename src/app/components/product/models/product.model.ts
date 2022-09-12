@@ -3,10 +3,9 @@ export interface IProduct {
   id: string;
   name: string;
   price: number;
-  priceChange?: number;
-  changeDate?: Date;
   status: string;
-  // order?: number;
+  prevChangeDate?: Date;
+  prevPrice?: number;
   // productOptions?: IProductOption[];
 }
 

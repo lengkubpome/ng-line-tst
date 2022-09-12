@@ -29,7 +29,7 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   memberType = 'platinum';
 
   // Table
-  displayedColumns: string[] = ['product', 'price', 'priceChange'];
+  displayedColumns: string[] = ['product', 'price', 'prevPrice'];
   dataSource = new MatTableDataSource<any>();
 
   private destroy$: Subject<any> = new Subject();

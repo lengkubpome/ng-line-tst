@@ -63,14 +63,14 @@
       </ng-container>
 
       <!-- Weight Column -->
-      <ng-container matColumnDef="priceChange">
+      <ng-container matColumnDef="prevPrice">
         <th mat-header-cell *matHeaderCellDef>ปรับเปลี่ยน </th>
         <td mat-cell *matCellDef="let element">
-          <span *ngIf="element.priceChange > 0" class="has-text-success">
-            <span>▲ {{ element.priceChange | number:'1.2'}}</span>
+          <span *ngIf="element.prevPrice > 0" class="has-text-success">
+            <span>▲ {{ element.prevPrice | number:'1.2'}}</span>
           </span>
           <span *ngIf="element.priceChange < 0" class="has-text-danger">
-            <span>▼ {{ -(element.priceChange) | number:'1.2'}}</span>
+            <span>▼ {{ -(element.prevPrice) | number:'1.2'}}</span>
           </span>
         </td>
       </ng-container>
