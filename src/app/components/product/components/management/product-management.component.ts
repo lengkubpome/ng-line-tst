@@ -109,8 +109,25 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     return productForm;
   }
 
-  onCheck() {
-    let changeProducts = this.form.get('products')?.value;
+  onUpdateAllProductPrice() {
+    let formProductsPrice = this.form.get('products')?.value as any[];
+    formProductsPrice.forEach((p1) => {
+      const cp = this.products.filter(
+        (p2) => p2.id === p1.id && p2.price !== p1.price
+      );
+
+      if (cp.length > 0) {
+        const prevProduct = cp[0];
+        const updateProduct: IProduct = {
+          ...prevProduct!,
+          price: p1.price,
+          prevChangeDate: new Date(),
+          prevPrice: prevProduct.price,
+        };
+
+        this.store.dispatch(ProductActions.updateProduct({ updateProduct }));
+      }
+    });
   }
 
   calculatePrice(n1: string, n2: any): number {

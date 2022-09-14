@@ -153,5 +153,9 @@ export const productReducer = createReducer(
   on(ProductActions.swapProductOptionFailure, (state, action) => ({
     ...state,
     callState: { errorMsg: action.errorMessage },
+  })),
+  on(ProductActions.addProductFailure, (state, action) => ({
+    ...state,
+    callState: { errorMsg: action.errorMessage },
   }))
 );

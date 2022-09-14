@@ -130,3 +130,7 @@ export const swapProductOptionFailure = createAction(
   '[Product] Swap Product Option Failure',
   props<{ errorMessage: string }>()
 );
+export const productActionFailure = createAction(
+  '[Product] Product Action Failure',
+  props<{ errorMessage: string }>()
+);

@@ -43,7 +43,7 @@
             <th mat-header-cell *matHeaderCellDef>ราคา</th>
             <td mat-cell *matCellDef="let element" [formGroup]="element">
               <div class="price-list">
-                <input formControlName="price" class="input is-small" type="text"
+                <input formControlName="price" class="input is-small" type="number"
                   placeholder="Price">
 
                 <!-- <ng-container *ngFor="let option of element.get('productOptions').value">
@@ -52,7 +52,7 @@
                   <div *ngIf="option.productId === element.get('id').value">
                     <span class="is-size-7 has-text-info has-background-warning"
                       [ngStyle]="{'text-decoration':option.status !== 'active'? 'line-through':null}">
-                      {{  calculatePrice(element.get('price').value, option.addonPrice) }}
+                      {{  calculatePrice(element.get('price').value, option.addonPrice) | number:'1.2'}}
                     </span>
                   </div>
                 </ng-container>
@@ -152,7 +152,7 @@
         </div>
         <div>
           <button type="button" mat-button mat-flat-button color="primary"
-            (click)="onCheck()">เปลี่ยนแปลง</button>
+            (click)="onUpdateAllProductPrice()">เปลี่ยนแปลง</button>
           <button type="button" mat-button routerLink="">ยกเลิก</button>
         </div>
       </div>

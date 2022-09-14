@@ -8,6 +8,7 @@ import { EMPTY, of, switchMap } from 'rxjs';
 import * as ProductActions from './product.actions';
 import { ProductService } from '../services/product.service';
 import { Store } from '@ngrx/store';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ProductEffects {
@@ -47,72 +48,18 @@ export class ProductEffects {
     )
   );
 
-  // loadProducts$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(ProductActions.loadProducts),
-  //     mergeMap(() =>
-  //       this.productService.getProducts().pipe(
-  //         switchMap((products: any[]) =>
-  //           this.productService.getProductOptions().pipe(
-  //             map((options: any[]) => {
-  //               let result: IProduct[] = [];
-
-  //               console.log(products);
-
-  //               products.forEach((p: any) => {
-  //                 let product: IProduct = {
-  //                   id: p.id,
-  //                   name: p.name,
-  //                   price: p.price,
-  //                   priceChange: p.price_change,
-  //                   changeDate: p.change_date,
-  //                   status: p.status,
-  //                   productOptions: [],
-  //                 };
-
-  //                 let option = options.filter(
-  //                   (o) => o.product_id === product.id
-  //                 );
-
-  //                 option.forEach((o) => {
-  //                   const memberTypes = (o.member_type as string).split(',');
-
-  //                   const option = {
-  //                     memberTypes: memberTypes,
-  //                     addonPrice: o.addon_price,
-  //                     description: o.description,
-  //                     status: o.status,
-  //                     order: o.order,
-  //                   };
-  //                   product.productOptions?.push(option);
-  //                 });
-  //                 result.push(product);
-  //               });
-  //               return result;
-  //             })
-  //           )
-  //         ),
-  //         map((products) => {
-  //           return ProductActions.loadProductsSuccess({ products });
-  //         }),
-  //         catchError((errResp) => {
-  //           return EMPTY;
-  //         })
-  //       )
-  //     )
-  //   )
-  // );
-
   addProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.addProduct),
       switchMap((data) =>
         this.productService.addProduct(data.product).pipe(
           map((option) => {
+            this.snackBar.open('คุณได้เพิ่มรายการสินค้าเรียบร้อย!', 'ปิด');
             return ProductActions.addProductSuccess();
           }),
           catchError((errorMessage) => {
-            return of(ProductActions.addProductFailure({ errorMessage }));
+            // return of(ProductActions.addProductFailure({ errorMessage }));
+            return of(ProductActions.productActionFailure({ errorMessage }));
           })
         )
       )
@@ -124,11 +71,13 @@ export class ProductEffects {
       ofType(ProductActions.updateProduct),
       switchMap((data) => {
         return this.productService.updateProduct(data.updateProduct).pipe(
-          map(() => {
+          map((res) => {
+            this.snackBar.open('คุณแก้ไขรายการสินค้าเรียบร้อย!', 'ปิด');
             return ProductActions.updateProductSuccess();
           }),
           catchError((errorMessage) => {
-            return of(ProductActions.updateProductFailure({ errorMessage }));
+            // return of(ProductActions.updateProductFailure({ errorMessage }));
+            return of(ProductActions.productActionFailure({ errorMessage }));
           })
         );
       })
@@ -141,10 +90,12 @@ export class ProductEffects {
       switchMap((data) => {
         return this.productService.deleteProduct(data.product).pipe(
           map(() => {
+            this.snackBar.open('คุณลบรายการสินค้าเรียบร้อย!', 'ปิด');
             return ProductActions.deleteProductSuccess();
           }),
           catchError((errorMessage) => {
-            return of(ProductActions.deleteProductFailure({ errorMessage }));
+            // return of(ProductActions.deleteProductFailure({ errorMessage }));
+            return of(ProductActions.productActionFailure({ errorMessage }));
           })
         );
       })
@@ -163,7 +114,8 @@ export class ProductEffects {
             return ProductActions.addProductOptionSuccess();
           }),
           catchError((errorMessage) => {
-            return of(ProductActions.addProductOptionFailure({ errorMessage }));
+            // return of(ProductActions.addProductOptionFailure({ errorMessage }));
+            return of(ProductActions.productActionFailure({ errorMessage }));
           })
         );
       })
@@ -179,7 +131,8 @@ export class ProductEffects {
           }),
           catchError((errorMessage) => {
             return of(
-              ProductActions.updateProductOptionFailure({ errorMessage })
+              // ProductActions.updateProductOptionFailure({ errorMessage })
+              ProductActions.productActionFailure({ errorMessage })
             );
           })
         )
@@ -197,7 +150,8 @@ export class ProductEffects {
             })
           ),
           catchError((errorMessage) =>
-            of(ProductActions.deleteProductOptionFailure({ errorMessage }))
+            // of(ProductActions.deleteProductOptionFailure({ errorMessage }))
+            of(ProductActions.productActionFailure({ errorMessage }))
           )
         );
       })
@@ -213,16 +167,28 @@ export class ProductEffects {
           .pipe(
             map(() => ProductActions.swapProductOptionSuccess()),
             catchError((errorMessage) =>
-              of(ProductActions.swapProductOptionFailure({ errorMessage }))
+              // of(ProductActions.swapProductOptionFailure({ errorMessage }))
+              of(ProductActions.productActionFailure({ errorMessage }))
             )
           )
       )
     )
   );
 
+  productActionFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.productActionFailure),
+      map((errorMessage) => {
+        this.snackBar.open(errorMessage.errorMessage);
+        return ProductActions.productActionFailure(errorMessage);
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private productService: ProductService,
+    private snackBar: MatSnackBar,
     private store: Store<SharedState>
   ) {}
 }
