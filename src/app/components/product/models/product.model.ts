@@ -6,6 +6,7 @@ export interface IProduct {
   status: string;
   prevChangeDate?: Date;
   prevPrice?: number;
+  history?: IProductHistory[];
   // productOptions?: IProductOption[];
 }
 
@@ -21,4 +22,11 @@ export interface IProductOption {
   //   font: string;
   //   background: string;
   // };
+}
+
+export interface IProductHistory {
+  name?: string;
+  price?: number;
+  status?: string;
+  timestamp: Date;
 }

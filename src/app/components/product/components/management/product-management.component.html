@@ -152,6 +152,7 @@
         </div>
         <div>
           <button type="button" mat-button mat-flat-button color="primary"
+            [disabled]="!canUpdateProductsPrice"
             (click)="onUpdateAllProductPrice()">เปลี่ยนแปลง</button>
           <button type="button" mat-button routerLink="">ยกเลิก</button>
         </div>

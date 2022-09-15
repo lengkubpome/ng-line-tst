@@ -1,4 +1,4 @@
-import { IProductOption } from './../models/product.model';
+import { IProductOption, IProductHistory } from './../models/product.model';
 import { createAction, props } from '@ngrx/store';
 import { IProduct } from 'app/components/product/models/product.model';
 
@@ -115,6 +115,16 @@ export const deleteProductOptionFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const addProductHistory = createAction(
+  '[Product] Add Product History',
+  props<{ newData: IProduct; oldData: IProduct }>()
+);
+
+export const addProductHistorySuccess = createAction(
+  '[Product] Add Product History Success'
+  // props<{ history: IProductHistory }>()
+);
+
 export const swapProductOption = createAction(
   '[Product] Swap Product Option',
   props<{
@@ -130,6 +140,7 @@ export const swapProductOptionFailure = createAction(
   '[Product] Swap Product Option Failure',
   props<{ errorMessage: string }>()
 );
+
 export const productActionFailure = createAction(
   '[Product] Product Action Failure',
   props<{ errorMessage: string }>()

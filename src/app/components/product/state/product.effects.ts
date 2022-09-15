@@ -3,7 +3,7 @@ import { SharedState } from './../../../shared/state/shared.reducer';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { EMPTY, of, switchMap } from 'rxjs';
 import * as ProductActions from './product.actions';
 import { ProductService } from '../services/product.service';
@@ -21,7 +21,10 @@ export class ProductEffects {
             return ProductActions.loadProductsSuccess({ products });
           }),
           catchError((errorMessage) => {
-            return of(ProductActions.loadProductsFailure({ errorMessage }));
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
+            return of(ProductActions.productActionFailure({ errorMessage }));
           })
         )
       )
@@ -39,9 +42,10 @@ export class ProductEffects {
             });
           }),
           catchError((errorMessage) => {
-            return of(
-              ProductActions.loadProductOptionsFailure({ errorMessage })
-            );
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
+            return of(ProductActions.productActionFailure({ errorMessage }));
           })
         )
       )
@@ -54,11 +58,15 @@ export class ProductEffects {
       switchMap((data) =>
         this.productService.addProduct(data.product).pipe(
           map((option) => {
-            this.snackBar.open('คุณได้เพิ่มรายการสินค้าเรียบร้อย!', 'ปิด');
+            this.snackBar.open('คุณได้เพิ่มรายการสินค้าเรียบร้อย!', 'ปิด', {
+              duration: 4000,
+            });
             return ProductActions.addProductSuccess();
           }),
           catchError((errorMessage) => {
-            // return of(ProductActions.addProductFailure({ errorMessage }));
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
             return of(ProductActions.productActionFailure({ errorMessage }));
           })
         )
@@ -72,11 +80,15 @@ export class ProductEffects {
       switchMap((data) => {
         return this.productService.updateProduct(data.updateProduct).pipe(
           map((res) => {
-            this.snackBar.open('คุณแก้ไขรายการสินค้าเรียบร้อย!', 'ปิด');
+            this.snackBar.open('คุณแก้ไขรายการสินค้าเรียบร้อย!', 'ปิด', {
+              duration: 4000,
+            });
             return ProductActions.updateProductSuccess();
           }),
           catchError((errorMessage) => {
-            // return of(ProductActions.updateProductFailure({ errorMessage }));
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
             return of(ProductActions.productActionFailure({ errorMessage }));
           })
         );
@@ -90,11 +102,15 @@ export class ProductEffects {
       switchMap((data) => {
         return this.productService.deleteProduct(data.product).pipe(
           map(() => {
-            this.snackBar.open('คุณลบรายการสินค้าเรียบร้อย!', 'ปิด');
+            this.snackBar.open('คุณลบรายการสินค้าเรียบร้อย!', 'ปิด', {
+              duration: 4000,
+            });
             return ProductActions.deleteProductSuccess();
           }),
           catchError((errorMessage) => {
-            // return of(ProductActions.deleteProductFailure({ errorMessage }));
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
             return of(ProductActions.productActionFailure({ errorMessage }));
           })
         );
@@ -111,10 +127,15 @@ export class ProductEffects {
         };
         return this.productService.addProductOption(option).pipe(
           map((option) => {
+            this.snackBar.open('คุณได้เพิ่มรายการสินค้าเรียบร้อย!', 'ปิด', {
+              duration: 4000,
+            });
             return ProductActions.addProductOptionSuccess();
           }),
           catchError((errorMessage) => {
-            // return of(ProductActions.addProductOptionFailure({ errorMessage }));
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
             return of(ProductActions.productActionFailure({ errorMessage }));
           })
         );
@@ -127,13 +148,16 @@ export class ProductEffects {
       switchMap((data) =>
         this.productService.updateProductOption(data.updateOption).pipe(
           map((option) => {
+            this.snackBar.open('คุณแก้ไขรายการสินค้าเรียบร้อย!', 'ปิด', {
+              duration: 4000,
+            });
             return ProductActions.updateProductOptionSuccess();
           }),
           catchError((errorMessage) => {
-            return of(
-              // ProductActions.updateProductOptionFailure({ errorMessage })
-              ProductActions.productActionFailure({ errorMessage })
-            );
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
+            return of(ProductActions.productActionFailure({ errorMessage }));
           })
         )
       )
@@ -144,15 +168,20 @@ export class ProductEffects {
       ofType(ProductActions.deleteProductOption),
       switchMap((data) => {
         return this.productService.deleteProductOption(data.deleteOption).pipe(
-          map((option) =>
-            ProductActions.deleteProductOptionSuccess({
+          map((option) => {
+            this.snackBar.open('คุณลบรายการสินค้าเรียบร้อย!', 'ปิด', {
+              duration: 4000,
+            });
+            return ProductActions.deleteProductOptionSuccess({
               deleteOption: option,
-            })
-          ),
-          catchError((errorMessage) =>
-            // of(ProductActions.deleteProductOptionFailure({ errorMessage }))
-            of(ProductActions.productActionFailure({ errorMessage }))
-          )
+            });
+          }),
+          catchError((errorMessage) => {
+            this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+              panelClass: ['snackbar-error'],
+            });
+            return of(ProductActions.productActionFailure({ errorMessage }));
+          })
         );
       })
     )
@@ -165,23 +194,17 @@ export class ProductEffects {
         this.productService
           .swapOrderProductOption(data.option1, data.option2)
           .pipe(
-            map(() => ProductActions.swapProductOptionSuccess()),
-            catchError((errorMessage) =>
-              // of(ProductActions.swapProductOptionFailure({ errorMessage }))
-              of(ProductActions.productActionFailure({ errorMessage }))
-            )
+            map(() => {
+              return ProductActions.swapProductOptionSuccess();
+            }),
+            catchError((errorMessage) => {
+              this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
+                panelClass: ['snackbar-error'],
+              });
+              return of(ProductActions.productActionFailure({ errorMessage }));
+            })
           )
       )
-    )
-  );
-
-  productActionFailure$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.productActionFailure),
-      map((errorMessage) => {
-        this.snackBar.open(errorMessage.errorMessage);
-        return ProductActions.productActionFailure(errorMessage);
-      })
     )
   );
 

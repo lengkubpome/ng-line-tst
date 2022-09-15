@@ -65,6 +65,16 @@ export const productReducer = createReducer(
     ...state,
     callState: { errorMsg: action.errorMessage },
   })),
+
+  // Add Product History
+  on(ProductActions.addProductHistory, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+  on(ProductActions.addProductHistorySuccess, (state, action) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
   // Delete Product
   on(ProductActions.deleteProduct, (state) => ({
     ...state,

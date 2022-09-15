@@ -1,3 +1,4 @@
+import { IProductHistory } from './../../models/product.model';
 import { getProductOptions } from './../../state/product.selectors';
 import { BehaviorSubject, Observable, of, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
@@ -40,6 +41,7 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
 
   isLoading$: Observable<boolean> = of(false);
   memberType = 'gold';
+  canUpdateProductsPrice = false;
 
   form: FormGroup = new FormGroup({});
 
@@ -84,6 +86,20 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
           });
         }
       });
+
+    this.form
+      .get('products')!
+      .valueChanges.pipe()
+      .subscribe((products: any[]) => {
+        let count = 0;
+        products.forEach((p1) => {
+          const cp = this.products.filter(
+            (p2) => p2.id === p1.id && p2.price !== p1.price
+          );
+          if (cp.length > 0) count++;
+        });
+        this.canUpdateProductsPrice = count > 0 ? true : false;
+      });
   }
 
   setupForm() {
@@ -123,7 +139,20 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
           price: p1.price,
           prevChangeDate: new Date(),
           prevPrice: prevProduct.price,
+          history: [],
         };
+
+        let historyData: IProductHistory = {
+          timestamp: new Date(),
+        };
+        if (updateProduct.name !== prevProduct.name) {
+          historyData.name = prevProduct.name;
+        } else if (updateProduct.price !== prevProduct.price) {
+          historyData.price = prevProduct.price;
+        } else if (updateProduct.status !== prevProduct.status) {
+          historyData.status = prevProduct.status;
+        }
+        updateProduct.history!.push(historyData);
 
         this.store.dispatch(ProductActions.updateProduct({ updateProduct }));
       }
@@ -216,20 +245,61 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        // product ไม่มี docId
         const _product = this.products.find((p) => p.id === product.id);
-        const updateProduct: IProduct = {
-          ..._product!,
-          name: result.name,
-          price: result.price,
-          status: result.status,
-          prevChangeDate: new Date(),
-          prevPrice: product.price,
-        };
+        if (_product !== undefined) {
+          let updateProduct: IProduct = {
+            ..._product,
+            name: result.name,
+            price: result.price,
+            status: result.status,
+            prevChangeDate: new Date(),
+            prevPrice: product.price,
+            history: [],
+          };
 
-        this.store.dispatch(ProductActions.updateProduct({ updateProduct }));
+          let historyData: IProductHistory = {
+            timestamp: new Date(),
+          };
+          if (updateProduct.name !== product.name) {
+            historyData.name = product.name;
+          } else if (updateProduct.price !== product.price) {
+            historyData.price = product.price;
+          } else if (updateProduct.status !== product.status) {
+            historyData.status = product.status;
+          }
+          updateProduct.history!.push(historyData);
+
+          this.store.dispatch(ProductActions.updateProduct({ updateProduct }));
+        }
       }
     });
   }
+
+  // updateProduct(newProduct: IProduct, oldProduct: IProduct): IProduct {
+  //   let updateProduct: IProduct = {
+  //     ...oldProduct,
+  //     name: newProduct.name,
+  //     price: newProduct.price,
+  //     status: newProduct.status,
+  //     prevChangeDate: new Date(),
+  //     prevPrice: newProduct.price,
+  //     history: [],
+  //   };
+
+  //   let historyData: IProductHistory = {
+  //     timestamp: new Date(),
+  //   };
+  //   if (updateProduct.name !== oldProduct.name) {
+  //     historyData.name = oldProduct.name;
+  //   } else if (updateProduct.price !== oldProduct.price) {
+  //     historyData.price = oldProduct.price;
+  //   } else if (updateProduct.status !== oldProduct.status) {
+  //     historyData.status = oldProduct.status;
+  //   }
+  //   updateProduct.history!.push(historyData);
+  //   return updateProduct;
+  // }
 
   openDeleteProductDialog(product: IProduct) {
     const dialogRef = this.dialog.open(ProductDeleteDialogComponent, {

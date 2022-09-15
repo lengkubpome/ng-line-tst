@@ -1,4 +1,4 @@
-import { IProductOption } from './../models/product.model';
+import { IProductOption, IProductHistory } from './../models/product.model';
 import { catchError, switchMap, map } from 'rxjs/operators';
 import { IProduct } from 'app/components/product/models/product.model';
 import { HttpClient } from '@angular/common/http';
@@ -62,13 +62,56 @@ export class ProductService {
     );
   }
 
+  // updateProduct(product: IProduct): Observable<IProduct> {
+  //   console.log('Update Product');
+  //   const docId = product.docId;
+  //   let updateProduct = { ...product };
+  //   delete updateProduct.docId;
+
+  //   return from(this.productRef.doc(docId).update(updateProduct)).pipe(
+  //     catchError((error) => {
+  //       console.error(
+  //         `%cProductService => updateProduct ${error}`,
+  //         'color:white; background:red; font-size:20px'
+  //       );
+  //       return of(error);
+  //     })
+  //   );
+  // }
+
   updateProduct(product: IProduct): Observable<IProduct> {
     console.log('Update Product');
     const docId = product.docId;
     let updateProduct = { ...product };
     delete updateProduct.docId;
+    delete updateProduct.history;
+
+    const historyData = product.history![0];
+    const productHistoryRef = this.productRef.doc(docId).collection('/history');
 
     return from(this.productRef.doc(docId).update(updateProduct)).pipe(
+      switchMap((res) => {
+        return from(productHistoryRef.add(historyData)).pipe(
+          catchError((error) => {
+            console.error(
+              `%cProductService => updateProduct ${error}`,
+              'color:white; background:red; font-size:20px'
+            );
+            return of(error);
+          })
+        );
+      })
+    );
+  }
+
+  addProductHistory(product: IProduct): Observable<IProductHistory> {
+    console.log('Add Product History');
+    const docId = product.docId;
+    const historyData = product.history;
+
+    const productHistoryRef = this.productRef.doc(docId).collection('/history');
+
+    return from(productHistoryRef.add(historyData!)).pipe(
       catchError((error) => {
         console.error(
           `%cProductService => updateProduct ${error}`,
