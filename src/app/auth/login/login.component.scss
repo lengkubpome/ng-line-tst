@@ -1,0 +1,9 @@
+.tile-menu{
+  >div{
+    display: flex;
+    align-items: center;
+    mat-icon{
+      margin-right: 5px;
+    }
+  }
+}
