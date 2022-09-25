@@ -1,5 +1,8 @@
+import * as LoginActions from './../state/auth.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AuthState } from '../state';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   form: FormGroup = new FormGroup({});
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private store: Store<AuthState>) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -19,6 +22,8 @@ export class LoginComponent implements OnInit {
   }
 
   onLogingSubmit() {
-    console.log(this.form.value);
+    const email = this.form.value.email;
+    const password = this.form.value.password as string;
+    this.store.dispatch(LoginActions.login({ email, password }));
   }
 }
