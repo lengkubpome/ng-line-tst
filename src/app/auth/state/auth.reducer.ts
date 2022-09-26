@@ -1,18 +1,17 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { CallState, LoadingState } from '@shared/state/call-state';
+import { User } from '../models/user.model';
 import * as AuthActions from './auth.actions';
 
 export const authFeatureKey = 'auth';
 
 export interface AuthState {
-  email: string;
-  password: string;
+  user: User | null;
   callState: CallState;
 }
 
 export const initialState: AuthState = {
-  email: '',
-  password: '',
+  user: null,
   callState: LoadingState.INIT,
 };
 
@@ -26,6 +25,7 @@ export const reducer = createReducer(
 
   on(AuthActions.loginSuccess, (state, action) => ({
     ...state,
+    user: action.user,
     callState: LoadingState.LOADED,
   })),
   on(AuthActions.loginFailure, (state, action) => ({
