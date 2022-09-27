@@ -7,8 +7,9 @@ import { StoreModule } from '@ngrx/store';
 import * as fromCore from './state/core.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CoreEffects } from './state/core.effects';
+import { LoaderComponent } from './loader/loader.component';
 
-const COMPONENTS = [HeaderComponent];
+const COMPONENTS = [HeaderComponent, LoaderComponent];
 
 @NgModule({
   declarations: [...COMPONENTS],

@@ -1,29 +1,36 @@
-import { getLoading, getErrorMessage } from './shared/state/shared.selector';
-import { Observable } from 'rxjs';
+import { getLoading, getErrorMessage } from './core/state/core.selectors';
+import { Observable, of } from 'rxjs';
 import { SharedState } from './shared/state/shared.reducer';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-root',
-  template: ` <!-- <mat-progress-bar
-      mode="indeterminate"
-      *ngIf="showLoading | async"
-    ></mat-progress-bar> -->
-    <app-header></app-header>
-    <div class="container">
+  template: ` <app-header></app-header>
+    <app-loader *ngIf="loading"></app-loader>
+    <div class="container is-max-desktop">
       <router-outlet></router-outlet>
     </div>`,
   styles: ['.container { margin: 1em; }'],
 })
-export class AppComponent implements OnInit {
-  showLoading!: Observable<boolean>;
-  constructor(private store: Store<SharedState>) {}
+export class AppComponent implements AfterViewInit, OnInit {
+  loading = false;
 
-  ngOnInit(): void {
-    this.showLoading = this.store.select(getLoading);
+  constructor(
+    private store: Store<SharedState>,
+    private cd: ChangeDetectorRef
+  ) {}
 
-    this.store.select(getErrorMessage).subscribe((error) => {
-      console.log(error);
+  ngAfterViewInit(): void {
+    this.store.select(getLoading).subscribe((res) => {
+      this.loading = res;
+      this.cd.detectChanges();
     });
   }
+
+  ngOnInit(): void {}
 }

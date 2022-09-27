@@ -6,8 +6,8 @@ const routes: Routes = [
   {
     path: '',
     children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent, data: { title: 'Login' } },
-      { path: '**', redirectTo: 'login', pathMatch: 'full' },
     ],
   },
 ];

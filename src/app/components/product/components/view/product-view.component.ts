@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 export class ProductViewComponent implements OnInit, OnDestroy {
   products$: Observable<IProduct[]> = of([]);
   productOptions$: Observable<IProductOption[]> = of([]);
-  isLoading$?: Observable<boolean>;
+  isLoading$?: Observable<boolean> = of(false);
 
   time = this.datepipe.transform(new Date(), 'hh:mm น.  dd/MM/yyyy');
   memberType = 'platinum';

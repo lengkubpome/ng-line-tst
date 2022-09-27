@@ -1,5 +1,4 @@
 import { IProduct, IProductOption } from './../models/product.model';
-import { SharedState } from './../../../shared/state/shared.reducer';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
@@ -9,12 +8,14 @@ import * as ProductActions from './product.actions';
 import { ProductService } from '../services/product.service';
 import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CoreState, setLoaded, setLoading } from '@core/state';
 
 @Injectable()
 export class ProductEffects {
   loadProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadProducts),
+      tap(() => this.store.dispatch(setLoading())),
       switchMap(() =>
         this.productService.getProducts().pipe(
           map((products) => {
@@ -41,6 +42,7 @@ export class ProductEffects {
               productOptions: options,
             });
           }),
+          tap(() => this.store.dispatch(setLoaded())),
           catchError((errorMessage) => {
             this.snackBar.open(errorMessage.errorMessage, 'ปิด', {
               panelClass: ['snackbar-error'],
@@ -212,6 +214,6 @@ export class ProductEffects {
     private actions$: Actions,
     private productService: ProductService,
     private snackBar: MatSnackBar,
-    private store: Store<SharedState>
+    private store: Store<CoreState>
   ) {}
 }

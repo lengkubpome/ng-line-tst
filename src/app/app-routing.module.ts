@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/product', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
@@ -13,7 +13,7 @@ const routes: Routes = [
       import('./components/member/member.module').then((m) => m.MemberModule),
   },
   {
-    path: 'product',
+    path: 'products',
     loadChildren: () =>
       import('./components/product/product.module').then(
         (m) => m.ProductModule

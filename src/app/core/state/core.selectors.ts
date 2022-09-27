@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { getError, LoadingState } from '@shared/state/call-state';
 import * as fromCore from './core.reducer';
 
 export const getCoreState = createFeatureSelector<fromCore.CoreState>(
@@ -6,5 +7,9 @@ export const getCoreState = createFeatureSelector<fromCore.CoreState>(
 );
 
 export const getLoading = createSelector(getCoreState, (state) => {
-  state.showLoading;
+  return state.callState === LoadingState.LOADING;
+});
+
+export const getErrorMessage = createSelector(getCoreState, (state) => {
+  getError(state.callState);
 });
