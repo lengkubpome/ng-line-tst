@@ -11,10 +11,10 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-root',
   template: ` <app-header></app-header>
-    <app-loader *ngIf="loading"></app-loader>
     <div class="container is-max-desktop">
       <router-outlet></router-outlet>
-    </div>`,
+    </div>
+    <app-loader *ngIf="loading"></app-loader>`,
   styles: ['.container { margin: 1em; }'],
 })
 export class AppComponent implements AfterViewInit, OnInit {

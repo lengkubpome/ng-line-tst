@@ -9,7 +9,7 @@
 
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-      data-target="navbarBasicExample">
+      data-target="navbarBasicExample" (click)="onShowMenu()" [class.is-active]="menuActive">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -26,9 +26,10 @@
 
 
 
-  <div id="navbarBasicExample" class="navbar-menu  is-active">
+  <div id="navbarBasicExample" class="navbar-menu " [class.is-active]="menuActive"
+    [class.navbar-menu-active]="menuActive">
     <div class="navbar-start">
-      <a class="navbar-item">
+      <a class="navbar-item  is-active">
         Home
       </a>
 
@@ -72,4 +73,13 @@
       </div>
     </div>
   </div>
+</nav>
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="#">Bulma</a></li>
+    <li><a href="#">Documentation</a></li>
+    <li><a href="#">Components</a></li>
+    <li class="is-active"><a href="#" aria-current="page">Breadcrumb</a></li>
+  </ul>
 </nav>
