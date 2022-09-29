@@ -8,8 +8,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { CoreEffects } from './state/core.effects';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
-const COMPONENTS = [HeaderComponent];
+const COMPONENTS = [HeaderComponent, FooterComponent];
 
 @NgModule({
   declarations: [...COMPONENTS],
