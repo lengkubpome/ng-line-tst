@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { CallState, LoadingState } from '@shared/state/call-state';
+import { CallState, LoadingState } from '@shared/models/call-state';
 import * as CoreActions from './core.actions';
 
 export const coreFeatureKey = 'core';

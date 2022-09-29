@@ -12,24 +12,25 @@ import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { ROOT_REDUCERS, metaReducers } from './app.reducer';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { MaterialsModule } from '@shared/ui/material';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { SharedModule } from '@shared/shared.module';
+import { SharedEffects } from '@shared/state';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MaterialsModule,
     CoreModule,
+    SharedModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(ROOT_REDUCERS, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([CoreEffects]),
+    EffectsModule.forRoot([CoreEffects, SharedEffects]),
     StoreRouterConnectingModule.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),

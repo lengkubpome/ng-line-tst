@@ -1,5 +1,5 @@
+import { IProduct } from './../../models/product.model';
 import { getProducts } from './../../state/product.selectors';
-import { IProduct } from 'app/components/product/models/product.model';
 import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {

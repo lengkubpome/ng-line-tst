@@ -6,8 +6,14 @@ import { concatMap, exhaustMap, map, tap, catchError } from 'rxjs/operators';
 import { Observable, EMPTY, of } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../services/auth.service';
-import { CoreState, setLoaded, setLoading, setErrorMessage } from '@core/state';
+// import { CoreState, setLoaded, setLoading, setErrorMessage } from '@core/state';
 import { Store } from '@ngrx/store';
+import {
+  SharedState,
+  setLoaded,
+  setLoading,
+  setErrorMessage,
+} from '@shared/state';
 
 @Injectable()
 export class AuthEffects {
@@ -43,7 +49,7 @@ export class AuthEffects {
   );
 
   constructor(
-    private store: Store<CoreState>,
+    private store: Store<SharedState>,
     private actions$: Actions,
     private authService: AuthService,
     private router: Router

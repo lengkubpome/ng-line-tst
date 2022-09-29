@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   menuActive = false;
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
     this.menuActive = !this.menuActive;
   }
 
-  goPage(linkName: string) {
-    this.router.navigate(['/', 'auth/loging']);
+  onCloseMenu(): void {
+    this.menuActive = false;
   }
 }

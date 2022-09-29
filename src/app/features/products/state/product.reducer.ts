@@ -1,7 +1,6 @@
-import { IProductOption } from './../models/product.model';
+import { IProduct, IProductOption } from './../models/product.model';
 import { Action, createReducer, on } from '@ngrx/store';
-import { CallState, LoadingState, ErrorState } from '@shared/state/call-state';
-import { IProduct } from 'app/components/product/models/product.model';
+import { CallState, LoadingState, ErrorState } from '@shared/models/call-state';
 import * as ProductActions from './product.actions';
 
 export const productFeatureKey = 'product';

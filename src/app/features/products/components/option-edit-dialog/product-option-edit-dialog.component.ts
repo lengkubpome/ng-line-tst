@@ -1,4 +1,3 @@
-import { IProduct } from 'app/components/product/models/product.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormArray,
@@ -8,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IProductOption } from '../../models/product.model';
+import { IProduct, IProductOption } from '../../models/product.model';
 import { ProductValidator } from '../../validators/product.validator';
 
 interface PRODUCT_OPTIONS {

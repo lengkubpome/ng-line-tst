@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { CallState, LoadingState } from './call-state';
+import { CallState, LoadingState } from '../models/call-state';
 import * as SharedAction from './shared.actions';
 
 export const sharedFeatureKey = 'shared';
@@ -15,13 +15,11 @@ export const sharedReducer = createReducer(
 
   on(SharedAction.setLoading, (state) => ({
     ...state,
-    // showLoading: action.status,
     callState: LoadingState.LOADING,
   })),
 
   on(SharedAction.setLoaded, (state) => ({
     ...state,
-    // showLoading: action.status,
     callState: LoadingState.LOADED,
   })),
 

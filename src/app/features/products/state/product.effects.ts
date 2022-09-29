@@ -8,7 +8,12 @@ import * as ProductActions from './product.actions';
 import { ProductService } from '../services/product.service';
 import { Store } from '@ngrx/store';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CoreState, setLoaded, setLoading } from '@core/state';
+import {
+  SharedState,
+  setLoaded,
+  setLoading,
+  setErrorMessage,
+} from '@shared/state';
 
 @Injectable()
 export class ProductEffects {
@@ -214,6 +219,6 @@ export class ProductEffects {
     private actions$: Actions,
     private productService: ProductService,
     private snackBar: MatSnackBar,
-    private store: Store<CoreState>
+    private store: Store<SharedState>
   ) {}
 }

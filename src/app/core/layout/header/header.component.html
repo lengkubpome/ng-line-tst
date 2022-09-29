@@ -29,8 +29,9 @@
   <div id="navbarBasicExample" class="navbar-menu " [class.is-active]="menuActive"
     [class.navbar-menu-active]="menuActive">
     <div class="navbar-start">
-      <a class="navbar-item  is-active">
-        Home
+      <a class="navbar-item " routerLink="/products" routerLinkActive="is-active"
+        (click)="onCloseMenu()">
+        Products
       </a>
 
       <a class="navbar-item">
@@ -63,10 +64,10 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-primary">
+          <a class="button is-primary" routerLink="/auth/signup" (click)="onCloseMenu()">
             <strong>Sign up</strong>
           </a>
-          <a class="button is-light">
+          <a class="button is-light" routerLink="/auth/login" (click)="onCloseMenu()">
             Log in
           </a>
         </div>

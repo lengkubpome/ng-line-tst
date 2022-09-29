@@ -9,16 +9,14 @@ const routes: Routes = [
   {
     path: 'member',
     loadChildren: () =>
-      import('./components/member/member.module').then((m) => m.MemberModule),
+      import('./features/member/member.module').then((m) => m.MemberModule),
   },
   {
     path: 'products',
     loadChildren: () =>
-      import('./components/product/product.module').then(
-        (m) => m.ProductModule
-      ),
+      import('./features/products/product.module').then((m) => m.ProductModule),
   },
-  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
 ];
 
 @NgModule({

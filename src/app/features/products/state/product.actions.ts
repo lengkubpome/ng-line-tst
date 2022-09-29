@@ -1,6 +1,9 @@
-import { IProductOption, IProductHistory } from './../models/product.model';
+import {
+  IProduct,
+  IProductOption,
+  IProductHistory,
+} from './../models/product.model';
 import { createAction, props } from '@ngrx/store';
-import { IProduct } from 'app/components/product/models/product.model';
 
 export const loadProducts = createAction('[Product] Load Products');
 

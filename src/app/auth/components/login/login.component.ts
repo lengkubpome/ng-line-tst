@@ -1,8 +1,8 @@
-import * as LoginActions from './../state/auth.actions';
+import * as LoginActions from './../../state/auth.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../state';
+import { AuthState } from '../../state';
 
 @Component({
   selector: 'app-login',

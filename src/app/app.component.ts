@@ -1,4 +1,4 @@
-import { getLoading, getErrorMessage } from './core/state/core.selectors';
+import { getLoading, getErrorMessage } from './shared/state/shared.selector';
 import { Observable, of } from 'rxjs';
 import { SharedState } from './shared/state/shared.reducer';
 import {

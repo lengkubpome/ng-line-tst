@@ -1,4 +1,4 @@
-import { CallState, getError, LoadingState } from '@shared/state/call-state';
+import { CallState, getError, LoadingState } from '@shared/models/call-state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromProduct from './product.reducer';
 

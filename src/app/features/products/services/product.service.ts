@@ -1,6 +1,9 @@
-import { IProductOption, IProductHistory } from './../models/product.model';
+import {
+  IProduct,
+  IProductOption,
+  IProductHistory,
+} from './../models/product.model';
 import { catchError, switchMap, map } from 'rxjs/operators';
-import { IProduct } from 'app/components/product/models/product.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {

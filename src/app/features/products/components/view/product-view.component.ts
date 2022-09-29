@@ -6,10 +6,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { Observable, Subject, takeUntil, of, BehaviorSubject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  IProduct,
-  IProductOption,
-} from 'app/components/product/models/product.model';
+import { IProduct, IProductOption } from './../../models/product.model';
 import { Store } from '@ngrx/store';
 import { ProductState } from '../../state/product.reducer';
 import { MatTableDataSource } from '@angular/material/table';
