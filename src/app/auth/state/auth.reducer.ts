@@ -31,5 +31,15 @@ export const reducer = createReducer(
   on(AuthActions.loginFailure, (state, action) => ({
     ...state,
     callState: { errorMsg: action.errorMessage },
+  })),
+  on(AuthActions.signup, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+
+  on(AuthActions.signupSuccess, (state, action) => ({
+    ...state,
+    user: action.user,
+    callState: LoadingState.LOADED,
   }))
 );

@@ -1,6 +1,7 @@
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthState } from './../../state/auth.reducer';
+import * as AuthActions from './../../state/auth.actions';
 import {
   FormGroup,
   FormBuilder,
@@ -30,25 +31,26 @@ export class SignupComponent implements OnInit {
   registerForm = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
       confirmPassword: new FormControl('', [Validators.required]),
     },
     [CustomValidators.MatchValidator('password', 'confirmPassword')]
   );
 
-  constructor() {}
+  constructor(private store: Store<AuthState>) {}
 
   ngOnInit() {}
 
-  onLogingSubmit() {
-    const email = this.registerForm.value.email;
-    const password = this.registerForm.value.password;
-    const conPassword = this.registerForm.value.confirmPassword;
-    // this.store.dispatch(LoginActions.login({ email, password }));
-
+  onSignupSubmit() {
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
+    const email = this.registerForm.value.email!;
+    const password = this.registerForm.value.password!;
+    this.store.dispatch(AuthActions.signup({ email, password }));
   }
 }

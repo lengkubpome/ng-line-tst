@@ -8,6 +8,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { autoLogin } from './auth/state';
 @Component({
   selector: 'app-root',
   template: ` <app-header></app-header>
@@ -30,6 +31,8 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.loading = res;
       this.cd.detectChanges();
     });
+
+    this.store.dispatch(autoLogin());
   }
 
   ngOnInit(): void {}

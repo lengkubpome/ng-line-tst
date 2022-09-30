@@ -9,12 +9,19 @@ import { AuthResponseData } from '../models/auth-response-data.model';
   providedIn: 'root',
 })
 export class AuthService {
+  timeoutInterval: any;
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
-        environment.firebase.apiKey,
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`,
+      { email, password, returnSecureToken: true }
+    );
+  }
+
+  signUp(email: string, password: string): Observable<AuthResponseData> {
+    return this.http.post<AuthResponseData>(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`,
       { email, password, returnSecureToken: true }
     );
   }
@@ -38,8 +45,45 @@ export class AuthService {
         return 'Email Not Found';
       case 'INVALID_PASSWORD':
         return 'Invalid Password';
+      case 'EMAIL_EXISTS':
+        return 'Email already exists';
+      case 'INVALID_EMAIL':
+        return 'The email address is badly formatted.';
       default:
-        return 'Unknown error occurred. Please try again';
+        return message;
     }
+  }
+
+  setUserInLocalStorage(user: User) {
+    localStorage.setItem('userData', JSON.stringify(user));
+    this.runTimeoutInterval(user);
+  }
+
+  getUserFromLocalStorage() {
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      const expirationDate = new Date(userData.expirationDate);
+      const user = new User(
+        userData.email,
+        userData.token,
+        userData.locaId,
+        expirationDate
+      );
+
+      this.runTimeoutInterval(user);
+      return user;
+    }
+    return null;
+  }
+
+  runTimeoutInterval(user: User) {
+    const todaysDate = new Date().getTime();
+    const expirationDate = user.expireDate.getTime();
+    const timeInterval = expirationDate - todaysDate;
+
+    this.timeoutInterval = setTimeout(() => {
+      //logout functionality or get the refresh token
+    }, timeInterval);
   }
 }

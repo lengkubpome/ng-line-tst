@@ -14,3 +14,13 @@ export const loginFailure = createAction(
   '[Auth] Loging Failure',
   props<{ errorMessage: string }>()
 );
+
+export const signup = createAction(
+  '[Auth] Signup',
+  props<{ email: string; password: string }>()
+);
+export const signupSuccess = createAction(
+  '[Auth] Signup Success',
+  props<{ user: User }>()
+);
+export const autoLogin = createAction('[Auth] Auto Login');

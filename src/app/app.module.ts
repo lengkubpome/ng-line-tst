@@ -19,6 +19,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { SharedModule } from '@shared/shared.module';
 import { SharedEffects } from '@shared/state';
+import * as fromAuth from './auth/state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,7 @@ import { SharedEffects } from '@shared/state';
     BrowserAnimationsModule,
     StoreModule.forRoot(ROOT_REDUCERS, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([CoreEffects, SharedEffects]),
+    EffectsModule.forRoot([CoreEffects, SharedEffects, fromAuth.AuthEffects]),
     StoreRouterConnectingModule.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),

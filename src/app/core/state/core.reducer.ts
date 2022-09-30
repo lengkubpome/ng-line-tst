@@ -5,12 +5,10 @@ import * as CoreActions from './core.actions';
 export const coreFeatureKey = 'core';
 
 export interface CoreState {
-  showLoading: boolean;
   callState: CallState;
 }
 
 export const initialState: CoreState = {
-  showLoading: false,
   callState: LoadingState.INIT,
 };
 
@@ -18,12 +16,10 @@ export const coreReducer = createReducer(
   initialState,
   on(CoreActions.setLoading, (state, action) => ({
     ...state,
-    // showLoading: action.status,
     callState: LoadingState.LOADING,
   })),
   on(CoreActions.setLoaded, (state) => ({
     ...state,
-    // showLoading: action.status,
     callState: LoadingState.LOADED,
   })),
 

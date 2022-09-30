@@ -1,4 +1,4 @@
-<form [formGroup]="registerForm" (ngSubmit)="onLogingSubmit()">
+<form [formGroup]="registerForm" (ngSubmit)="onSignupSubmit()">
   <div class="columns">
     <div class="column is-8 is-offset-2">
       <mat-card>
@@ -33,6 +33,8 @@
             </div>
             <p class="help is-danger" *ngIf="f.password?.invalid && f.password?.touched">
               <span *ngIf="f.password?.errors?.['required']">Password is required.</span>
+              <span *ngIf="f.password?.errors?.['minlength']">Password must be 6 characters long or
+                more.</span>
             </p>
           </div>
 

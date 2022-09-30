@@ -1,4 +1,4 @@
-import * as LoginActions from './../../state/auth.actions';
+import * as AuthActions from './../../state/auth.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -24,6 +24,6 @@ export class LoginComponent implements OnInit {
   onLogingSubmit() {
     const email = this.form.value.email;
     const password = this.form.value.password as string;
-    this.store.dispatch(LoginActions.login({ email, password }));
+    this.store.dispatch(AuthActions.login({ email, password }));
   }
 }
