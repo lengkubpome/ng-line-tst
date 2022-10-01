@@ -11,11 +11,35 @@ import { Store } from '@ngrx/store';
 import { autoLogin } from './auth/state';
 @Component({
   selector: 'app-root',
-  template: ` <app-header></app-header>
-    <div class="container is-max-desktop">
-      <router-outlet></router-outlet>
-    </div>
-    <app-loader *ngIf="loading"></app-loader>`,
+  template: `
+    <tui-root>
+      <!-- content of your app -->
+      <app-header></app-header>
+      <!-- <div class="container is-max-desktop"> -->
+      <div class="tui-container tui-container_adaptive">
+        <router-outlet></router-outlet>
+      </div>
+      <app-loader *ngIf="loading"></app-loader>
+      <!--
+     If you need, you can add something between Taiga portal layers:
+    -->
+      <ng-container ngProjectAs="tuiOverContent">
+        <!-- Content over app content -->
+      </ng-container>
+      <ng-container ngProjectAs="tuiOverDialogs">
+        <!-- Content over dialogs -->
+      </ng-container>
+      <ng-container ngProjectAs="tuiOverAlerts">
+        <!-- Content over notifications -->
+      </ng-container>
+      <ng-container ngProjectAs="tuiOverPortals">
+        <!-- Content over dropdowns -->
+      </ng-container>
+      <ng-container ngProjectAs="tuiOverHints">
+        <!-- Content over hints -->
+      </ng-container>
+    </tui-root>
+  `,
   styles: ['.container { margin: 1em; }'],
 })
 export class AppComponent implements AfterViewInit, OnInit {

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MaterialsModule } from '@shared/ui/material';
+import { MaterialsModule } from '@shared/ui';
 
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductComponent } from './containers/product.component';

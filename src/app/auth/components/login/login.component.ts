@@ -1,6 +1,12 @@
 import * as AuthActions from './../../state/auth.actions';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../state';
 
@@ -8,6 +14,16 @@ import { AuthState } from '../../state';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        required: `Enter this!`,
+        email: `Enter a valid email`,
+      },
+    },
+  ],
 })
 export class LoginComponent implements OnInit {
   form: FormGroup = new FormGroup({});

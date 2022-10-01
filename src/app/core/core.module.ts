@@ -1,7 +1,7 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialsModule } from '@shared/ui/material';
+import { MaterialsModule } from '@shared/ui';
 import { StoreModule } from '@ngrx/store';
 import * as fromCore from './state/core.reducer';
 import { EffectsModule } from '@ngrx/effects';

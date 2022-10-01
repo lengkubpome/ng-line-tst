@@ -1,54 +1,70 @@
 <form [formGroup]="form" (ngSubmit)="onLogingSubmit()">
-  <div class="columns">
-    <div class="column is-8 is-offset-2">
-      <mat-card>
-        <mat-card-title>
-          <div class="tile-menu">
-            <div>
-              <mat-icon>login</mat-icon>
-              เข้าระบบ
-            </div>
-          </div>
 
-        </mat-card-title>
-        <mat-card-content class="mt-5">
-          <div class="field">
-            <label class="label">Email</label>
-            <div class="control has-icons-right">
-              <input formControlName="email" class="input" type="text">
-              <!-- <span class="icon is-small is-right">
-              <mat-icon>check</mat-icon>
-            </span> -->
-            </div>
-            <p class="help is-danger"
-              *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
-              <span *ngIf="form.get('email')?.errors?.['required']">Email is required.</span>
-              <span *ngIf="form.get('email')?.errors?.['email']">Invalid Email.</span>
-            </p>
-          </div>
+  <tui-island size="l" textAlign="center" [hoverable]="true">
+    <h3 class="tui-island__title tui-space_bottom-5">เข้าระบบ</h3>
+    <div class="tui-island__content">
 
-          <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-              <input formControlName="password" class="input" type="password">
-            </div>
-            <p class="help is-danger"
-              *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
-              <span *ngIf="form.get('password')?.errors?.['required']">Password is required.</span>
-            </p>
-          </div>
-
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <div class="field is-grouped">
-            <div class="control">
-              <button type="submit" class="button is-link" [disabled]="form.invalid">Login</button>
-            </div>
-          </div>
-        </mat-card-actions>
-      </mat-card>
-
+      <tui-input formControlName="email" [tuiTextfieldCleaner]="true">
+        E-mail
+        <input tuiTextfield type="email" />
+      </tui-input>
+      <tui-error formControlName="email" [error]="[] | tuiFieldError | async">
+      </tui-error>
+      <tui-input-password formControlName="password" class="tui-space_top-2">
+        Password
+        <input tuiTextfield type="text" />
+      </tui-input-password>
 
     </div>
-  </div>
+    <button tuiButton type="submit" appearance="flat" size="m" class="tui-island__footer-button"
+      [disabled]="form.invalid">
+      Login
+    </button>
+  </tui-island>
+
+
+  <!--
+  <mat-card>
+    <mat-card-title>
+      <div class="tile-menu">
+        <div>
+          <mat-icon>login</mat-icon>
+          เข้าระบบ
+        </div>
+      </div>
+
+    </mat-card-title>
+    <mat-card-content class="mt-5">
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-right">
+          <input formControlName="email" class="input" type="text">
+        </div>
+        <p class="help is-danger" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+          <span *ngIf="form.get('email')?.errors?.['required']">Email is required.</span>
+          <span *ngIf="form.get('email')?.errors?.['email']">Invalid Email.</span>
+        </p>
+      </div>
+
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input formControlName="password" class="input" type="password">
+        </div>
+        <p class="help is-danger"
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+          <span *ngIf="form.get('password')?.errors?.['required']">Password is
+            required.</span>
+        </p>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <div class="field is-grouped">
+        <div class="control">
+          <button type="submit" class="button is-link" [disabled]="form.invalid">Login</button>
+        </div>
+      </div>
+    </mat-card-actions>
+  </mat-card> -->
 </form>
