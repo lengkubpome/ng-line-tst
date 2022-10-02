@@ -1,7 +1,9 @@
 <form [formGroup]="form" (ngSubmit)="onLogingSubmit()">
 
   <tui-island size="l" textAlign="center" [hoverable]="true">
-    <h3 class="tui-island__title tui-space_bottom-5">เข้าระบบ</h3>
+
+    <h3 class="tui-island__title ">Login</h3>
+    <!-- <div class="header"></div> -->
     <div class="tui-island__content">
 
       <tui-input formControlName="email" [tuiTextfieldCleaner]="true">
@@ -10,10 +12,23 @@
       </tui-input>
       <tui-error formControlName="email" [error]="[] | tuiFieldError | async">
       </tui-error>
+
       <tui-input-password formControlName="password" class="tui-space_top-2">
         Password
         <input tuiTextfield type="text" />
       </tui-input-password>
+      <tui-error formControlName="password" [error]="[] | tuiFieldError | async">
+      </tui-error>
+
+      <div class="option tui-space_top-5">
+        <tui-checkbox-labeled formControlName="autoLogin" size="m">
+          Keep logged in
+        </tui-checkbox-labeled>
+        <a tuiLink href="#">
+          Forgot password?
+        </a>
+      </div>
+
 
     </div>
     <button tuiButton type="submit" appearance="flat" size="m" class="tui-island__footer-button"

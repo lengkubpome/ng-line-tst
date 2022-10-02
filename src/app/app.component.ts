@@ -16,7 +16,7 @@ import { autoLogin } from './auth/state';
       <!-- content of your app -->
       <app-header></app-header>
       <!-- <div class="container is-max-desktop"> -->
-      <div class="tui-container tui-container_adaptive">
+      <div class="tui-container tui-container_adaptive tui-space_top-5">
         <router-outlet></router-outlet>
       </div>
       <app-loader *ngIf="loading"></app-loader>

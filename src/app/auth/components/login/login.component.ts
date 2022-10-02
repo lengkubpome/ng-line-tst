@@ -13,7 +13,7 @@ import { AuthState } from '../../state';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
     this.form = this.fb.group({
       email: [, [Validators.required, Validators.email]],
       password: [, [Validators.required]],
+      autoLogin: [false],
     });
   }
 

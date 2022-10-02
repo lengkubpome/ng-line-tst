@@ -3,9 +3,13 @@ import {
   TuiButtonModule,
   TuiErrorModule,
   TuiHintModule,
+  TuiLinkModule,
+  TuiModeModule,
   TuiTextfieldControllerModule,
+  TuiThemeNightModule,
 } from '@taiga-ui/core';
 import {
+  TuiCheckboxLabeledModule,
   TuiDataListWrapperModule,
   TuiFieldErrorPipeModule,
   TuiInputModule,
@@ -25,6 +29,10 @@ const TaigaModules = [
   TuiDataListWrapperModule,
   TuiInputPasswordModule,
   TuiFieldErrorPipeModule,
+  TuiThemeNightModule,
+  TuiModeModule,
+  TuiCheckboxLabeledModule,
+  TuiLinkModule,
 ];
 
 @NgModule({
