@@ -1,3 +1,4 @@
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -9,8 +10,11 @@ import {
   tap,
   catchError,
   mergeMap,
+  switchMap,
+  delay,
 } from 'rxjs/operators';
-import { Observable, EMPTY, of } from 'rxjs';
+
+import { of, Observable, from } from 'rxjs';
 import * as AuthActions from './auth.actions';
 import { AuthService } from '../services/auth.service';
 // import { CoreState, setLoaded, setLoading, setErrorMessage } from '@core/state';
@@ -21,12 +25,82 @@ import {
   setLoading,
   setErrorMessage,
 } from '@shared/state';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class AuthEffects {
+  getUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.getUser),
+      // tap(() => this.store.dispatch(setLoading())),
+      switchMap((payload) => {
+        return this.auth.authState.pipe(
+          delay(200),
+          map((authData) => {
+            if (authData) {
+              const user = new User(authData.uid, authData.displayName!);
+              return AuthActions.authenticated({ payload: user });
+            } else {
+              return AuthActions.notAuthenticated({});
+            }
+          }),
+          catchError((error) => {
+            AuthActions.authError({ payload: error });
+            return of(setErrorMessage({ errorMsg: error }));
+          })
+        );
+      })
+    )
+  );
+
+  signInWithEmailPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signInWithEmailPassword),
+      // map((action) => {
+      //   this.store.dispatch(setLoading());
+      //   return action;
+      // }),
+      switchMap((payload) => {
+        console.log(payload);
+
+        return from(
+          this.auth.signInWithEmailAndPassword(payload.email, payload.password)
+        ).pipe(
+          map((credential) => {
+            console.log(credential);
+
+            return AuthActions.getUser();
+          })
+        );
+      }),
+      catchError((error) => {
+        AuthActions.authError({ payload: error });
+        return of(setErrorMessage({ errorMsg: error }));
+      })
+    )
+  );
+
+  signOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signOut),
+      tap((action) => this.store.dispatch(setLoading())),
+      switchMap((payload) =>
+        of(this.auth.signOut()).pipe(
+          map((authData) => AuthActions.notAuthenticated({})),
+          catchError((error) => {
+            AuthActions.authError({ payload: error });
+            return of(setErrorMessage({ errorMsg: error }));
+          })
+        )
+      )
+    )
+  );
+
+  // =============== Old ======================
+
   login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.login),
+      ofType(AuthActions.login2),
       tap(() => this.store.dispatch(setLoading())),
       exhaustMap((action) => {
         return this.authService.login(action.email, action.password).pipe(
@@ -109,6 +183,7 @@ export class AuthEffects {
     private store: Store<SharedState>,
     private actions$: Actions,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private auth: AngularFireAuth
   ) {}
 }

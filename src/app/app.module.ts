@@ -27,6 +27,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { SharedModule } from '@shared/shared.module';
 import { SharedEffects } from '@shared/state';
 import * as fromAuth from './auth/state';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthTokenInterceptor } from './auth/services/auth-token.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,7 +51,10 @@ import * as fromAuth from './auth/state';
     TuiDialogModule,
     TuiAlertModule,
   ],
-  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
+  providers: [
+    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

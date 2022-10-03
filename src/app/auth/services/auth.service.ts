@@ -1,4 +1,4 @@
-import { User } from './../models/user.model';
+import { User2 } from './../models/user.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -6,19 +6,32 @@ import { environment } from '@env';
 import { AuthResponseData } from '../models/auth-response-data.model';
 import { Store } from '@ngrx/store';
 import { AuthState, autoLogout } from '../state';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   timeoutInterval: any;
-  constructor(private http: HttpClient, private store: Store<AuthState>) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store<AuthState>,
+    public auth: AngularFireAuth
+  ) {}
 
   login(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`,
       { email, password, returnSecureToken: true }
     );
+  }
+
+  login2(email: string, password: string) {
+    this.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  logout2() {
+    this.auth.signOut();
   }
 
   signUp(email: string, password: string): Observable<AuthResponseData> {
@@ -32,7 +45,7 @@ export class AuthService {
     const expirationDate = new Date(
       new Date().getTime() + +data.expiresIn * 1000
     );
-    const user = new User(
+    const user = new User2(
       data.email,
       data.idToken,
       data.localId,
@@ -56,7 +69,7 @@ export class AuthService {
     }
   }
 
-  setUserInLocalStorage(user: User) {
+  setUserInLocalStorage(user: User2) {
     localStorage.setItem('userData', JSON.stringify(user));
     this.runTimeoutInterval(user);
   }
@@ -66,7 +79,7 @@ export class AuthService {
     if (userDataString) {
       const userData = JSON.parse(userDataString);
       const expirationDate = new Date(userData.expirationDate);
-      const user = new User(
+      const user = new User2(
         userData.email,
         userData.token,
         userData.locaId,
@@ -79,7 +92,7 @@ export class AuthService {
     return null;
   }
 
-  runTimeoutInterval(user: User) {
+  runTimeoutInterval(user: User2) {
     const todaysDate = new Date().getTime();
     const expirationDate = user.expireDate.getTime();
     const timeInterval = expirationDate - todaysDate;

@@ -1,24 +1,48 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { CallState, LoadingState } from '@shared/models/call-state';
-import { User } from '../models/user.model';
+import { User, User2 } from '../models/user.model';
 import * as AuthActions from './auth.actions';
 
 export const authFeatureKey = 'auth';
 
+const defaultUser = new User('', 'GUEST');
+
 export interface AuthState {
-  user: User | null;
+  user: User2 | null;
+  userX: User | null;
   callState: CallState;
 }
 
 export const initialState: AuthState = {
   user: null,
+  userX: null,
   callState: LoadingState.INIT,
 };
 
 export const reducer = createReducer(
   initialState,
 
-  on(AuthActions.login, (state) => ({
+  on(AuthActions.getUser, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+  on(AuthActions.authenticated, (state, action) => ({
+    ...state,
+    ...action.payload,
+    callState: LoadingState.LOADED,
+  })),
+  on(AuthActions.notAuthenticated, (state, action) => ({
+    ...state,
+    ...defaultUser,
+    callState: LoadingState.LOADED,
+  })),
+  on(AuthActions.signOut, (state, action) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
+
+  // ===================== End New
+  on(AuthActions.login2, (state) => ({
     ...state,
     callState: LoadingState.LOADING,
   })),

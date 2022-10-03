@@ -1,13 +1,40 @@
 import { createAction, props } from '@ngrx/store';
-import { User } from '../models/user.model';
+import { User2 } from '../models/user.model';
 
-export const login = createAction(
+export const getUser = createAction('[Auth] Get User');
+export const authenticated = createAction(
+  '[Auth] Authenticated',
+  props<{ payload?: any }>()
+);
+export const notAuthenticated = createAction(
+  '[Auth] Not Authenticated',
+  props<{ payload?: any }>()
+);
+
+export const signInWithEmailPassword = createAction(
+  '[Auth] SignIn With Email & Password',
+  props<{ email: string; password: string }>()
+);
+
+export const signOut = createAction(
+  '[Auth] Signout',
+  props<{ payload?: any }>()
+);
+
+export const authError = createAction(
+  '[Auth] Error',
+  props<{ payload?: any }>()
+);
+
+// =============== End New =================
+
+export const login2 = createAction(
   '[Auth] Loging',
   props<{ email: string; password: string }>()
 );
 export const loginSuccess = createAction(
   '[Auth] Loging Success',
-  props<{ user: User; redirect: boolean }>()
+  props<{ user: User2; redirect: boolean }>()
 );
 
 export const loginFailure = createAction(
@@ -21,7 +48,7 @@ export const signup = createAction(
 );
 export const signupSuccess = createAction(
   '[Auth] Signup Success',
-  props<{ user: User; redirect: boolean }>()
+  props<{ user: User2; redirect: boolean }>()
 );
 export const autoLogin = createAction('[Auth] Auto Login');
 export const autoLogout = createAction('[Auth] Auto Logout');
