@@ -1,65 +1,36 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSignupSubmit()">
-  <div class="columns">
-    <div class="column is-8 is-offset-2">
-      <mat-card>
-        <mat-card-title>
-          <div class="tile-menu">
-            <div>
-              <mat-icon>login</mat-icon>
-              ลงชื่อเข้าระบบ
-            </div>
-          </div>
+  <tui-island size="l" textAlign="center" [hoverable]="true">
 
-        </mat-card-title>
-        <mat-card-content class="mt-5">
-          <div class="field">
-            <label class="label">Email</label>
-            <div class="control has-icons-right">
-              <input formControlName="email" class="input" type="text">
-              <!-- <span class="icon is-small is-right">
-              <mat-icon>check</mat-icon>
-            </span> -->
-            </div>
-            <p class="help is-danger" *ngIf="f.email?.invalid && f.email?.touched">
-              <span *ngIf="f.email.errors?.['required']">Email is required.</span>
-              <span *ngIf="f.email?.errors?.['email']">Invalid Email.</span>
-            </p>
-          </div>
+    <h3 class="tui-island__title ">Register New Account</h3>
+    <!-- <div class="header"></div> -->
+    <div class="tui-island__content">
 
-          <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-              <input formControlName="password" class="input" type="password">
-            </div>
-            <p class="help is-danger" *ngIf="f.password?.invalid && f.password?.touched">
-              <span *ngIf="f.password?.errors?.['required']">Password is required.</span>
-              <span *ngIf="f.password?.errors?.['minlength']">Password must be 6 characters long or
-                more.</span>
-            </p>
-          </div>
+      <tui-input formControlName="email" [tuiTextfieldCleaner]="true">
+        E-mail
+        <input tuiTextfield type="email" />
+      </tui-input>
+      <tui-error formControlName="email" [error]="[] | tuiFieldError | async">
+      </tui-error>
 
-          <div class="field">
-            <label class="label">Confirm Password</label>
-            <div class="control">
-              <input formControlName="confirmPassword" class="input" type="password">
-            </div>
-            <p class="help is-danger" *ngIf="passwordMatchError">
-              Your passwords do not match.
-            </p>
-          </div>
+      <tui-input-password formControlName="password" class="tui-space_top-2">
+        Password
+        <input tuiTextfield type="text" />
+      </tui-input-password>
+      <tui-error formControlName="password" [error]="[] | tuiFieldError | async">
+      </tui-error>
 
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <div class="field is-grouped">
-            <div class="control">
-              <button type="submit" class="button is-info" [disabled]="registerForm.invalid">Sign
-                Up</button>
-            </div>
-          </div>
-        </mat-card-actions>
-      </mat-card>
-
+      <tui-input-password formControlName="confirmPassword" class="tui-space_top-2">
+        Confirm Password
+        <input tuiTextfield type="text" />
+      </tui-input-password>
+      <tui-error [error]="passwordMatchError">
+      </tui-error>
 
     </div>
-  </div>
+    <button tuiButton type="submit" appearance="flat" size="m" class="tui-island__footer-button"
+      [disabled]="registerForm.invalid">
+      Sign Up
+    </button>
+  </tui-island>
+
 </form>

@@ -34,7 +34,7 @@ export class AuthEffects {
             this.store.dispatch(setLoaded());
             const user = this.authService.formatUser(data);
             this.authService.setUserInLocalStorage(user);
-            return AuthActions.loginSuccess({ user });
+            return AuthActions.loginSuccess({ user, redirect: true });
           }),
           catchError((error) => {
             const errorMessage = this.authService.getErrorMessage(
@@ -56,7 +56,7 @@ export class AuthEffects {
             this.store.dispatch(setLoaded());
             const user = this.authService.formatUser(data);
             this.authService.setUserInLocalStorage(user);
-            return AuthActions.signupSuccess({ user });
+            return AuthActions.signupSuccess({ user, redirect: true });
           }),
           catchError((error) => {
             const errorMessage = this.authService.getErrorMessage(
@@ -74,18 +74,32 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(...[AuthActions.loginSuccess, AuthActions.signupSuccess]),
-        tap((action) => this.router.navigate(['/products']))
+        tap((action) => {
+          if (action.redirect) {
+            this.router.navigate(['/products']);
+          }
+        })
       ),
     { dispatch: false }
   );
 
-  autoLogin$ = createEffect(
+  autoLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.autoLogin),
+      mergeMap((action) => {
+        const user = this.authService.getUserFromLocalStorage()!;
+        return of(AuthActions.loginSuccess({ user, redirect: false }));
+      })
+    )
+  );
+
+  logout$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.autoLogin),
+        ofType(AuthActions.autoLogout),
         map((action) => {
-          const user = this.authService.getUserFromLocalStorage();
-          console.log(user);
+          this.authService.logout();
+          this.router.navigate(['auth/login']);
         })
       ),
     { dispatch: false }

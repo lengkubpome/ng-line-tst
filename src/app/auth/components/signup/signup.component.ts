@@ -1,4 +1,3 @@
-import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AuthState } from './../../state/auth.reducer';
 import * as AuthActions from './../../state/auth.actions';
@@ -8,24 +7,37 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { CustomValidators } from 'app/auth/validators/custom.validator';
+import { TuiValidationError } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  styleUrls: ['./signup.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: TUI_VALIDATION_ERRORS,
+      useValue: {
+        required: `Enter this!`,
+        email: `Enter a valid email`,
+        minlength: `Password must be 6 characters long or more`,
+      },
+    },
+  ],
 })
 export class SignupComponent implements OnInit {
   get f() {
     return this.registerForm.controls;
   }
 
-  get passwordMatchError() {
-    return (
-      this.registerForm.getError('mismatch') &&
+  get passwordMatchError(): TuiValidationError | null {
+    return this.registerForm.getError('mismatch') &&
       this.registerForm.get('confirmPassword')?.touched
-    );
+      ? new TuiValidationError(`Passwords do not match`)
+      : null;
   }
 
   registerForm = new FormGroup(

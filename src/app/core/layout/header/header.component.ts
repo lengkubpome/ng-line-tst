@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { SharedState } from '@shared/state';
+import { autoLogout } from 'app/auth/state';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +11,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   menuActive = false;
 
-  constructor() {}
+  constructor(private store: Store<SharedState>) {}
 
   ngOnInit(): void {}
 
@@ -19,5 +21,10 @@ export class HeaderComponent implements OnInit {
 
   onCloseMenu(): void {
     this.menuActive = false;
+  }
+
+  onLogout(event: Event) {
+    event.preventDefault();
+    this.store.dispatch(autoLogout());
   }
 }

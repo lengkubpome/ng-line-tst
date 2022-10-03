@@ -41,5 +41,9 @@ export const reducer = createReducer(
     ...state,
     user: action.user,
     callState: LoadingState.LOADED,
+  })),
+  on(AuthActions.autoLogout, (state, action) => ({
+    ...state,
+    user: null,
   }))
 );

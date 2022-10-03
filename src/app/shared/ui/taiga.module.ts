@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import {
+  TuiAlertModule,
   TuiButtonModule,
   TuiErrorModule,
   TuiHintModule,
   TuiLinkModule,
   TuiModeModule,
+  TuiRootModule,
   TuiTextfieldControllerModule,
   TuiThemeNightModule,
 } from '@taiga-ui/core';
@@ -33,6 +35,8 @@ const TaigaModules = [
   TuiModeModule,
   TuiCheckboxLabeledModule,
   TuiLinkModule,
+  TuiAlertModule,
+  TuiRootModule,
 ];
 
 @NgModule({
