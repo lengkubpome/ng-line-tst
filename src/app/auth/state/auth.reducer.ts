@@ -5,7 +5,7 @@ import * as AuthActions from './auth.actions';
 
 export const authFeatureKey = 'auth';
 
-const defaultUser = new User('', 'GUEST');
+const defaultUser = new User('', '', '');
 
 export interface AuthState {
   user: User2 | null;
@@ -26,14 +26,18 @@ export const reducer = createReducer(
     ...state,
     callState: LoadingState.LOADING,
   })),
+  on(AuthActions.signInWithEmailPassword, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
+  })),
   on(AuthActions.authenticated, (state, action) => ({
     ...state,
-    ...action.payload,
+    userX: { ...action.user },
     callState: LoadingState.LOADED,
   })),
   on(AuthActions.notAuthenticated, (state, action) => ({
     ...state,
-    ...defaultUser,
+    userX: defaultUser,
     callState: LoadingState.LOADED,
   })),
   on(AuthActions.signOut, (state, action) => ({

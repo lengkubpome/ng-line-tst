@@ -32,18 +32,24 @@ export class AuthEffects {
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.getUser),
-      // tap(() => this.store.dispatch(setLoading())),
       switchMap((payload) => {
-        return this.auth.authState.pipe(
+        return this.afAuth.authState.pipe(
           delay(200),
           map((authData) => {
             if (authData) {
-              const user = new User(authData.uid, authData.displayName!);
-              return AuthActions.authenticated({ payload: user });
+              console.log(authData);
+
+              const user = new User(
+                authData.uid,
+                authData.displayName!,
+                authData.email!
+              );
+              return AuthActions.authenticated({ user });
             } else {
-              return AuthActions.notAuthenticated({});
+              return AuthActions.notAuthenticated();
             }
           }),
+          tap(() => this.store.dispatch(setLoaded())),
           catchError((error) => {
             AuthActions.authError({ payload: error });
             return of(setErrorMessage({ errorMsg: error }));
@@ -56,19 +62,20 @@ export class AuthEffects {
   signInWithEmailPassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signInWithEmailPassword),
-      // map((action) => {
-      //   this.store.dispatch(setLoading());
-      //   return action;
-      // }),
+      map((action) => {
+        this.store.dispatch(setLoading());
+        return action;
+      }),
       switchMap((payload) => {
         console.log(payload);
 
         return from(
-          this.auth.signInWithEmailAndPassword(payload.email, payload.password)
+          this.afAuth.signInWithEmailAndPassword(
+            payload.email,
+            payload.password
+          )
         ).pipe(
           map((credential) => {
-            console.log(credential);
-
             return AuthActions.getUser();
           })
         );
@@ -83,10 +90,10 @@ export class AuthEffects {
   signOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signOut),
-      tap((action) => this.store.dispatch(setLoading())),
+      // map((action) => this.store.dispatch(setLoading())),
       switchMap((payload) =>
-        of(this.auth.signOut()).pipe(
-          map((authData) => AuthActions.notAuthenticated({})),
+        of(this.afAuth.signOut()).pipe(
+          map((authData) => AuthActions.notAuthenticated()),
           catchError((error) => {
             AuthActions.authError({ payload: error });
             return of(setErrorMessage({ errorMsg: error }));
@@ -184,6 +191,6 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private auth: AngularFireAuth
+    private afAuth: AngularFireAuth
   ) {}
 }

@@ -16,10 +16,17 @@ export class User2 {
 }
 
 export interface IUser {
-  uid: string | null;
-  displayName: string;
+  uid: string;
+  email?: string;
+  displayName?: string;
+  photoURL?: string;
+  emailVerified?: boolean;
 }
 
 export class User {
-  constructor(public uid: string, public displayName: string) {}
+  constructor(
+    public uid: string,
+    public displayName: string,
+    public email: string
+  ) {}
 }

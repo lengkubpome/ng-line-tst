@@ -9,7 +9,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { autoLogin, getUser } from './auth/state';
+import { AuthState, autoLogin, getToken, getUser } from './auth/state';
 import { User } from './auth/models/user.model';
 @Component({
   selector: 'app-root',
@@ -19,9 +19,7 @@ import { User } from './auth/models/user.model';
       <app-header></app-header>
       <button (click)="logOut()">Log out</button>
 
-      <div *ngIf="user$ | async as user">
-        <h1>Helo : {{ user.uid }}</h1>
-      </div>
+      <h1>Helo : {{ token }}</h1>
       <!-- <div class="container is-max-desktop"> -->
       <div class="tui-container tui-container_adaptive tui-space_top-5">
         <router-outlet></router-outlet>
@@ -51,10 +49,11 @@ import { User } from './auth/models/user.model';
 })
 export class AppComponent implements AfterViewInit, OnInit {
   loading = false;
-  user$!: Observable<User>;
+  token$: Observable<string | null> = of(null);
+  token: string | null = '';
 
   constructor(
-    private store: Store<SharedState>,
+    private store: Store<SharedState | AuthState>,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -65,10 +64,12 @@ export class AppComponent implements AfterViewInit, OnInit {
     });
 
     // this.store.dispatch(autoLogin());
-    this.store.dispatch(getUser());
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.select(getToken).subscribe((res) => (this.token = res));
+    this.store.dispatch(getUser());
+  }
 
   logOut(): void {
     this.store.dispatch(signOut({}));

@@ -1,15 +1,12 @@
 import { createAction, props } from '@ngrx/store';
-import { User2 } from '../models/user.model';
+import { IUser, User, User2 } from '../models/user.model';
 
 export const getUser = createAction('[Auth] Get User');
 export const authenticated = createAction(
   '[Auth] Authenticated',
-  props<{ payload?: any }>()
+  props<{ user: User }>()
 );
-export const notAuthenticated = createAction(
-  '[Auth] Not Authenticated',
-  props<{ payload?: any }>()
-);
+export const notAuthenticated = createAction('[Auth] Not Authenticated');
 
 export const signInWithEmailPassword = createAction(
   '[Auth] SignIn With Email & Password',
