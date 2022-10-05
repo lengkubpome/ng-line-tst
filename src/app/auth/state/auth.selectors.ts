@@ -6,8 +6,5 @@ export const getAuthState = createFeatureSelector<fromAuth.AuthState>(
 );
 
 export const getToken = createSelector(getAuthState, (state) => {
-  console.log('state.userX');
-  console.log(state);
-
   return state.userX ? state.userX.uid : null;
 });

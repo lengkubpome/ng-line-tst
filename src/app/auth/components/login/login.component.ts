@@ -42,8 +42,6 @@ export class LoginComponent implements OnInit {
     const email = this.form.value.email;
     const password = this.form.value.password as string;
     // this.store.dispatch(AuthActions.login2({ email, password }));
-    this.store.dispatch(
-      AuthActions.signInWithEmailPassword({ email, password })
-    );
+    this.store.dispatch(AuthActions.emailSignIn({ email, password }));
   }
 }

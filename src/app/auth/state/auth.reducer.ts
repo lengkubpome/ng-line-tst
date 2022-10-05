@@ -26,7 +26,7 @@ export const reducer = createReducer(
     ...state,
     callState: LoadingState.LOADING,
   })),
-  on(AuthActions.signInWithEmailPassword, (state) => ({
+  on(AuthActions.emailSignIn, (state) => ({
     ...state,
     callState: LoadingState.LOADING,
   })),
@@ -39,6 +39,10 @@ export const reducer = createReducer(
     ...state,
     userX: defaultUser,
     callState: LoadingState.LOADED,
+  })),
+  on(AuthActions.signUp, (state) => ({
+    ...state,
+    callState: LoadingState.LOADING,
   })),
   on(AuthActions.signOut, (state, action) => ({
     ...state,
@@ -59,10 +63,6 @@ export const reducer = createReducer(
   on(AuthActions.loginFailure, (state, action) => ({
     ...state,
     callState: { errorMsg: action.errorMessage },
-  })),
-  on(AuthActions.signup, (state) => ({
-    ...state,
-    callState: LoadingState.LOADING,
   })),
 
   on(AuthActions.signupSuccess, (state, action) => ({

@@ -63,6 +63,6 @@ export class SignupComponent implements OnInit {
     }
     const email = this.registerForm.value.email!;
     const password = this.registerForm.value.password!;
-    this.store.dispatch(AuthActions.signup({ email, password }));
+    this.store.dispatch(AuthActions.signUp({ email, password }));
   }
 }
