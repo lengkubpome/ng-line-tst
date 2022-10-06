@@ -17,8 +17,6 @@ import { User } from './auth/models/user.model';
     <tui-root>
       <!-- content of your app -->
       <app-header></app-header>
-      <button (click)="logOut()">Log out</button>
-
       <h1>Helo : {{ token }}</h1>
       <!-- <div class="container is-max-desktop"> -->
       <div class="tui-container tui-container_adaptive tui-space_top-5">
@@ -69,9 +67,5 @@ export class AppComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.store.select(getToken).subscribe((res) => (this.token = res));
     this.store.dispatch(getUser());
-  }
-
-  logOut(): void {
-    this.store.dispatch(signOut({}));
   }
 }

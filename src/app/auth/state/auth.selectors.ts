@@ -5,6 +5,9 @@ export const getAuthState = createFeatureSelector<fromAuth.AuthState>(
   fromAuth.authFeatureKey
 );
 
+export const getUser2 = createSelector(getAuthState, (state) => {
+  return state.user ? state.user : null;
+});
 export const getToken = createSelector(getAuthState, (state) => {
-  return state.userX ? state.userX.uid : null;
+  return state.user ? state.user.uid : null;
 });

@@ -1,21 +1,19 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { CallState, LoadingState } from '@shared/models/call-state';
-import { User, User2 } from '../models/user.model';
+import { User as IUser, User2 } from '../models/user.model';
 import * as AuthActions from './auth.actions';
 
 export const authFeatureKey = 'auth';
 
-const defaultUser = new User('', '', '');
+const defaultUser = new IUser('', '', '');
 
 export interface AuthState {
-  user: User2 | null;
-  userX: User | null;
+  user: IUser | null;
   callState: CallState;
 }
 
 export const initialState: AuthState = {
   user: null,
-  userX: null,
   callState: LoadingState.INIT,
 };
 
@@ -32,12 +30,12 @@ export const reducer = createReducer(
   })),
   on(AuthActions.authenticated, (state, action) => ({
     ...state,
-    userX: { ...action.user },
+    user: { ...action.user },
     callState: LoadingState.LOADED,
   })),
   on(AuthActions.notAuthenticated, (state, action) => ({
     ...state,
-    userX: defaultUser,
+    user: defaultUser,
     callState: LoadingState.LOADED,
   })),
   on(AuthActions.signUp, (state) => ({
@@ -47,31 +45,5 @@ export const reducer = createReducer(
   on(AuthActions.signOut, (state, action) => ({
     ...state,
     callState: LoadingState.LOADING,
-  })),
-
-  // ===================== End New
-  on(AuthActions.login2, (state) => ({
-    ...state,
-    callState: LoadingState.LOADING,
-  })),
-
-  on(AuthActions.loginSuccess, (state, action) => ({
-    ...state,
-    user: action.user,
-    callState: LoadingState.LOADED,
-  })),
-  on(AuthActions.loginFailure, (state, action) => ({
-    ...state,
-    callState: { errorMsg: action.errorMessage },
-  })),
-
-  on(AuthActions.signupSuccess, (state, action) => ({
-    ...state,
-    user: action.user,
-    callState: LoadingState.LOADED,
-  })),
-  on(AuthActions.autoLogout, (state, action) => ({
-    ...state,
-    user: null,
   }))
 );

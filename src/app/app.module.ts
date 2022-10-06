@@ -28,10 +28,11 @@ import { SharedModule } from '@shared/shared.module';
 import { SharedEffects } from '@shared/state';
 import * as fromAuth from './auth/state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HomeComponent } from './features/home/home.component';
 // import { AuthTokenInterceptor } from './auth/services/auth-token.interceptor';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

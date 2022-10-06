@@ -1,7 +1,8 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SharedState } from '@shared/state';
-import { autoLogout } from 'app/auth/state';
+import { autoLogout, signOut } from 'app/auth/state';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ import { autoLogout } from 'app/auth/state';
 export class HeaderComponent implements OnInit {
   menuActive = false;
 
-  constructor(private store: Store<SharedState>) {}
+  constructor(private store: Store<SharedState>, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -25,6 +26,11 @@ export class HeaderComponent implements OnInit {
 
   onLogout(event: Event) {
     event.preventDefault();
-    this.store.dispatch(autoLogout());
+    this.store.dispatch(signOut({}));
+  }
+
+  onTest() {
+    this.router.navigate(['auth/verify-email']);
+    this.menuActive = false;
   }
 }

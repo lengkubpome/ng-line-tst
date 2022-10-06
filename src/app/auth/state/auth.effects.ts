@@ -30,6 +30,12 @@ import { AuthFirebaseService } from '../services/auth-firebase.service';
 
 @Injectable()
 export class AuthEffects {
+  constructor(
+    private store: Store<SharedState>,
+    private actions$: Actions,
+    private router: Router,
+    private authFBSeriveice: AuthFirebaseService
+  ) {}
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.getUser),
@@ -63,16 +69,17 @@ export class AuthEffects {
         return action;
       }),
       switchMap((payload) => {
-        return from(
-          this.authFBSeriveice.emailSignIn(payload.email, payload.password)
-        ).pipe(
-          map(() => {
-            return AuthActions.getUser();
-          }),
-          catchError((error) => {
-            return of(setErrorMessage({ errorMsg: error }));
-          })
-        );
+        return this.authFBSeriveice
+          .emailSignIn(payload.email, payload.password)
+          .pipe(
+            map(() => {
+              this.router.navigate(['home']);
+              return AuthActions.getUser();
+            }),
+            catchError((error) => {
+              return of(setErrorMessage({ errorMsg: error }));
+            })
+          );
       })
     )
   );
@@ -85,16 +92,17 @@ export class AuthEffects {
         return action;
       }),
       switchMap((payload) => {
-        return from(
-          this.authFBSeriveice.emailSignUp(payload.email, payload.password)
-        ).pipe(
-          map(() => {
-            return AuthActions.getUser();
-          }),
-          catchError((error) => {
-            return of(setErrorMessage({ errorMsg: error }));
-          })
-        );
+        return this.authFBSeriveice
+          .emailSignUp(payload.email, payload.password)
+          .pipe(
+            map(() => {
+              this.router.navigate(['auth/verify-email']);
+              return AuthActions.getUser();
+            }),
+            catchError((error) => {
+              return of(setErrorMessage({ errorMsg: error }));
+            })
+          );
       })
     )
   );
@@ -214,11 +222,4 @@ export class AuthEffects {
   //     ),
   //   { dispatch: false }
   // );
-
-  constructor(
-    private store: Store<SharedState>,
-    private actions$: Actions,
-    private router: Router,
-    private authFBSeriveice: AuthFirebaseService
-  ) {}
 }
