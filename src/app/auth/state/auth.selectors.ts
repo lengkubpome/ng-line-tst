@@ -5,6 +5,10 @@ export const selectAuthState = createFeatureSelector<fromAuth.AuthState>(
   fromAuth.authFeatureKey
 );
 
+export const selectIsLoggedIn = createSelector(selectAuthState, (state) => {
+  return state.user?.emailVerified ? true : false;
+});
+
 export const selectUser = createSelector(selectAuthState, (state) => {
   return state.user ? state.user : null;
 });

@@ -2,7 +2,8 @@
   <div class="displayTableCell">
     <div class="authBlock">
       <h3>Thank You for Registering</h3>
-      <div class="formGroup" *ngIf="authFBservice.userData as user">
+
+      <div class="formGroup" *ngIf="(user$ | async) as user">
         <p class="text-center">We have sent a confirmation email to <strong>{{user.email}}</strong>.
         </p>
         <p class="text-center">Please check your email and click on the link to verfiy your email
@@ -11,7 +12,7 @@
 
       <!-- Calling SendVerificationMail() method using authService Api -->
       <div class="formGroup">
-        <button type="button" class="btn btnPrimary" (click)="authFBservice.SendVerificationMail()">
+        <button type="button" class="btn btnPrimary" (click)="onResendVerificationMail()">
           <i class="fas fa-redo-alt"></i>
           Resend Verification Email
         </button>

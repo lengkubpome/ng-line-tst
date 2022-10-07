@@ -20,13 +20,37 @@ export interface IUser {
   email?: string;
   displayName?: string;
   photoURL?: string;
-  emailVerified?: boolean;
+  emailVerified: boolean;
 }
 
 export class User {
+  private _uid: string;
+  private _displayName: string;
+  private _email: string;
+  private _emailVerified: boolean;
+
   constructor(
-    public uid: string,
-    public displayName: string,
-    public email: string
-  ) {}
+    uid: string,
+    displayName: string,
+    email: string,
+    emailVerified: boolean
+  ) {
+    this._uid = uid;
+    this._displayName = displayName;
+    this._email = email;
+    this._emailVerified = emailVerified;
+  }
+
+  public get uid() {
+    return this._uid;
+  }
+  public get displayName() {
+    return this._displayName;
+  }
+  public get email() {
+    return this._email;
+  }
+  public get emailVerified() {
+    return this._emailVerified;
+  }
 }

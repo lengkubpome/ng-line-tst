@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
-import { CustomValidators } from 'app/auth/validators/custom.validator';
+import { AuthValidators } from 'app/auth/validators/custom.validator';
 import { TuiValidationError } from '@taiga-ui/cdk';
 
 @Component({
@@ -49,7 +49,7 @@ export class SignupComponent implements OnInit {
       ]),
       confirmPassword: new FormControl('', [Validators.required]),
     },
-    [CustomValidators.MatchValidator('password', 'confirmPassword')]
+    [AuthValidators.MatchValidator('password', 'confirmPassword')]
   );
 
   constructor(private store: Store<AuthState>) {}

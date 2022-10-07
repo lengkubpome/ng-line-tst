@@ -19,7 +19,12 @@ export class AuthFirebaseService {
       delay(200),
       map((authData) => {
         if (authData) {
-          return new User(authData.uid, authData.displayName!, authData.email!);
+          return new User(
+            authData.uid,
+            authData.displayName!,
+            authData.email!,
+            authData.emailVerified
+          );
         }
         return null;
       })
@@ -54,7 +59,8 @@ export class AuthFirebaseService {
           return new User(
             res.user?.uid!,
             res.user?.displayName!,
-            res.user?.email!
+            res.user?.email!,
+            false
           );
         })
         .catch((error) => {

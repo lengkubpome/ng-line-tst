@@ -1,14 +1,14 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { CallState, LoadingState } from '@shared/models/call-state';
-import { User as IUser, User2 } from '../models/user.model';
+import { User, User2 } from '../models/user.model';
 import * as AuthActions from './auth.actions';
 
 export const authFeatureKey = 'auth';
 
-const defaultUser = new IUser('', '', '');
+const defaultUser = new User('', '', '', false);
 
 export interface AuthState {
-  user: IUser | null;
+  user: User | null;
   callState: CallState;
 }
 
@@ -30,7 +30,7 @@ export const reducer = createReducer(
   })),
   on(AuthActions.authenticated, (state, action) => ({
     ...state,
-    user: { ...action.user },
+    user: action.user,
     callState: LoadingState.LOADED,
   })),
   on(AuthActions.notAuthenticated, (state, action) => ({
