@@ -1,5 +1,5 @@
 import { IProduct } from './../../models/product.model';
-import { getProducts } from './../../state/product.selectors';
+import { selectProducts } from './../../state/product.selectors';
 import { Subject, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -43,7 +43,7 @@ export class ProductAddDialogComponent implements OnInit, OnDestroy {
     });
 
     this.store
-      .select(getProducts)
+      .select(selectProducts)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         if (res !== null) {

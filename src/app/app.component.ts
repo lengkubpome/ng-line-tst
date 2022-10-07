@@ -1,5 +1,8 @@
 import { signOut } from './auth/state/auth.actions';
-import { getLoading, getErrorMessage } from './shared/state/shared.selector';
+import {
+  selectLoading,
+  selectErrorMessage,
+} from './shared/state/shared.selector';
 import { Observable, of } from 'rxjs';
 import { SharedState } from './shared/state/shared.reducer';
 import {
@@ -9,7 +12,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthState, autoLogin, getToken, getUser } from './auth/state';
+import { AuthState, autoLogin, selectToken, getUser } from './auth/state';
 import { User } from './auth/models/user.model';
 @Component({
   selector: 'app-root',
@@ -56,7 +59,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.store.select(getLoading).subscribe((res) => {
+    this.store.select(selectLoading).subscribe((res) => {
       this.loading = res;
       this.cd.detectChanges();
     });
@@ -65,7 +68,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(getToken).subscribe((res) => (this.token = res));
+    this.store.select(selectToken).subscribe((res) => (this.token = res));
     this.store.dispatch(getUser());
   }
 }

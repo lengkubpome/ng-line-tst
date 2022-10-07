@@ -2,25 +2,25 @@ import { CallState, getError, LoadingState } from '@shared/models/call-state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromProduct from './product.reducer';
 
-const getProductState = createFeatureSelector<fromProduct.ProductState>(
+const selectProductState = createFeatureSelector<fromProduct.ProductState>(
   fromProduct.productFeatureKey
 );
 
-export const getProductsLoading = createSelector(
-  getProductState,
+export const selectProductsLoading = createSelector(
+  selectProductState,
   (state) => state.callState === LoadingState.LOADING
 );
 
-export const getProductError = createSelector(getProductState, (state) =>
+export const selectProductError = createSelector(selectProductState, (state) =>
   getError(state.callState)
 );
 
-export const getProducts = createSelector(
-  getProductState,
+export const selectProducts = createSelector(
+  selectProductState,
   (state: fromProduct.ProductState) => state.products
 );
 
-export const getProductOptions = createSelector(
-  getProductState,
+export const selectProductOptions = createSelector(
+  selectProductState,
   (state: fromProduct.ProductState) => state.productOptions
 );

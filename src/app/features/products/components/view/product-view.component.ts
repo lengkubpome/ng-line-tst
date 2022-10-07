@@ -1,7 +1,7 @@
 import {
-  getProducts,
-  getProductOptions,
-  getProductsLoading,
+  selectProducts,
+  selectProductOptions,
+  selectProductsLoading,
 } from './../../state/product.selectors';
 import { DatePipe } from '@angular/common';
 import { Observable, Subject, takeUntil, of, BehaviorSubject } from 'rxjs';
@@ -34,12 +34,12 @@ export class ProductViewComponent implements OnInit, OnDestroy {
   constructor(public datepipe: DatePipe, private store: Store<ProductState>) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.select(getProductsLoading);
-    this.products$ = this.store.select(getProducts);
-    this.productOptions$ = this.store.select(getProductOptions);
+    this.isLoading$ = this.store.select(selectProductsLoading);
+    this.products$ = this.store.select(selectProducts);
+    this.productOptions$ = this.store.select(selectProductOptions);
 
     this.store
-      .select(getProducts)
+      .select(selectProducts)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         // console.log(data);

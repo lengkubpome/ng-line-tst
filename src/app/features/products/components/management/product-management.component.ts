@@ -1,5 +1,5 @@
 import { IProductHistory } from './../../models/product.model';
-import { getProductOptions } from './../../state/product.selectors';
+import { selectProductOptions } from './../../state/product.selectors';
 import { BehaviorSubject, Observable, of, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IProduct, IProductOption } from '../../models/product.model';
@@ -8,9 +8,9 @@ import { ProductEditDiaglogComponent } from '../edit-dialog/product-edit-diaglog
 import { ProductState } from '../../state/product.reducer';
 import { Store } from '@ngrx/store';
 import {
-  getProducts,
-  getProductsLoading,
-  getProductError,
+  selectProducts,
+  selectProductsLoading,
+  selectProductError,
 } from '../../state/product.selectors';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ProductAddDialogComponent } from '../add-dialog/product-add-dialog.component';
@@ -67,14 +67,14 @@ export class ProductManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setupForm();
 
-    this.isLoading$ = this.store.select(getProductsLoading);
+    this.isLoading$ = this.store.select(selectProductsLoading);
     this.store
-      .select(getProductOptions)
+      .select(selectProductOptions)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => (this.productOptions = res));
 
     this.store
-      .select(getProducts)
+      .select(selectProducts)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => {
         this.emptyTable();

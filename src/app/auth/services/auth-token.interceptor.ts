@@ -1,4 +1,4 @@
-import { getToken } from './../state/auth.selectors';
+import { selectToken } from './../state/auth.selectors';
 import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,

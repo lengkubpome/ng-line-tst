@@ -8,7 +8,7 @@ import {
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { Store } from '@ngrx/store';
-import { AuthState, getToken } from '../../state';
+import { AuthState, selectToken } from '../../state';
 
 @Component({
   selector: 'app-login',
