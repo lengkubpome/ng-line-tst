@@ -12,8 +12,14 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from './state';
 import { LoginComponent } from './components/login/login.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
-const COMPONENTS = [LoginComponent, SignupComponent, VerifyEmailComponent];
+const COMPONENTS = [
+  LoginComponent,
+  SignupComponent,
+  VerifyEmailComponent,
+  ForgotPasswordComponent,
+];
 
 @NgModule({
   declarations: [...COMPONENTS],

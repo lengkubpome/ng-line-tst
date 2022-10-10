@@ -129,6 +129,27 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  resetPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resetPassword),
+      map((action) => {
+        this.store.dispatch(setLoading());
+        return action;
+      }),
+      switchMap((action) =>
+        this.authFBSeriveice.resetPassword(action.email).pipe(
+          map(() => {
+            this.router.navigate(['auth/login']);
+            return AuthActions.autoLogin();
+          }),
+          catchError((error) => {
+            return of(setErrorMessage({ errorMsg: error }));
+          })
+        )
+      )
+    )
+  );
+
   successRedirect$ = createEffect(
     () =>
       this.actions$.pipe(

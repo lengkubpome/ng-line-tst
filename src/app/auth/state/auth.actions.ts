@@ -22,6 +22,10 @@ export const signOut = createAction(
   '[Auth] Signout',
   props<{ payload?: any }>()
 );
+export const resetPassword = createAction(
+  '[Auth] Reset Password',
+  props<{ email: string }>()
+);
 
 // =============== End New =================
 

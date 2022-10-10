@@ -94,6 +94,23 @@ export class AuthFirebaseService {
     );
   }
 
+  // Reset Forggot password
+  resetPassword(passwordResetEmail: string) {
+    return from(
+      this.afAuth
+        .sendPasswordResetEmail(passwordResetEmail)
+        .then((res) => {
+          console.log(res);
+
+          // window.alert('Password reset email sent, check your inbox.');
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          throw new Error(this.getErrorMessage(errorCode));
+        })
+    );
+  }
+
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
@@ -123,6 +140,19 @@ export class AuthFirebaseService {
         return 'The email address is already in use by another account.';
       case 'auth/invalid-email':
         return 'The email address is badly formatted.';
+      case 'auth/provider-already-linked':
+        return 'The provider has already been linked to the user.';
+      case 'auth/invalid-credential':
+        return ' This can happen if it has already expired when calling link, or if it used invalid token(s). See the Firebase documentation for your provider, and make sure you pass in the correct parameters to the credential method.';
+      case 'auth/credential-already-in-use':
+        return 'Ihe credential already exists among your users, or is already linked to a Firebase User.';
+      case 'auth/operation-not-allowed':
+        return 'You have not enabled the provider in the Firebase Console.';
+      case 'auth/invalid-verification-code':
+        return 'The verification code of the credential is not valid.';
+      case 'auth/invalid-verification-id':
+        return 'The verification ID of the credential is not valid.';
+
       default:
         return errorCode;
     }

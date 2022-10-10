@@ -45,5 +45,9 @@ export const reducer = createReducer(
   on(AuthActions.signOut, (state, action) => ({
     ...state,
     callState: LoadingState.LOADING,
+  })),
+  on(AuthActions.resetPassword, (state, action) => ({
+    ...state,
+    callState: LoadingState.LOADING,
   }))
 );
