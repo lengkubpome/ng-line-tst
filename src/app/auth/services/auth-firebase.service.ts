@@ -54,7 +54,7 @@ export class AuthFirebaseService {
         .then((res) => {
           /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
-          this.SendVerificationMail();
+          this.sendVerificationMail();
           this.SetUserData(res.user);
           return new User(
             res.user?.uid!,
@@ -71,12 +71,12 @@ export class AuthFirebaseService {
   }
 
   // Send email verfificaiton when new user sign up
-  SendVerificationMail() {
+  sendVerificationMail() {
     return from(
       this.afAuth.currentUser
         .then((u: any) => {
-          console.log('SendVerificationMail');
-          console.log(u);
+          // console.log('SendVerificationMail');
+          // console.log(u);
 
           u.sendEmailVerification();
         })

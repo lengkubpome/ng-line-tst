@@ -23,6 +23,6 @@ export class VerifyEmailComponent implements OnInit {
   }
 
   onResendVerificationMail() {
-    this.authFBservice.SendVerificationMail();
+    this.authFBservice.sendVerificationMail();
   }
 }
