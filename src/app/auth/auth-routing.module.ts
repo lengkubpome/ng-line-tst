@@ -1,3 +1,4 @@
+import { SendResetPasswordComponent } from './components/send-reset-password/send-reset-password.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { NgModule } from '@angular/core';
@@ -13,7 +14,26 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent, data: { title: 'Login' } },
       { path: 'signup', component: SignupComponent },
       { path: 'verify-email', component: VerifyEmailComponent },
-      { path: 'forgot-password', component: ForgotPasswordComponent },
+      {
+        path: 'forgot-password',
+        children: [
+          {
+            path: '',
+            component: ForgotPasswordComponent,
+          },
+          {
+            path: 'success',
+            component: SendResetPasswordComponent,
+            pathMatch: 'full',
+          },
+          {
+            path: '**',
+            redirectTo: '',
+            pathMatch: 'full',
+          },
+        ],
+      },
+      { path: '**', redirectTo: 'login', pathMatch: 'full' },
     ],
   },
 ];

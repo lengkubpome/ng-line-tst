@@ -1,3 +1,4 @@
+import { SendResetPasswordComponent } from './components/send-reset-password/send-reset-password.component';
 import { TaigaModule } from './../shared/ui/taiga.module';
 import { SignupComponent } from './components/signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,6 +20,7 @@ const COMPONENTS = [
   SignupComponent,
   VerifyEmailComponent,
   ForgotPasswordComponent,
+  SendResetPasswordComponent,
 ];
 
 @NgModule({
