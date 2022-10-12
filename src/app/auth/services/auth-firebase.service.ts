@@ -75,9 +75,6 @@ export class AuthFirebaseService {
     return from(
       this.afAuth.currentUser
         .then((u: any) => {
-          // console.log('SendVerificationMail');
-          // console.log(u);
-
           u.sendEmailVerification();
         })
         .catch((error) => {
@@ -95,15 +92,15 @@ export class AuthFirebaseService {
   }
 
   // Reset Forggot password
-  resetPassword(passwordResetEmail: string) {
+  resetPassword(passwordResetEmail: string): Observable<void> {
     return from(
       this.afAuth
         .sendPasswordResetEmail(passwordResetEmail)
-        .then((res) => {
-          console.log(res);
+        // .then((res) => {
+        //   console.log(res);
 
-          // window.alert('Password reset email sent, check your inbox.');
-        })
+        //   // window.alert('Password reset email sent, check your inbox.');
+        // })
         .catch((error) => {
           var errorCode = error.code;
           throw new Error(this.getErrorMessage(errorCode));

@@ -139,8 +139,9 @@ export class AuthEffects {
       switchMap((action) =>
         this.authFBSeriveice.resetPassword(action.email).pipe(
           map(() => {
-            this.router.navigate(['auth/login']);
-            return AuthActions.autoLogin();
+            this.router.navigate(['auth/forgot-password/success']);
+            this.store.dispatch(setLoaded());
+            return AuthActions.getUser();
           }),
           catchError((error) => {
             return of(setErrorMessage({ errorMsg: error }));
