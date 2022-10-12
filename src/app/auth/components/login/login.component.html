@@ -24,9 +24,9 @@
         <tui-checkbox-labeled formControlName="autoLogin" size="l">
           Keep logged in
         </tui-checkbox-labeled>
-        <a tuiLink href="#">
+        <button type="button" tuiLink [pseudo]="true" routerLink="/auth/forgot-password">
           Forgot password?
-        </a>
+        </button>
       </div>
     </div>
     <button tuiButton type="submit" appearance="flat" size="m" class="tui-island__footer-button"
