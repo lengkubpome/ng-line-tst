@@ -1,7 +1,6 @@
-<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+<!-- <nav class="navbar is-light" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item">
-      <!-- <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" /> -->
       <img src="assets/images/logo_tst.png" height="28" />
       &nbsp;
       <b>THAI SUTHAT</b>
@@ -15,12 +14,6 @@
       <span aria-hidden="true"></span>
     </a>
 
-
-    <!-- <div class="navbar-menu-x">
-      <div class="navbar-menu-x-end">
-        <a class="navbar-menu-x-item">Display Name</a>
-      </div>
-    </div> -->
 
   </div>
 
@@ -77,7 +70,112 @@
       </div>
     </div>
   </div>
-</nav>
+</nav> -->
+
+
+
+<div class="wrapper">
+  <div>
+    <tui-svg src="tuiIconMenuLarge" class="menu icon"> </tui-svg>
+    <!-- <tui-tabs-with-more class="tabs" [activeItemIndex]="activeItemIndex" [moreContent]="more">
+      <ng-container *ngFor="let tab of tabs">
+        <ng-container *ngIf="isString(tab); else submenu">
+          <button *tuiItem tuiTab (click)="onClick(tab)">
+            {{ tab }}
+          </button>
+        </ng-container>
+        <ng-template #submenu>
+          <tui-hosted-dropdown *tuiItem [content]="dropdown" [(open)]="open">
+            <button tuiTab (tui-tab-activate)="stop($event)">
+              Member
+              <tui-svg src="tuiIconChevronDown" class="icon" [class.icon_rotated]="open">
+              </tui-svg>
+              <tui-svg src="tuiIconCloseLarge" class="icon" *ngIf="open"
+                [class.icon_fade-Scale]="open">
+              </tui-svg>
+            </button>
+
+          </tui-hosted-dropdown>
+        </ng-template>
+      </ng-container>
+
+    </tui-tabs-with-more> -->
+
+  </div>
+
+  <div class="logo">
+
+    <img src="assets/images/logo_tst.png" />
+    <h3 *ngIf="!isScreenDesktop" class="tui-form__header tui-form__header_margin-top_none">
+      THAI SUTHAT
+    </h3>
+  </div>
+
+  <div>
+    <tui-tabs-with-more class="tabs" [activeItemIndex]="activeItemIndex" [moreContent]="more"
+      [underline]="!isScreenDesktop">
+      <ng-container *ngIf="!isScreenDesktop">
+
+
+        <ng-container *ngFor="let tab of tabs">
+          <ng-container *ngIf="isString(tab); else submenu">
+            <button *tuiItem tuiTab (click)="onClick(tab)">
+              {{ tab }}
+            </button>
+          </ng-container>
+          <ng-template #submenu>
+            <tui-hosted-dropdown *tuiItem [content]="dropdown" [(open)]="open">
+              <button tuiTab (tui-tab-activate)="stop($event)">
+                Member
+                <tui-svg src="tuiIconChevronDown" class="icon" [class.icon_rotated]="open">
+                </tui-svg>
+                <tui-svg src="tuiIconCloseLarge" class="icon" *ngIf="open"
+                  [class.icon_fade-Scale]="open">
+                </tui-svg>
+              </button>
+
+            </tui-hosted-dropdown>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+      <ng-container>
+        <tui-hosted-dropdown *tuiItem [content]="user">
+          <button tuiTab (tui-tab-activate)="stop($event)">
+            <tui-svg src="tuiIconUser" class="icon">
+            </tui-svg>
+          </button>
+        </tui-hosted-dropdown>
+      </ng-container>
+
+    </tui-tabs-with-more>
+
+
+  </div>
+
+
+
+</div>
+
+<ng-template #dropdown>
+  <tui-data-list>
+    <button *ngFor="let collaborator of collaborators" tuiOption (click)="onClick(collaborator)">
+      {{ collaborator }}
+    </button>
+  </tui-data-list>
+</ng-template>
+
+<ng-template #more>
+  <tui-svg src="tuiIconMoreHorLarge"></tui-svg>
+</ng-template>
+
+<ng-template #user>
+  <tui-data-list>
+    <button *ngFor="let menu of userMenu" tuiOption (click)="onClickUser(menu.title)">
+      {{ menu.title }}
+    </button>
+  </tui-data-list>
+</ng-template>
+
 
 <nav class="breadcrumb" aria-label="breadcrumbs">
   <ul>

@@ -18,13 +18,15 @@ import { User } from './auth/models/user.model';
   selector: 'app-root',
   template: `
     <tui-root>
-      <!-- content of your app -->
-      <app-header></app-header>
-      <h1>Helo : {{ token }}</h1>
-      <!-- <div class="container is-max-desktop"> -->
-      <div class="tui-container tui-container_adaptive tui-space_top-5">
-        <router-outlet></router-outlet>
-      </div>
+      <tui-scrollbar>
+        <!-- content of your app -->
+        <app-header></app-header>
+        <h1>Helo : {{ token }}</h1>
+        <!-- <div class="container is-max-desktop"> -->
+        <div class="tui-container tui-container_adaptive tui-space_top-5">
+          <router-outlet></router-outlet>
+        </div>
+      </tui-scrollbar>
       <app-loader *ngIf="loading"></app-loader>
       <!--
      If you need, you can add something between Taiga portal layers:

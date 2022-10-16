@@ -9,6 +9,7 @@ import { CoreEffects } from './state/core.effects';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
+import { SharedModule } from '@shared/shared.module';
 
 const COMPONENTS = [HeaderComponent, FooterComponent];
 
@@ -17,7 +18,7 @@ const COMPONENTS = [HeaderComponent, FooterComponent];
   imports: [
     CommonModule,
     HttpClientModule,
-    MaterialsModule,
+    SharedModule,
     RouterModule,
     // StoreModule.forFeature(fromCore.coreFeatureKey, fromCore.coreReducer),
     // EffectsModule.forFeature([CoreEffects]),

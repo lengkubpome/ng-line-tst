@@ -1,9 +1,11 @@
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import {
-  TuiRootModule,
+  TUI_SANITIZER,
+  TUI_ICONS_PATH,
+  tuiIconsPathFactory,
   TuiDialogModule,
   TuiAlertModule,
-  TUI_SANITIZER,
+  TuiRootModule,
 } from '@taiga-ui/core';
 import { CoreEffects } from './core/state/core.effects';
 import { CoreModule } from '@core/core.module';
@@ -29,6 +31,7 @@ import { SharedEffects } from '@shared/state';
 import * as fromAuth from './auth/state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HomeComponent } from './features/home/home.component';
+import { TaigaModule } from '@shared/ui';
 // import { AuthTokenInterceptor } from './auth/services/auth-token.interceptor';
 
 @NgModule({
@@ -49,13 +52,10 @@ import { HomeComponent } from './features/home/home.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     TuiRootModule,
-    TuiDialogModule,
     TuiAlertModule,
+    TuiDialogModule,
   ],
-  providers: [
-    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

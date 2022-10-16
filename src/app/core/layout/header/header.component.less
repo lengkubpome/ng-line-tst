@@ -1,0 +1,96 @@
+@import "@taiga-ui/core/styles/taiga-ui-local.less";
+
+.navbar-menu-active {
+  position: fixed;
+  width: 100%;
+}
+
+.breadcrumb {
+  padding: 16px;
+}
+
+//  ========== new
+:host {
+  display: block;
+}
+
+.wrapper {
+  .inset-border(bottom, light);
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  padding: 0 0.5rem;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+.menu {
+  margin: 0 0.3rem;
+  cursor: pointer;
+  // display: none;
+
+  // @media @tui-mobile {
+  //   display: contents;
+  // }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  > img {
+    height: 2rem;
+  }
+  h3 {
+    margin: 0 0.5rem;
+  }
+}
+
+.content {
+  padding: 2rem 2rem 4rem;
+}
+
+.title {
+  min-width: 15.625rem;
+  margin: 0;
+}
+
+.tabs {
+  // width: ~"calc(100% - 15.625rem)";
+  justify-content: flex-end;
+  box-shadow: none;
+}
+
+.icon {
+  .transition(transform);
+  margin-left: 0.25rem;
+
+  &_rotated {
+    transform: rotate(180deg);
+  }
+
+  &_fade-Scale {
+    animation-duration: 0.3s;
+    animation-name: fade;
+    animation-timing-function: cubic-bezier(0.71, 0.55, 0.62, 1.57);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeAndScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9, 0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.5, 1.5);
+  }
+}
