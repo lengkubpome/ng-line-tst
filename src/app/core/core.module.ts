@@ -10,8 +10,9 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { SharedModule } from '@shared/shared.module';
+import { SideNavComponent } from './layout/side/side-nav.component';
 
-const COMPONENTS = [HeaderComponent, FooterComponent];
+const COMPONENTS = [HeaderComponent, FooterComponent, SideNavComponent];
 
 @NgModule({
   declarations: [...COMPONENTS],

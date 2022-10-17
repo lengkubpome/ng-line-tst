@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   readonly collaborators = [`Member`, `Log Out`];
   readonly userMenu = [
     { title: `Profile`, link: '' },
-    { title: `Profile`, link: '' },
+    { title: `Log Out`, link: '' },
   ];
 
   readonly tabs = [`Products`, this.collaborators];

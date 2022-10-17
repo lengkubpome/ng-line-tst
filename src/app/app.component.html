@@ -1,0 +1,47 @@
+<tui-root>
+  <tui-scrollbar>
+    <!-- content of your app -->
+    <app-header></app-header>
+    <h1>Helo : {{ token }}</h1>
+    <mat-drawer-container class="example-container" autosize>
+      <mat-drawer #drawer class="example-sidenav" mode="side" opened="true">
+        <p>Auto-resizing sidenav</p>
+        <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+        <button (click)="showFiller = !showFiller" mat-raised-button>
+          Toggle extra text
+        </button>
+      </mat-drawer>
+
+      <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li><a href="#">Bulma</a></li>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Components</a></li>
+          <li class="is-active"><a href="#" aria-current="page">Breadcrumb</a></li>
+        </ul>
+      </nav>
+      <div class="tui-container tui-container_adaptive tui-space_top-5">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-container>
+  </tui-scrollbar>
+  <app-loader *ngIf="loading"></app-loader>
+  <!--
+ If you need, you can add something between Taiga portal layers:
+-->
+  <ng-container ngProjectAs="tuiOverContent">
+    <!-- Content over app content -->
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverDialogs">
+    <!-- Content over dialogs -->
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverAlerts">
+    <!-- Content over notifications -->
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverPortals">
+    <!-- Content over dropdowns -->
+  </ng-container>
+  <ng-container ngProjectAs="tuiOverHints">
+    <!-- Content over hints -->
+  </ng-container>
+</tui-root>
